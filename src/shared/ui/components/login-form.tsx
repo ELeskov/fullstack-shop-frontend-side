@@ -4,6 +4,7 @@ import { Atom } from 'lucide-react'
 
 import { LoginButton } from '@/features/loginButton'
 import { ROUTES } from '@/shared/config'
+import { Captcha } from '@/shared/ui/captcha'
 import { Button } from '@/shared/ui/components/ui/button'
 import { Input } from '@/shared/ui/components/ui/input'
 import { Label } from '@/shared/ui/components/ui/label'
@@ -28,7 +29,7 @@ export function LoginForm({
               </div>
               <span className="sr-only">Shop.</span>
             </a>
-            <h1 className="!text-xl font-bold">Добро пожаловать в Shop.</h1>
+            <h1 className="text-xl! font-bold">Добро пожаловать в Shop.</h1>
             <div className="text-center text-sm">
               У вас нет аккаунта?{' '}
               <Link to={ROUTES.signup} className="underline underline-offset-4">
@@ -46,6 +47,7 @@ export function LoginForm({
                 required
               />
             </div>
+            <Captcha onVerify={(token) => console.log(token)} />
             <LoginButton />
           </div>
           <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">

@@ -8,6 +8,7 @@ import { globalIgnores } from 'eslint/config'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
 import unusedImports from 'eslint-plugin-unused-imports'
+import pluginQuery from '@tanstack/eslint-plugin-query'
 
 export default tseslint.config([
   globalIgnores(['dist']),
@@ -30,6 +31,7 @@ export default tseslint.config([
       globals: globals.browser,
     },
     rules: {
+      ...pluginQuery.configs['flat/recommended'],
       ...prettierPlugin.configs.recommended.rules,
       'padding-line-between-statements': [
         'error',

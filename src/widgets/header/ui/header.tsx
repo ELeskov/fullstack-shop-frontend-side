@@ -21,7 +21,7 @@ import { Logo } from '@/shared/ui/logo'
 import s from './header.module.scss'
 
 export function Header() {
-  const [isAuthorization, setIsAuthorization] = useState(true)
+  const [isAuthorization, setIsAuthorization] = useState(false)
 
   return (
     <header className={s['header']}>
