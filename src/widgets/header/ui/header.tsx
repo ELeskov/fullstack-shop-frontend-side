@@ -1,10 +1,10 @@
-import { useState } from 'react'
 import { Link } from 'react-router'
 
 import clsx from 'clsx'
 import { Heart, ShoppingCart } from 'lucide-react'
 
 import { DropdownMenuProfile } from '@/widgets/dropdownMenuProfile'
+import { useGetMe } from '@/shared/api/auth/useGetMe'
 import { ROUTES } from '@/shared/config'
 import { Button } from '@/shared/ui/components/ui/button'
 import {
@@ -21,7 +21,8 @@ import { Logo } from '@/shared/ui/logo'
 import s from './header.module.scss'
 
 export function Header() {
-  const [isAuthorization, setIsAuthorization] = useState(false)
+  const { data } = useGetMe()
+  const isAuthorization = Boolean(data?.data)
 
   return (
     <header className={s['header']}>
@@ -38,7 +39,7 @@ export function Header() {
               <NavigationMenuTrigger>Каталог</NavigationMenuTrigger>
               <NavigationMenuContent className="border-white/10 z-50">
                 <ul
-                  className="grid gap-2 md:w-[400px] lg:w-[600px]
+                  className="grid gap-2 md:w-100 lg:w-150
             lg:grid-cols-[1fr_1fr_1fr]"
                 >
                   <li className="row-span-4">

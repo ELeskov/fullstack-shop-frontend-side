@@ -4,7 +4,7 @@ import s from './signupButton.module.scss'
 
 export function SignupButton() {
   return (
-    <Button type="button" className={s['signup-button']}>
+    <Button type="submit" className={s['signup-button']}>
       Регистрация
     </Button>
   )

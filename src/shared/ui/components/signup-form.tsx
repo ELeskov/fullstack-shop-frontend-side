@@ -53,7 +53,7 @@ export function SignupForm({
                   href="#"
                   className="ml-auto text-sm underline-offset-2 hover:underline"
                 >
-                  Forgot your password?
+                  Забыли пароль?
                 </a>
               </div>
               <Input id="password" type="password" required />

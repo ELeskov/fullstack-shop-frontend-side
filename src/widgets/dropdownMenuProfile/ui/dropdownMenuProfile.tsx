@@ -14,6 +14,7 @@ import {
   UserStar,
 } from 'lucide-react'
 
+import { useLogoutMutation } from '@/shared/api/auth'
 import { ROUTES } from '@/shared/config'
 import {
   DropdownMenu,
@@ -31,6 +32,8 @@ import {
 import { Separator } from '@/shared/ui/components/ui/separator'
 
 export function DropdownMenuProfile() {
+  const { mutateAsync } = useLogoutMutation()
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -123,7 +126,10 @@ export function DropdownMenuProfile() {
             </DropdownMenuShortcut>
           </DropdownMenuItem>
         </Link>
-        <DropdownMenuItem className="hover:text-red-400!">
+        <DropdownMenuItem
+          className="hover:text-red-400!"
+          onClick={() => mutateAsync()}
+        >
           Выйти
           <DropdownMenuShortcut>
             <LogOut />

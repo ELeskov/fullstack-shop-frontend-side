@@ -4,7 +4,7 @@
  */
 
 export interface apiEndpoints {
-  '/auth/register': {
+  '/api/auth/register': {
     parameters: {
       query?: never
       header?: never
@@ -21,7 +21,7 @@ export interface apiEndpoints {
     patch?: never
     trace?: never
   }
-  '/auth/login': {
+  '/api/auth/login': {
     parameters: {
       query?: never
       header?: never
@@ -38,7 +38,7 @@ export interface apiEndpoints {
     patch?: never
     trace?: never
   }
-  '/auth/logout': {
+  '/api/auth/logout': {
     parameters: {
       query?: never
       header?: never
@@ -55,7 +55,7 @@ export interface apiEndpoints {
     patch?: never
     trace?: never
   }
-  '/users/profile': {
+  '/api/users/me': {
     parameters: {
       query?: never
       header?: never
@@ -63,7 +63,7 @@ export interface apiEndpoints {
       cookie?: never
     }
     /** Получить профиль текущего пользователя */
-    get: operations['UsersController_findProfile']
+    get: operations['UsersController_me']
     put?: never
     post?: never
     delete?: never
@@ -72,7 +72,7 @@ export interface apiEndpoints {
     patch?: never
     trace?: never
   }
-  '/users/{id}': {
+  '/api/users/{id}': {
     parameters: {
       query?: never
       header?: never
@@ -110,10 +110,17 @@ export interface components {
        */
       password: string
       /**
-       * @description Подтверждение пароля. Должно совпадать с полем "password". Проверяется кастомным валидатором IsPasswordsMatchingConstraint.
-       * @example password123
+       * @description Captcha verification code
+       * @example 03AFcWeA...
        */
-      passwordRepeat: string
+      captcha: string
+    }
+    AuthResponseDto: {
+      /**
+       * @description id пользователя
+       * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
+       */
+      userId: string
     }
     LoginDto: {
       /**
@@ -140,6 +147,7 @@ export interface components {
   pathItems: never
 }
 export type SchemaRegisterDto = components['schemas']['RegisterDto']
+export type SchemaAuthResponseDto = components['schemas']['AuthResponseDto']
 export type SchemaLoginDto = components['schemas']['LoginDto']
 export type $defs = Record<string, never>
 export interface operations {
@@ -156,6 +164,15 @@ export interface operations {
       }
     }
     responses: {
+      /** @description Успешная регистрация. */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['AuthResponseDto']
+        }
+      }
       /** @description Пользователь зарегистрирован */
       201: {
         headers: {
@@ -204,7 +221,9 @@ export interface operations {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['AuthResponseDto']
+        }
       }
       /** @description Ошибка валидации входных данных. */
       400: {
@@ -236,7 +255,9 @@ export interface operations {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['AuthResponseDto']
+        }
       }
       /** @description Нет валидной сессии/токена для выхода. */
       401: {
@@ -247,7 +268,7 @@ export interface operations {
       }
     }
   }
-  UsersController_findProfile: {
+  UsersController_me: {
     parameters: {
       query?: never
       header?: never
@@ -263,7 +284,7 @@ export interface operations {
         }
         content?: never
       }
-      /** @description Не авторизован (нет/невалидный токен). */
+      /** @description Не авторизован. */
       401: {
         headers: {
           [name: string]: unknown

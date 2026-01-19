@@ -1,7 +1,3 @@
 import { QueryClient } from '@tanstack/react-query'
 
-export const queryClient = new QueryClient({
-  defaultOptions,
-  mutationCache,
-  queryCache,
-})
+export const queryClient = new QueryClient()

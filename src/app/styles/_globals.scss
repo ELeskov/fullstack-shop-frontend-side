@@ -25,6 +25,12 @@ body {
 main {
   flex: 1;
   margin-block: rem(50);
+
+  &:has([datatype='auth-page']) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 h1 {
@@ -66,4 +72,8 @@ h2 {
   row-gap: rem(20);
   min-height: 100vh;
   flex: 1;
+}
+
+label[data-slot='form-label'] {
+  margin-bottom: rem(10);
 }

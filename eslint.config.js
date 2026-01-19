@@ -11,6 +11,7 @@ import unusedImports from 'eslint-plugin-unused-imports'
 import pluginQuery from '@tanstack/eslint-plugin-query'
 
 export default tseslint.config([
+  ...pluginQuery.configs['flat/recommended'],
   globalIgnores(['dist']),
   {
     files: ['**/*.{ts,tsx}'],
@@ -31,12 +32,11 @@ export default tseslint.config([
       globals: globals.browser,
     },
     rules: {
-      ...pluginQuery.configs['flat/recommended'],
       ...prettierPlugin.configs.recommended.rules,
       'padding-line-between-statements': [
         'error',
         { blankLine: 'always', prev: 'import', next: '*' },
-        { blankLine: 'any', prev: 'import', next: 'import' }, // не вставлять лишние пустые строки между импортами
+        { blankLine: 'any', prev: 'import', next: 'import' },
       ],
       'simple-import-sort/imports': [
         'error',
