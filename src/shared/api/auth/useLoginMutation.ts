@@ -18,10 +18,9 @@ export const useLoginMutation = () => {
       const response = await apiClient.POST('/api/auth/login', {
         body: loginValues,
       })
-      console.log(response)
 
       if (!response.data?.userId) {
-        throw new Error(response.error?.message || 'Ошибка авторизации')
+        throw new Error(response.error?.message)
       }
 
       return response.data

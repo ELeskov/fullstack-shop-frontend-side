@@ -3,7 +3,7 @@
  * Do not make direct changes to the file.
  */
 
-export interface apiEndpoints {
+export interface paths {
   '/api/auth/register': {
     parameters: {
       query?: never
@@ -122,6 +122,30 @@ export interface components {
        */
       userId: string
     }
+    BadRequestErrorDto: {
+      /** @example 400 */
+      statusCode: number
+      /** @example Bad Request */
+      error: string
+      /** @example Неверные учетные данные */
+      message: string
+    }
+    NotFoundErrorDto: {
+      /** @example 404 */
+      statusCode: number
+      /** @example Not Found */
+      error: string
+      /** @example Неверные учетные данные */
+      message: string
+    }
+    ConflictErrorDto: {
+      /** @example 409 */
+      statusCode: number
+      /** @example Conflict */
+      error: string
+      /** @example Неверные учетные данные */
+      message: string
+    }
     LoginDto: {
       /**
        * @description Email пользователя. Используется как логин при авторизации.
@@ -139,6 +163,22 @@ export interface components {
        */
       code?: string
     }
+    UnauthorizedErrorDto: {
+      /** @example 401 */
+      statusCode: number
+      /** @example Unauthorized */
+      error: string
+      /** @example Неверные учетные данные */
+      message: string
+    }
+    ForbiddenErrorDto: {
+      /** @example 403 */
+      statusCode: number
+      /** @example Недостаточно прав (требуется роль ADMIN). */
+      error: string
+      /** @example Неверные учетные данные */
+      message: string
+    }
   }
   responses: never
   parameters: never
@@ -148,7 +188,14 @@ export interface components {
 }
 export type SchemaRegisterDto = components['schemas']['RegisterDto']
 export type SchemaAuthResponseDto = components['schemas']['AuthResponseDto']
+export type SchemaBadRequestErrorDto =
+  components['schemas']['BadRequestErrorDto']
+export type SchemaNotFoundErrorDto = components['schemas']['NotFoundErrorDto']
+export type SchemaConflictErrorDto = components['schemas']['ConflictErrorDto']
 export type SchemaLoginDto = components['schemas']['LoginDto']
+export type SchemaUnauthorizedErrorDto =
+  components['schemas']['UnauthorizedErrorDto']
+export type SchemaForbiddenErrorDto = components['schemas']['ForbiddenErrorDto']
 export type $defs = Record<string, never>
 export interface operations {
   AuthController_register: {
@@ -185,21 +232,27 @@ export interface operations {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['BadRequestErrorDto']
+        }
       }
       /** @description Пользователь не найден. Пожалуйста проверьте введенные данные */
       404: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['NotFoundErrorDto']
+        }
       }
       /** @description Пользователь с такой почтой уже существует */
       409: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['ConflictErrorDto']
+        }
       }
     }
   }
@@ -230,14 +283,18 @@ export interface operations {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['BadRequestErrorDto']
+        }
       }
       /** @description Неверные учетные данные. */
       401: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['UnauthorizedErrorDto']
+        }
       }
     }
   }
@@ -250,7 +307,7 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Сессия завершена. Обычно сервер очищает cookie/refresh-token или инвалидирует сессию. */
+      /** @description Сессия завершена. Очистка cookie и инвалидация сессии. */
       200: {
         headers: {
           [name: string]: unknown
@@ -259,12 +316,14 @@ export interface operations {
           'application/json': components['schemas']['AuthResponseDto']
         }
       }
-      /** @description Нет валидной сессии/токена для выхода. */
+      /** @description Нет валидной сессии для выхода. */
       401: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['UnauthorizedErrorDto']
+        }
       }
     }
   }
@@ -289,7 +348,9 @@ export interface operations {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['UnauthorizedErrorDto']
+        }
       }
     }
   }
@@ -312,26 +373,32 @@ export interface operations {
         }
         content?: never
       }
-      /** @description Не авторизован (нет/невалидный токен). */
+      /** @description Не авторизован. */
       401: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['UnauthorizedErrorDto']
+        }
       }
       /** @description Недостаточно прав (требуется роль ADMIN). */
       403: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['ForbiddenErrorDto']
+        }
       }
       /** @description Пользователь с таким id не найден. */
       404: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['NotFoundErrorDto']
+        }
       }
     }
   }

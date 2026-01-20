@@ -1,1 +1,1 @@
-export type { apiEndpoints } from './api-endpoints'
+export type { paths as apiEndpoints } from './api-endpoints'
