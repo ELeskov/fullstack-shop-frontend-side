@@ -1,92 +1,14 @@
 import { createBrowserRouter } from 'react-router'
 
-import { ROUTES } from '@/shared/config'
-import { FallBack } from '@/shared/ui/fallback'
+import { publicRoutes } from './public.routes'
+import { shopRoutes } from './shop.routes'
+import { userRoutes } from './user.routes'
 
-import { ProfileLayout } from '../layout/profileLayout'
-
-import { MainLayout } from '@/app/layout/mainLayout'
-import { CartPage } from '@/pages/cartPage/ui/cartPage'
-import { CatalogPage } from '@/pages/catalogPage'
-import { CategoryPage } from '@/pages/categoryPage'
-import { ColorsPage } from '@/pages/colorsPage'
-import { CreateColorsPage } from '@/pages/createColorsPage'
-import { CreateProductPage } from '@/pages/createProductPage'
-import { HomePage } from '@/pages/homePage'
-import { LikePage } from '@/pages/likePage'
-import { LoginPage } from '@/pages/loginPage'
-import { MyProductPage } from '@/pages/myProductPage'
-import { ProfilePage } from '@/pages/profilePage'
-import { SignupPage } from '@/pages/signupPage'
-import { StatisticsPage } from '@/pages/statisticsPage'
-
-export const router = createBrowserRouter([
+export const router = createBrowserRouter(
+  [...publicRoutes, userRoutes, shopRoutes],
   {
-    element: <MainLayout />,
-    errorElement: <FallBack />,
-    children: [
-      {
-        path: ROUTES.home,
-        element: <HomePage />,
-      },
-      {
-        path: ROUTES.login,
-        element: <LoginPage />,
-      },
-      {
-        path: ROUTES.signup,
-        element: <SignupPage />,
-      },
-      {
-        path: ROUTES.catalog,
-        element: <CatalogPage />,
-      },
-      {
-        path: ROUTES.profile.like,
-        element: <LikePage />,
-      },
-      {
-        path: ROUTES.profile.cart,
-        element: <CartPage />,
-      },
-    ],
+    future: {
+      v7_startTransition: true,
+    },
   },
-  {
-    element: <ProfileLayout />,
-    errorElement: <FallBack />,
-    children: [
-      {
-        path: ROUTES.profile.root,
-        element: <ProfilePage />,
-      },
-      {
-        path: ROUTES.profile.shops.statistics,
-        element: <StatisticsPage />,
-      },
-      {
-        path: ROUTES.profile.shops.colors.root,
-        element: <ColorsPage />,
-      },
-      {
-        path: ROUTES.profile.shops.colors.create,
-        element: <CreateColorsPage />,
-      },
-      {
-        path: ROUTES.profile.shops.products.root,
-        element: <MyProductPage />,
-      },
-      {
-        path: ROUTES.profile.shops.products.create,
-        element: <CreateProductPage />,
-      },
-      {
-        path: ROUTES.profile.shops.categories,
-        element: <CategoryPage />,
-      },
-      {
-        path: ROUTES.profile.shops.reviews,
-        element: <div>Отзывы</div>,
-      },
-    ],
-  },
-])
+)

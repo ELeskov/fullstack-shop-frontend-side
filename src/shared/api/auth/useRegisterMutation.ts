@@ -14,9 +14,15 @@ export const useRegisterMutation = () => {
   return useMutation({
     mutationKey: QUERY_KEY.register,
     mutationFn: async (registerValues: SchemaRegisterDto) => {
-      return await apiClient.POST('/api/auth/register', {
+      const { error, data } = await apiClient.POST('/api/auth/register', {
         body: registerValues,
       })
+
+      if (error) {
+        throw new Error(error.message)
+      }
+
+      return data
     },
     onSuccess: () => {
       toast.success('Вы успешно зарегистрировались')
