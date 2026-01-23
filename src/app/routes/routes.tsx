@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router'
 
 import { ROUTES } from '@/shared/config'
 import { FallBack } from '@/shared/ui/fallback'
+import { ProtectedRoute } from '@/shared/ui/protectedRoute'
 
 import { ProfileLayout } from '../layout/profileLayout'
 
@@ -42,17 +43,31 @@ export const router = createBrowserRouter([
         element: <CatalogPage />,
       },
       {
-        path: ROUTES.profile.like,
-        element: <LikePage />,
-      },
-      {
         path: ROUTES.profile.cart,
         element: <CartPage />,
       },
     ],
   },
   {
-    element: <ProfileLayout />,
+    element: (
+      <ProtectedRoute requiredRole="REGULAR">
+        <MainLayout />
+      </ProtectedRoute>
+    ),
+    errorElement: <FallBack />,
+    children: [
+      {
+        path: ROUTES.profile.like,
+        element: <LikePage />,
+      },
+    ],
+  },
+  {
+    element: (
+      <ProtectedRoute requiredRole="REGULAR">
+        <ProfileLayout />
+      </ProtectedRoute>
+    ),
     errorElement: <FallBack />,
     children: [
       {

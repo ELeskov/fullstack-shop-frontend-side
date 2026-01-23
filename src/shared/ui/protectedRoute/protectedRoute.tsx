@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Navigate, Outlet, useLocation } from 'react-router'
+import { Navigate, useLocation } from 'react-router'
 
 import { useGetMe } from '@/shared/api/auth/useGetMe'
 import { ROUTES } from '@/shared/config'
@@ -10,7 +10,10 @@ interface ProtectedRouteProps {
   children: ReactNode
 }
 
-export function ProtectedRoute({ requiredRole }: ProtectedRouteProps) {
+export function ProtectedRoute({
+  requiredRole,
+  children,
+}: ProtectedRouteProps) {
   const location = useLocation()
   const { data } = useGetMe()
 
@@ -19,8 +22,10 @@ export function ProtectedRoute({ requiredRole }: ProtectedRouteProps) {
   }
 
   if (requiredRole && data?.role !== requiredRole) {
+    console.log(data.role)
+
     return <Navigate to={ROUTES.home} replace />
   }
 
-  return <Outlet />
+  return children
 }
