@@ -12,7 +12,7 @@ export const useRegisterMutation = () => {
   const navigate = useNavigate()
 
   return useMutation({
-    mutationKey: QUERY_KEY.register,
+    mutationKey: [QUERY_KEY.register],
     mutationFn: async (registerValues: SchemaRegisterDto) => {
       const { error, data } = await apiClient.POST('/api/auth/register', {
         body: registerValues,
@@ -26,7 +26,7 @@ export const useRegisterMutation = () => {
     },
     onSuccess: () => {
       toast.success('Вы успешно зарегистрировались')
-      queryClient.invalidateQueries({ queryKey: QUERY_KEY.me })
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.me] })
       navigate(ROUTES.home, { replace: true })
     },
     onError: (err) => {

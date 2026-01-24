@@ -22,6 +22,7 @@ import s from './header.module.scss'
 
 export function Header() {
   const { data } = useGetMe()
+
   const isAuthorization = Boolean(data)
 
   return (

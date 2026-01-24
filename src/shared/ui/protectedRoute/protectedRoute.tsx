@@ -14,18 +14,20 @@ export function ProtectedRoute({
   requiredRole,
   children,
 }: ProtectedRouteProps) {
+  const { data: user, isLoading, isError } = useGetMe()
   const location = useLocation()
-  const { data } = useGetMe()
 
-  if (!data) {
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (isError || !user) {
     return <Navigate to={ROUTES.login} state={{ from: location }} replace />
   }
 
-  if (requiredRole && data?.role !== requiredRole) {
-    console.log(data.role)
-
+  if (requiredRole && user.role !== requiredRole) {
     return <Navigate to={ROUTES.home} replace />
   }
 
-  return children
+  return <>{children}</>
 }
