@@ -3,4 +3,5 @@ export const QUERY_KEY = {
   login: 'login',
   logout: 'logout',
   register: 'register',
+  updateUserData: 'updateUserData',
 } as const

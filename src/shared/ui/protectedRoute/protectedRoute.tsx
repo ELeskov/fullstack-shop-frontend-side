@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { Navigate, useLocation } from 'react-router'
 
-import { useGetMe } from '@/shared/api/auth/useGetMe'
+import { useGetMe } from '@/shared/api'
 import { ROUTES } from '@/shared/config'
 import { type EnumUserRole } from '@/shared/constants'
 
@@ -18,7 +18,7 @@ export function ProtectedRoute({
   const location = useLocation()
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div></div>
   }
 
   if (isError || !user) {
