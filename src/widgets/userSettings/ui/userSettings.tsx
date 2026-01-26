@@ -41,6 +41,7 @@ type UserSettingsForm = z.infer<typeof userSettingsSchema>
 export function UserSettings() {
   const { data: user, isLoading } = useGetMe()
   const { mutateAsync } = useUpdateUserData()
+  const [isShowIcon, setIsShowIcon] = useState(false)
 
   const form = useForm<UserSettingsForm>({
     resolver: zodResolver(userSettingsSchema),
@@ -50,8 +51,6 @@ export function UserSettings() {
     },
     mode: 'onBlur',
   })
-
-  const [isShowIcon, setIsShowIcon] = useState(false)
 
   useEffect(() => {
     if (user) {
@@ -63,17 +62,15 @@ export function UserSettings() {
   }, [user, form])
 
   const handleUpdateUserSettings = async () => {
-    try {
-      if (
-        user.name !== form.getValues().firstName ||
-        user.email !== form.getValues().email
-      ) {
-        await mutateAsync({
-          firstName: form.getValues().firstName,
-          newEmail: form.getValues().email,
-        })
-      }
-    } catch (err) {}
+    if (
+      user?.name !== form.getValues().firstName ||
+      user.email !== form.getValues().email
+    ) {
+      await mutateAsync({
+        firstName: form.getValues().firstName,
+        newEmail: form.getValues().email,
+      })
+    }
   }
 
   if (isLoading) {

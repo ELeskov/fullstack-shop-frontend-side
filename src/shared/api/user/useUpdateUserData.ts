@@ -24,14 +24,11 @@ export const useUpdateUserData = () => {
       return data
     },
     onSuccess: () => {
-      console.log(11)
-
       toast('Данные обновлены')
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.me] })
     },
     onError: (err: Error) => {
       toast.error(err.message)
-      console.log(err.message)
     },
   })
 }
