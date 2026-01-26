@@ -21,9 +21,12 @@ import { Logo } from '@/shared/ui/logo'
 import s from './header.module.scss'
 
 export function Header() {
-  const { data } = useGetMe()
-
+  const { data, isLoading } = useGetMe()
   const isAuthorization = Boolean(data)
+
+  if (isLoading) {
+    return null
+  }
 
   return (
     <header className={s['header']}>
@@ -77,9 +80,11 @@ export function Header() {
           </NavigationMenuList>
         </NavigationMenu>
 
-        <div className="visible-mobile">
-          <DropdownMenuProfile />
-        </div>
+        {isAuthorization ? (
+          <div className="visible-mobile">
+            <DropdownMenuProfile />
+          </div>
+        ) : null}
 
         {isAuthorization ? (
           <div className={clsx(s['header__actions'], 'hidden-mobile')}>
