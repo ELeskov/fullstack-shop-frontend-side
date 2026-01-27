@@ -9,6 +9,7 @@ import z from 'zod'
 
 import { useLoginMutation } from '@/shared/api/auth'
 import { ROUTES } from '@/shared/config'
+import { Captcha } from '@/shared/ui/captcha'
 import { Button } from '@/shared/ui/components/ui/button'
 import {
   Form,
@@ -51,10 +52,10 @@ export function LoginPage() {
   const { mutateAsync, isPending } = useLoginMutation()
 
   async function onSubmit(values: Login) {
-    // if (!values.captcha) {
-    //   toast.warning('Пройдите капчу!')
-    //   return
-    // }
+    if (!values.captcha) {
+      toast.warning('Пройдите капчу!')
+      return
+    }
 
     await mutateAsync(values)
   }
@@ -123,7 +124,7 @@ export function LoginPage() {
             )}
           />
 
-          {/* <FormField
+          <FormField
             control={form.control}
             name="captcha"
             render={({ field }) => (
@@ -136,7 +137,7 @@ export function LoginPage() {
                 </FormControl>
               </FormItem>
             )}
-          /> */}
+          />
           <Button type="submit" disabled={isPending}>
             Войти
           </Button>
