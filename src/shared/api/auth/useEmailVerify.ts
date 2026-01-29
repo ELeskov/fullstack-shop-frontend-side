@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router'
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 
 import { apiClient, ROUTES } from '@/shared/config'
 import { QUERY_KEY } from '@/shared/config/query-key'
@@ -17,13 +18,13 @@ export const useEmailVerify = () => {
           token: verifyEmailToken,
         },
       }),
-    onSuccess: () => {
-      // navigate(ROUTES.profile.root)
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.ME] })
-      console.log('success')
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: [QUERY_KEY.ME] })
+      navigate(ROUTES.profile.root)
+      toast.success('Почта успешно подтверждена')
     },
-    onError: () => {
-      console.log('error')
+    onError: (err) => {
+      toast.error(err.message)
     },
   })
 }

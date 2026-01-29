@@ -49,10 +49,10 @@ export function SignupPage() {
   const { mutateAsync, isPending } = useRegisterMutation()
 
   async function onSubmit(values: Register) {
-    // if (!values.captcha) {
-    //   toast.warning('Пройдите капчу!')
-    //   return
-    // }
+    if (!values.captcha) {
+      toast.warning('Пройдите капчу!')
+      return
+    }
 
     await mutateAsync(values)
   }
@@ -136,7 +136,7 @@ export function SignupPage() {
             )}
           />
 
-          {/* <FormField
+          <FormField
             control={form.control}
             name="captcha"
             render={({ field }) => (
@@ -149,7 +149,7 @@ export function SignupPage() {
                 </FormControl>
               </FormItem>
             )}
-          /> */}
+          />
           <Button type="submit" disabled={isPending}>
             Зарегистрироваться
           </Button>
