@@ -1,2 +1,2 @@
 export * from './useGetMe'
-export * from './useUpdateUserData'
+export * from './usePatchUser'

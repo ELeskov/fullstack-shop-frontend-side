@@ -11,13 +11,13 @@ export const useLogoutMutation = () => {
   const navigate = useNavigate()
 
   return useMutation({
-    mutationKey: [QUERY_KEY.logout],
+    mutationKey: [QUERY_KEY.LOGOUT],
     mutationFn: async () => {
       return await apiClient.POST('/api/auth/logout')
     },
     onSuccess: () => {
       toast.success('Вы успешно вышли!')
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.me] })
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.ME] })
       navigate(ROUTES.login, { replace: true })
     },
     onError: (err) => {

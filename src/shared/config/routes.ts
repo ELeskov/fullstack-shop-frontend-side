@@ -5,6 +5,7 @@ export const ROUTES = {
   login: '/login',
   signup: '/signup',
   catalog: '/catalog',
+  verify: '/auth/verify',
 
   profile: createRoutes('/profile', {
     cart: '/cart',

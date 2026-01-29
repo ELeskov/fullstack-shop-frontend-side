@@ -10,7 +10,7 @@ import z from 'zod'
 
 import { ChangePasswordButton } from '@/features/changePasswordButton'
 import { LogoutButton } from '@/features/logoutButton'
-import { useGetMe, useUpdateUserData } from '@/shared/api'
+import { useGetMe, usePatchUser } from '@/shared/api'
 import {
   Avatar,
   AvatarFallback,
@@ -40,7 +40,7 @@ type UserSettingsForm = z.infer<typeof userSettingsSchema>
 
 export function UserSettings() {
   const { data: user, isLoading } = useGetMe()
-  const { mutateAsync } = useUpdateUserData()
+  const { mutateAsync } = usePatchUser()
   const [isShowIcon, setIsShowIcon] = useState(false)
 
   const form = useForm<UserSettingsForm>({

@@ -6,11 +6,11 @@ import { QUERY_KEY } from '@/shared/config/query-key'
 
 import type { SchemaUpdateUserDataDto } from '../api-endpoints'
 
-export const useUpdateUserData = () => {
+export const usePatchUser = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationKey: [QUERY_KEY.updateUserData],
+    mutationKey: [QUERY_KEY.PATCH_USER],
     mutationFn: async (newUpdateUserValues: SchemaUpdateUserDataDto) => {
       const { data, error } = await apiClient.PATCH('/api/users/me', {
         body: newUpdateUserValues,
@@ -25,7 +25,7 @@ export const useUpdateUserData = () => {
     },
     onSuccess: () => {
       toast('Данные обновлены')
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.me] })
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.ME] })
     },
     onError: (err: Error) => {
       toast.error(err.message)

@@ -20,6 +20,7 @@ import { MyProductPage } from '@/pages/myProductPage'
 import { ProfilePage } from '@/pages/profilePage'
 import { SignupPage } from '@/pages/signupPage'
 import { StatisticsPage } from '@/pages/statisticsPage'
+import { VerifyPage } from '@/pages/verifyPage'
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.profile.cart,
         element: <CartPage />,
+      },
+      {
+        path: ROUTES.verify,
+        element: <VerifyPage />,
       },
     ],
   },
