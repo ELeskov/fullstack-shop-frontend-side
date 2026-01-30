@@ -1,21 +1,12 @@
-'use client'
-
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import clsx from 'clsx'
-import { Pen, UserRoundX } from 'lucide-react'
 import z from 'zod'
 
 import { ChangePasswordButton } from '@/features/changePasswordButton'
 import { LogoutButton } from '@/features/logoutButton'
 import { useGetMe, usePatchUser } from '@/shared/api'
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@/shared/ui/components/ui/avatar'
 import {
   Field,
   FieldError,
@@ -23,6 +14,7 @@ import {
   FieldLabel,
 } from '@/shared/ui/components/ui/field'
 import { Input } from '@/shared/ui/components/ui/input'
+import { UserAvatarUpload } from '@/shared/ui/userAvatarUpload'
 
 import s from './userSettings.module.scss'
 
@@ -41,7 +33,6 @@ type UserSettingsForm = z.infer<typeof userSettingsSchema>
 export function UserSettings() {
   const { data: user, isLoading } = useGetMe()
   const { mutateAsync } = usePatchUser()
-  const [isShowIcon, setIsShowIcon] = useState(false)
 
   const form = useForm<UserSettingsForm>({
     resolver: zodResolver(userSettingsSchema),
@@ -73,7 +64,7 @@ export function UserSettings() {
     }
   }
 
-  if (isLoading) {
+  if (isLoading || !user) {
     return <div>Загрузка...</div>
   }
 
@@ -81,25 +72,7 @@ export function UserSettings() {
     <section className={s['user-settings']}>
       <div className={s['user-settings__content']}>
         <div className={s['user-settings__preview-info-container']}>
-          <div className={s['user-settings__image-wrapper']}>
-            <Avatar
-              onMouseEnter={() => setIsShowIcon(true)}
-              onMouseLeave={() => setIsShowIcon(false)}
-              className={s['user-settings__image']}
-            >
-              <AvatarImage src={user?.picture} />
-              <AvatarFallback>
-                <UserRoundX size={20} />
-              </AvatarFallback>
-            </Avatar>
-            <Pen
-              className={clsx(
-                'absolute bottom-0 right-0 hidden',
-                isShowIcon ? 'block!' : '',
-              )}
-              size={18}
-            />
-          </div>
+          <UserAvatarUpload user={user} />
 
           <div className={s['user-settings__information']}>
             <div className={s['user-settings__name']}>{user?.name}</div>

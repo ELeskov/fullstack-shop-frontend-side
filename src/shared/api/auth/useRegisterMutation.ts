@@ -24,9 +24,9 @@ export const useRegisterMutation = () => {
 
       return data
     },
-    onSuccess: () => {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: [QUERY_KEY.ME] })
       toast.success('Вы успешно зарегистрировались')
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.ME] })
       navigate(ROUTES.home, { replace: true })
     },
     onError: (err) => {

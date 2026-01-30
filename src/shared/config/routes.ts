@@ -8,7 +8,7 @@ export const ROUTES = {
   verify: '/auth/verify',
 
   profile: createRoutes('/profile', {
-    cart: '/cart',
+    basket: '/basket',
     like: '/likes',
 
     shops: {

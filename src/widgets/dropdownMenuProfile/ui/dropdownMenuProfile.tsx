@@ -9,7 +9,7 @@ import {
   LogOut,
   Settings,
   ShoppingBag,
-  ShoppingCart,
+  ShoppingBasket,
   User,
   UserStar,
 } from 'lucide-react'
@@ -62,9 +62,9 @@ export function DropdownMenuProfile() {
               Покупки
             </DropdownMenuItem>
           </Link>
-          <Link to={ROUTES.profile.cart}>
+          <Link to={ROUTES.profile.basket}>
             <DropdownMenuItem className="hover:text-orange-400!">
-              <ShoppingCart />
+              <ShoppingBasket />
               Корзина
             </DropdownMenuItem>
           </Link>

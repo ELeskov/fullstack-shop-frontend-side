@@ -5,4 +5,5 @@ export const QUERY_KEY = {
   REGISTER: 'register',
   VERIFY_EMAIL: 'verify-email',
   PATCH_USER: 'patch-user',
+  PATCH_AVATAR: 'patch-avatar',
 } as const

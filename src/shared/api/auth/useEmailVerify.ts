@@ -20,7 +20,7 @@ export const useEmailVerify = () => {
       }),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: [QUERY_KEY.ME] })
-      navigate(ROUTES.profile.root)
+      navigate(ROUTES.profile.root, { replace: true })
       toast.success('Почта успешно подтверждена')
     },
     onError: (err) => {

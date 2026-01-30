@@ -30,7 +30,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Вход (логин) */
+        /** Вход */
         post: operations["AuthController_login"];
         delete?: never;
         options?: never;
@@ -90,7 +90,7 @@ export interface paths {
         options?: never;
         head?: never;
         /** Обновление собственных данных пользователя (Имя, Email) */
-        patch: operations["UsersController_updateOwnUserData"];
+        patch: operations["UsersController_patchUser"];
         trace?: never;
     };
     "/api/users/{id}": {
@@ -108,6 +108,23 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/api/users/me/avatar": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Обновление фото аватара */
+        patch: operations["UsersController_upload"];
         trace?: never;
     };
 }
@@ -237,6 +254,13 @@ export interface components {
              */
             newEmail: string;
         };
+        UpdateUserAvatartResponseDto: {
+            /**
+             * @description Ссылка на автар пользователя
+             * @example https://4f35f4d0-2fb4974b-6046-4608-bcaa-2df25d95c300.s3.timeweb.cloud/avatars/1769796648317-zkv4xtz0vk-eleskov.png
+             */
+            url: string;
+        };
     };
     responses: never;
     parameters: never;
@@ -257,6 +281,7 @@ export type SchemaAuthMethod = components['schemas']['AuthMethod'];
 export type SchemaUserResponseDto = components['schemas']['UserResponseDto'];
 export type SchemaForbiddenErrorDto = components['schemas']['ForbiddenErrorDto'];
 export type SchemaUpdateUserDataDto = components['schemas']['UpdateUserDataDto'];
+export type SchemaUpdateUserAvatartResponseDto = components['schemas']['UpdateUserAvatartResponseDto'];
 export type $defs = Record<string, never>;
 export interface operations {
     AuthController_register: {
@@ -476,7 +501,7 @@ export interface operations {
             };
         };
     };
-    UsersController_updateOwnUserData: {
+    UsersController_patchUser: {
         parameters: {
             query?: never;
             header?: never;
@@ -571,6 +596,35 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["NotFoundErrorDto"];
+                };
+            };
+        };
+    };
+    UsersController_upload: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Фото успешно обновлено */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UpdateUserAvatartResponseDto"];
+                };
+            };
+            /** @description Не авторизован */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UnauthorizedErrorDto"];
                 };
             };
         };

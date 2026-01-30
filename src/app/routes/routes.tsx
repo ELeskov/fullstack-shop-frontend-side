@@ -7,7 +7,7 @@ import { ProtectedRoute } from '@/shared/ui/protectedRoute'
 import { ProfileLayout } from '../layout/profileLayout'
 
 import { MainLayout } from '@/app/layout/mainLayout'
-import { CartPage } from '@/pages/cartPage/ui/cartPage'
+import { BasketPage } from '@/pages/basketPage'
 import { CatalogPage } from '@/pages/catalogPage'
 import { CategoryPage } from '@/pages/categoryPage'
 import { ColorsPage } from '@/pages/colorsPage'
@@ -44,8 +44,8 @@ export const router = createBrowserRouter([
         element: <CatalogPage />,
       },
       {
-        path: ROUTES.profile.cart,
-        element: <CartPage />,
+        path: ROUTES.profile.basket,
+        element: <BasketPage />,
       },
       {
         path: ROUTES.verify,

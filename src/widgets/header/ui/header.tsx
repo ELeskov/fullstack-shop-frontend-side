@@ -102,7 +102,7 @@ export function Header() {
                 <Link
                   className={s['header__actions-link']}
                   aria-label="Корзина товаров"
-                  to={ROUTES.profile.cart}
+                  to={ROUTES.profile.basket}
                 >
                   <ShoppingCart
                     className={s['header__actions-icon']}

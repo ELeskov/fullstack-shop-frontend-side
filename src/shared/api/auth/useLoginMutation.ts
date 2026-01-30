@@ -25,9 +25,9 @@ export const useLoginMutation = () => {
 
       return response.data
     },
-    onSuccess: () => {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: [QUERY_KEY.ME] })
       toast.success('Вы успешно вошли в аккаунт')
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.ME] })
       navigate(ROUTES.home, { replace: true })
     },
     onError: (err) => {
