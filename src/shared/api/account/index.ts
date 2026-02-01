@@ -1,4 +1,4 @@
-export * from './useEmailVerify'
+export * from './useSendVerifyEmailMessage'
 export * from './useGetMe'
 export * from './useLoginMutation'
 export * from './useLogoutMutation'

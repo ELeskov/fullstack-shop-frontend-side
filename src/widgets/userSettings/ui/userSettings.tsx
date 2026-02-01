@@ -7,8 +7,7 @@ import z from 'zod'
 
 import { ChangePasswordButton } from '@/features/changePasswordButton'
 import { LogoutButton } from '@/features/logoutButton'
-import { useEmailVerify, useGetMe, usePatchUser } from '@/shared/api'
-import { Badge } from '@/shared/ui/components/ui/badge'
+import { useGetMe, usePatchUser, useSendVerifyEmailMessage } from '@/shared/api'
 import { Button } from '@/shared/ui/components/ui/button'
 import {
   Field,
@@ -28,62 +27,41 @@ const firstNameSchema = z.object({
     .max(50, { message: 'Имя не должно превышать 50 символов' }),
 })
 
-const emailSchema = z.object({
-  email: z
-    .email({ message: 'Введите корректный email' })
-    .min(1, { message: 'Email обязателен' }),
-})
-
 type FirstNameForm = z.infer<typeof firstNameSchema>
-type EmailForm = z.infer<typeof emailSchema>
 
 export function UserSettings() {
   const { data: user, isLoading } = useGetMe()
-
   const { mutateAsync: mutateFirstNameChange, isPending } = usePatchUser()
-  const { mutateAsync: mutateEmailVerify } = useEmailVerify()
+  const { mutateAsync: mutateEmailVerify } = useSendVerifyEmailMessage()
 
   const firstNameForm = useForm<FirstNameForm>({
     resolver: zodResolver(firstNameSchema),
     defaultValues: { firstName: '' },
   })
 
-  const emailForm = useForm<EmailForm>({
-    resolver: zodResolver(emailSchema),
-    defaultValues: { email: '' },
-  })
-
   useEffect(() => {
     if (user) {
       firstNameForm.reset({ firstName: user.name || '' })
-      emailForm.reset({ email: user.email || '' })
     }
-  }, [user, isLoading])
+  }, [user])
 
   const handleChangeUsername = async () => {
     const values = firstNameForm.getValues()
 
-    if (user?.name !== values.firstName && !firstNameForm.formState.isValid) {
+    if (!firstNameForm.formState.isValid) {
       return
     }
 
-    await mutateFirstNameChange({
-      firstName: values.firstName,
-    })
+    if (user?.name === values.firstName) {
+      return
+    }
 
+    await mutateFirstNameChange({ firstName: values.firstName })
     firstNameForm.reset(values)
   }
 
-  const handleChangeEmail = async () => {
-    const values = emailForm.getValues()
-
-    if (!emailForm.formState.isValid) {
-      return
-    }
-
-    await mutateEmailVerify(values.email)
-
-    emailForm.reset(values)
+  const handleVerifyEmail = async () => {
+    await mutateEmailVerify(user!.email)
   }
 
   if (isLoading || !user) {
@@ -95,10 +73,9 @@ export function UserSettings() {
       <div className={s['user-settings__content']}>
         <div className={s['user-settings__preview-info-container']}>
           <UserAvatarUpload user={user} />
-
           <div className={s['user-settings__information']}>
-            <div className={s['user-settings__name']}>{user?.name}</div>
-            <div className={s['user-settings__email']}>{user?.email}</div>
+            <div className={s['user-settings__name']}>{user.name}</div>
+            <div className={s['user-settings__email']}>{user.email}</div>
           </div>
         </div>
 
@@ -117,7 +94,14 @@ export function UserSettings() {
                     placeholder="Имя"
                     aria-invalid={fieldState.invalid}
                   />
-                  <Button disabled={isPending} onClick={handleChangeUsername}>
+                  <Button
+                    disabled={
+                      isPending ||
+                      user.name === field.value ||
+                      !firstNameForm.formState.isValid
+                    }
+                    onClick={handleChangeUsername}
+                  >
                     Сохранить
                   </Button>
                 </div>
@@ -129,52 +113,27 @@ export function UserSettings() {
           />
         </FieldGroup>
 
-        <FieldGroup>
-          <Controller
-            name="email"
-            control={emailForm.control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid} className="w-[70%]">
-                <div className="flex gap-2.5">
-                  <FieldLabel htmlFor="user-settings-email">Email</FieldLabel>{' '}
-                  {user?.isVerified && (
-                    <Badge
-                      variant={'ghost'}
-                      className="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300"
-                    >
-                      <CircleCheck className="fill-green-500 dark:fill-green-400 text-black border-none!" />{' '}
-                      Подтверждена
-                    </Badge>
-                  )}
-                </div>
-                <div className="flex gap-3">
-                  <Input
-                    {...field}
-                    id="user-settings-email"
-                    type="email"
-                    placeholder="Email"
-                    autoComplete="email"
-                    aria-invalid={fieldState.invalid}
-                  />
-                  {!user?.isVerified && (
-                    <Button variant={'secondary'} onClick={handleChangeEmail}>
-                      Подтвердить
-                    </Button>
-                  )}
-                </div>
-                {!user?.isVerified && (
-                  <Badge className="bg-transparent dark:text-yellow-400 flex justify-start">
-                    Почта не подтверждена{' '}
-                    <TriangleAlert className='className=" dark:fill-amber-400 text-black border-none!"' />
-                  </Badge>
-                )}
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
-                )}
-              </Field>
+        <div className={s['user-settings__email-section']}>
+          <div className="flex items-center mb-3 gap-3">
+            <span className="font-medium text-sm">Email</span>
+            {!user.isVerified ? (
+              <TriangleAlert size={15} className="text-yellow-400" />
+            ) : (
+              <CircleCheck size={15} className="text-green-400" />
             )}
-          />
-        </FieldGroup>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <span className="text-muted-foreground bg-muted px-2 py-1 rounded-md">
+              {user.email}
+            </span>
+            {!user.isVerified && (
+              <Button variant="secondary" onClick={handleVerifyEmail}>
+                Подтвердить
+              </Button>
+            )}
+          </div>
+        </div>
 
         <div className={s['user-settings__bottom-items']}>
           <div className="flex gap-3">

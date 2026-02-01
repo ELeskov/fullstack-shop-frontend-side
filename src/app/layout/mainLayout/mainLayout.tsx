@@ -4,7 +4,6 @@ import clsx from 'clsx'
 
 import { Footer } from '@/widgets/footer'
 import { Header } from '@/widgets/header'
-import { Toaster } from '@/shared/ui/components/ui/sonner'
 
 export function MainLayout() {
   return (
@@ -12,7 +11,6 @@ export function MainLayout() {
       <Header />
 
       <main>
-        <Toaster position="top-center" />
         <Outlet />
       </main>
 

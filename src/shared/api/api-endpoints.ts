@@ -107,7 +107,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/account/verify": {
+    "/api/account/email/verify": {
         parameters: {
             query?: never;
             header?: never;
@@ -120,7 +120,27 @@ export interface paths {
          * Подтверждение email по токену
          * @description Подтверждает email пользователя по одноразовому токену из письма. Устанавливает isVerified = true, удаляет токен и создаёт сессию
          */
-        post: operations["AccountController_newVerification"];
+        post: operations["AccountController_confirmEmail"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/account/email/verification/send": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Отправить письмо для подтверждения email
+         * @description Отправляет письмо с одноразовым токеном подтверждения на email текущего пользователя (из сессии). Если токен уже был — перевыпускает/заменяет.
+         */
+        post: operations["AccountController_sendVerificationEmail"];
         delete?: never;
         options?: never;
         head?: never;
@@ -256,6 +276,13 @@ export interface components {
              */
             token: string;
         };
+        SendVerificationEmailDto: {
+            /**
+             * @description Email для отправки токена верификации
+             * @example user@example.com
+             */
+            email: string;
+        };
     };
     responses: never;
     parameters: never;
@@ -277,6 +304,7 @@ export type SchemaAccountResponseDto = components['schemas']['AccountResponseDto
 export type SchemaConflictErrorDto = components['schemas']['ConflictErrorDto'];
 export type SchemaLoginDto = components['schemas']['LoginDto'];
 export type SchemaVerificationTokenDto = components['schemas']['VerificationTokenDto'];
+export type SchemaSendVerificationEmailDto = components['schemas']['SendVerificationEmailDto'];
 export type $defs = Record<string, never>;
 export interface operations {
     UsersController_findById: {
@@ -556,7 +584,7 @@ export interface operations {
             };
         };
     };
-    AccountController_newVerification: {
+    AccountController_confirmEmail: {
         parameters: {
             query?: never;
             header?: never;
@@ -574,12 +602,7 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    "application/json": {
-                        /** @example 550e8400-e29b-41d4-a716-446655440001 */
-                        userId?: string;
-                    };
-                };
+                content?: never;
             };
             /** @description Токен истёк или недействителен */
             400: {
@@ -587,14 +610,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @example 400 */
-                        statusCode?: number;
-                        /** @example Токен подтверждения истек. Пожалуйста, запросите новый токен для подтверждения */
-                        message?: string;
-                        /** @example Bad Request */
-                        error?: string;
-                    };
+                    "application/json": components["schemas"]["BadRequestErrorDto"];
                 };
             };
             /** @description Токен не найден или пользователь не существует */
@@ -603,14 +619,38 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @example 404 */
-                        statusCode?: number;
-                        /** @example Токен подтверждения не найден. Пожалуйста, убедитесь, что у вас правильный токен */
-                        message?: string;
-                        /** @example Not Found */
-                        error?: string;
-                    };
+                    "application/json": components["schemas"]["NotFoundErrorDto"];
+                };
+            };
+        };
+    };
+    AccountController_sendVerificationEmail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SendVerificationEmailDto"];
+            };
+        };
+        responses: {
+            /** @description Письмо отправлено (или переотправлено) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Не авторизован */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UnauthorizedErrorDto"];
                 };
             };
         };

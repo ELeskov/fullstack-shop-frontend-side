@@ -11,9 +11,9 @@ export const usePatchUser = () => {
 
   return useMutation({
     mutationKey: [QUERY_KEY.PATCH_USER],
-    mutationFn: async (newUpdateUserValues: SchemaPatchUserDto) => {
-      const { data, error } = await apiClient.PATCH('/api/account/@me/avatar', {
-        body: newUpdateUserValues,
+    mutationFn: async (patchUserValues: SchemaPatchUserDto) => {
+      const { data, error } = await apiClient.PATCH('/api/account/@me', {
+        body: patchUserValues,
       })
 
       if (error) {
@@ -24,7 +24,7 @@ export const usePatchUser = () => {
       return data
     },
     onSuccess: () => {
-      toast('Данные обновлены')
+      toast.success('Данные обновлены')
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.ME] })
     },
     onError: (err: Error) => {
