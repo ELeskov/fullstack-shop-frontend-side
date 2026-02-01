@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import { useSearchParams } from 'react-router'
 
+import { toast } from 'sonner'
+
 import { useEmailVerify } from '@/shared/api'
 
 export function VerifyPage() {
@@ -14,7 +16,7 @@ export function VerifyPage() {
         try {
           await mutateAsync(token)
         } catch (error) {
-          console.error('Verify error:', error)
+          toast.error(error.message)
         }
       }
     }

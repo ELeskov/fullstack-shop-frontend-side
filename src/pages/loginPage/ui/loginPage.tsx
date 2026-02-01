@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import z from 'zod'
 
-import { useLoginMutation } from '@/shared/api/auth'
+import { useLoginMutation } from '@/shared/api/account'
 import { ROUTES } from '@/shared/config'
 import { Captcha } from '@/shared/ui/captcha'
 import { Button } from '@/shared/ui/components/ui/button'

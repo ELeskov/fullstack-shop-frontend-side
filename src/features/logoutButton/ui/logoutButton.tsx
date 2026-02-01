@@ -1,6 +1,6 @@
 import { LogOut } from 'lucide-react'
 
-import { useLogoutMutation } from '@/shared/api/auth'
+import { useLogoutMutation } from '@/shared/api/account'
 import { Button } from '@/shared/ui/components/ui/button'
 
 import s from './logoutButton.module.scss'

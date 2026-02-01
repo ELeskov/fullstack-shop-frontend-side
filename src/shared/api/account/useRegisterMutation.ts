@@ -14,7 +14,7 @@ export const useRegisterMutation = () => {
   return useMutation({
     mutationKey: [QUERY_KEY.REGISTER],
     mutationFn: async (registerValues: SchemaRegisterDto) => {
-      const { error, data } = await apiClient.POST('/api/auth/register', {
+      const { error, data } = await apiClient.POST('/api/account/register', {
         body: registerValues,
       })
 

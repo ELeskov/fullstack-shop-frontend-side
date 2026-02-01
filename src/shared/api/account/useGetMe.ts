@@ -8,7 +8,7 @@ export const useGetMe = () =>
     queryKey: [QUERY_KEY.ME],
 
     queryFn: async () => {
-      const { data, response } = await apiClient.GET('/api/users/me')
+      const { data, response } = await apiClient.GET('/api/account/@me')
 
       if (!response.ok) {
         return null

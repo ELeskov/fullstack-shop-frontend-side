@@ -1,3 +1,3 @@
 export type { paths as apiEndpoints } from './api-endpoints'
-export * from './auth'
+export * from './account'
 export * from './user'

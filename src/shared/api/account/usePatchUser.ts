@@ -4,15 +4,15 @@ import { toast } from 'sonner'
 import { apiClient } from '@/shared/config'
 import { QUERY_KEY } from '@/shared/config/query-key'
 
-import type { SchemaUpdateUserDataDto } from '../api-endpoints'
+import type { SchemaPatchUserDto } from '../api-endpoints'
 
 export const usePatchUser = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationKey: [QUERY_KEY.PATCH_USER],
-    mutationFn: async (newUpdateUserValues: SchemaUpdateUserDataDto) => {
-      const { data, error } = await apiClient.PATCH('/api/users/me', {
+    mutationFn: async (newUpdateUserValues: SchemaPatchUserDto) => {
+      const { data, error } = await apiClient.PATCH('/api/account/@me/avatar', {
         body: newUpdateUserValues,
       })
 

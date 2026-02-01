@@ -1,4 +1,7 @@
 export * from './useEmailVerify'
+export * from './useGetMe'
 export * from './useLoginMutation'
 export * from './useLogoutMutation'
+export * from './usePatchAvatar'
+export * from './usePatchUser'
 export * from './useRegisterMutation'

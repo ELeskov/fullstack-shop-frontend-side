@@ -14,7 +14,7 @@ import {
   UserStar,
 } from 'lucide-react'
 
-import { useLogoutMutation } from '@/shared/api/auth'
+import { useLogoutMutation } from '@/shared/api/account'
 import { ROUTES } from '@/shared/config'
 import {
   DropdownMenu,

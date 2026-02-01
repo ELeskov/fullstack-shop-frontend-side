@@ -13,7 +13,7 @@ export const useEmailVerify = () => {
   return useMutation({
     mutationKey: [QUERY_KEY.VERIFY_EMAIL],
     mutationFn: (verifyEmailToken: string) =>
-      apiClient.POST('/api/auth/account/verify', {
+      apiClient.POST('/api/account/verify', {
         body: {
           token: verifyEmailToken,
         },

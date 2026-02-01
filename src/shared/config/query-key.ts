@@ -1,5 +1,5 @@
 export const QUERY_KEY = {
-  ME: 'me',
+  ME: '@me',
   LOGIN: 'login',
   LOGOUT: 'logout',
   REGISTER: 'register',

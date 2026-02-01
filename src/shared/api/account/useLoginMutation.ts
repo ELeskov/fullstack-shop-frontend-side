@@ -15,7 +15,7 @@ export const useLoginMutation = () => {
   return useMutation({
     mutationKey: [QUERY_KEY.LOGIN],
     mutationFn: async (loginValues: SchemaLoginDto) => {
-      const response = await apiClient.POST('/api/auth/login', {
+      const response = await apiClient.POST('/api/account/login', {
         body: loginValues,
       })
 

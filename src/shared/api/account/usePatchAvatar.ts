@@ -10,7 +10,7 @@ export const usePatchAvatar = () => {
   return useMutation({
     mutationKey: [QUERY_KEY.PATCH_AVATAR],
     mutationFn: async (formData: FormData) => {
-      const { data, error } = await apiClient.PATCH('/api/users/me/avatar', {
+      const { data, error } = await apiClient.PATCH('/api/account/@me/avatar', {
         body: formData,
       })
 

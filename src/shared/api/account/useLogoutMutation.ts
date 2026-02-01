@@ -13,7 +13,7 @@ export const useLogoutMutation = () => {
   return useMutation({
     mutationKey: [QUERY_KEY.LOGOUT],
     mutationFn: async () => {
-      return await apiClient.POST('/api/auth/logout')
+      return await apiClient.POST('/api/account/logout')
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: [QUERY_KEY.ME] })
