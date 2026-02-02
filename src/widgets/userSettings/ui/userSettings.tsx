@@ -57,12 +57,16 @@ export function UserSettings() {
     }
 
     await mutateFirstNameChange({ firstName: values.firstName })
+
     firstNameForm.reset(values)
   }
 
   const handleVerifyEmail = async () => {
     await mutateEmailVerify(user!.email)
   }
+
+  const onBlurResetForm = () =>
+    firstNameForm.getValues('firstName') !== user?.name && firstNameForm.reset()
 
   if (isLoading || !user) {
     return <div>Загрузка...</div>
@@ -89,9 +93,10 @@ export function UserSettings() {
                 <div className="flex gap-3">
                   <Input
                     {...field}
-                    id="user-settings-first-name"
+                    onBlur={onBlurResetForm}
                     type="text"
                     placeholder="Имя"
+                    id="user-settings-first-name"
                     aria-invalid={fieldState.invalid}
                   />
                   <Button

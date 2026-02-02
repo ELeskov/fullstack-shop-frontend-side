@@ -11,6 +11,7 @@ import { useLoginMutation } from '@/shared/api/account'
 import { ROUTES } from '@/shared/config'
 import { Captcha } from '@/shared/ui/captcha'
 import { Button } from '@/shared/ui/components/ui/button'
+import { FieldLabel } from '@/shared/ui/components/ui/field'
 import {
   Form,
   FormControl,
@@ -109,7 +110,16 @@ export function LoginPage() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Пароль</FormLabel>
+                <div className="flex items-center">
+                  <FieldLabel htmlFor="password">Пароль</FieldLabel>
+                  <Link
+                    to={''}
+                    onClick={() => console.log(1)}
+                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                  >
+                    Забыли пароль?
+                  </Link>
+                </div>
                 <FormControl>
                   <Input
                     placeholder="*******"
