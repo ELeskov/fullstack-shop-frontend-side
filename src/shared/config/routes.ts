@@ -5,7 +5,9 @@ export const ROUTES = {
   login: '/login',
   signup: '/signup',
   catalog: '/catalog',
+  product: '/product',
   verify: '/auth/verify',
+  resetPassword: '/auth/reset-password',
 
   profile: createRoutes('/profile', {
     basket: '/basket',

@@ -114,7 +114,7 @@ export function LoginPage() {
                   <FieldLabel htmlFor="password">Пароль</FieldLabel>
                   <Link
                     to={''}
-                    onClick={() => console.log(1)}
+                    // onClick={() => }
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                   >
                     Забыли пароль?
@@ -122,8 +122,9 @@ export function LoginPage() {
                 </div>
                 <FormControl>
                   <Input
-                    placeholder="*******"
+                    id="password"
                     type="password"
+                    placeholder="••••••••"
                     autoComplete="current-password"
                     disabled={isPending}
                     {...field}

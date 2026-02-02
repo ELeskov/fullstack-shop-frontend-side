@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router'
 
 import { CheckCircle, XCircle } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 
 import { useVerifyEmail } from '@/shared/api/account/useVerifyEmail'
+import { useGetTokenFromQueryParam } from '@/shared/utils'
 
 type VerifyState = 'loading' | 'success' | 'error'
 
@@ -13,12 +13,11 @@ export function VerifyPage() {
   const [errorMsg, setErrorMsg] = useState('')
 
   const { mutateAsync, error } = useVerifyEmail()
-  const queryParams = useSearchParams()[0]
-  const token = queryParams.get('token')
+  const { token, hasToken } = useGetTokenFromQueryParam()
 
   useEffect(() => {
     const verifyEmail = async () => {
-      if (!token) {
+      if (!hasToken) {
         setState('error')
         setErrorMsg('Токен не найден в ссылке')
         return

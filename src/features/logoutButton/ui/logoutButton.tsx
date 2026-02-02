@@ -1,25 +1,27 @@
 import { LogOut } from 'lucide-react'
 
 import { useLogoutMutation } from '@/shared/api/account'
-import { Button } from '@/shared/ui/components/ui/button'
+import { CustomButton } from '@/shared/ui/customButton'
 
 import s from './logoutButton.module.scss'
 
 export function LogoutButton() {
-  const { mutateAsync } = useLogoutMutation()
+  const { mutateAsync, isPending } = useLogoutMutation()
 
   async function onSubmit() {
     await mutateAsync()
   }
+
   return (
-    <Button
-      variant="destructive"
+    <CustomButton
       type="button"
-      className={s['logout-button']}
       onClick={onSubmit}
+      isLoading={isPending}
+      variant="destructive"
+      className={s['logout-button']}
     >
       <LogOut />
       Выйти
-    </Button>
+    </CustomButton>
   )
 }

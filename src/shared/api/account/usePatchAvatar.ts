@@ -22,7 +22,7 @@ export const usePatchAvatar = () => {
       return data
     },
     onSuccess: () => {
-      toast.success('Аватар обновлен')
+      toast.success('Аватарка обновлена')
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.ME] })
     },
     onError: (err: Error) => {

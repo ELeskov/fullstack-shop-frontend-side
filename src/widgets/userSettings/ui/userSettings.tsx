@@ -5,9 +5,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { CircleCheck, TriangleAlert } from 'lucide-react'
 import z from 'zod'
 
-import { ChangePasswordButton } from '@/features/changePasswordButton'
 import { LogoutButton } from '@/features/logoutButton'
-import { useGetMe, usePatchUser, useSendVerifyEmailMessage } from '@/shared/api'
+import { SendEmailVerifyMessageButton } from '@/features/sendEmailVerifyMessageButton'
+import { ChangePasswordButton } from '@/features/sendResetPasswordEmailButton'
+import { useGetMe, usePatchUser } from '@/shared/api'
 import { Button } from '@/shared/ui/components/ui/button'
 import {
   Field,
@@ -31,8 +32,7 @@ type FirstNameForm = z.infer<typeof firstNameSchema>
 
 export function UserSettings() {
   const { data: user, isLoading } = useGetMe()
-  const { mutateAsync: mutateFirstNameChange, isPending } = usePatchUser()
-  const { mutateAsync: mutateEmailVerify } = useSendVerifyEmailMessage()
+  const { mutateAsync, isPending } = usePatchUser()
 
   const firstNameForm = useForm<FirstNameForm>({
     resolver: zodResolver(firstNameSchema),
@@ -56,17 +56,10 @@ export function UserSettings() {
       return
     }
 
-    await mutateFirstNameChange({ firstName: values.firstName })
+    await mutateAsync({ firstName: values.firstName })
 
     firstNameForm.reset(values)
   }
-
-  const handleVerifyEmail = async () => {
-    await mutateEmailVerify(user!.email)
-  }
-
-  const onBlurResetForm = () =>
-    firstNameForm.getValues('firstName') !== user?.name && firstNameForm.reset()
 
   if (isLoading || !user) {
     return <div>Загрузка...</div>
@@ -93,7 +86,6 @@ export function UserSettings() {
                 <div className="flex gap-3">
                   <Input
                     {...field}
-                    onBlur={onBlurResetForm}
                     type="text"
                     placeholder="Имя"
                     id="user-settings-first-name"
@@ -132,11 +124,7 @@ export function UserSettings() {
             <span className="text-muted-foreground bg-muted px-2 py-1 rounded-md">
               {user.email}
             </span>
-            {!user.isVerified && (
-              <Button variant="secondary" onClick={handleVerifyEmail}>
-                Подтвердить
-              </Button>
-            )}
+            {!user.isVerified && <SendEmailVerifyMessageButton />}
           </div>
         </div>
 

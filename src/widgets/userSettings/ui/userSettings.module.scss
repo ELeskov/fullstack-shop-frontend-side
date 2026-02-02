@@ -16,8 +16,6 @@
     gap: rem(20);
   }
 
-
-
   &__information {
     display: flex;
     flex-direction: column;
@@ -44,6 +42,11 @@
   &__input-group {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: rem(10);
+  }
+
+  &__bottom-items {
+    display: flex;
+    gap: rem(12);
   }
 }

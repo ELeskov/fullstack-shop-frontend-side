@@ -127,6 +127,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/account/password/reset": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Сброс пароля по токену
+         * @description Сбрасывает пароль пользователя по токену из письма восстановления. Обновляет пароль и удаляет токен сброса.
+         */
+        post: operations["AccountController_resetPassword"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/account/email/verification/send": {
         parameters: {
             query?: never;
@@ -138,9 +158,29 @@ export interface paths {
         put?: never;
         /**
          * Отправить письмо для подтверждения email
-         * @description Отправляет письмо с одноразовым токеном подтверждения на email текущего пользователя (из сессии). Если токен уже был — перевыпускает/заменяет.
+         * @description Отправляет письмо с одноразовым токеном подтверждения на email текущего пользователя.
          */
         post: operations["AccountController_sendVerificationEmail"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/account/password/reset/send": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Отправить письмо для сброса пароля
+         * @description Отправляет письмо с одноразовым токеном сброса пароля на email текущего пользователя.
+         */
+        post: operations["AccountController_sendResetPasswordEmail"];
         delete?: never;
         options?: never;
         head?: never;
@@ -276,7 +316,24 @@ export interface components {
              */
             token: string;
         };
-        SendVerificationEmailDto: {
+        ResetPasswordDto: {
+            /**
+             * @description Токен для сброса пароля из письма.
+             * @example 550e8400-e29b-41d4-a716-446655440001
+             */
+            token: string;
+            /**
+             * @description Новый пароль. Минимальная длина — 6 символов.
+             * @example newPassword123
+             */
+            password: string;
+            /**
+             * @description Подтверждение нового пароля (должно совпадать с паролем).
+             * @example newPassword123
+             */
+            confirmPassword: string;
+        };
+        SendEmailDto: {
             /**
              * @description Email для отправки токена верификации
              * @example user@example.com
@@ -304,7 +361,8 @@ export type SchemaAccountResponseDto = components['schemas']['AccountResponseDto
 export type SchemaConflictErrorDto = components['schemas']['ConflictErrorDto'];
 export type SchemaLoginDto = components['schemas']['LoginDto'];
 export type SchemaVerificationTokenDto = components['schemas']['VerificationTokenDto'];
-export type SchemaSendVerificationEmailDto = components['schemas']['SendVerificationEmailDto'];
+export type SchemaResetPasswordDto = components['schemas']['ResetPasswordDto'];
+export type SchemaSendEmailDto = components['schemas']['SendEmailDto'];
 export type $defs = Record<string, never>;
 export interface operations {
     UsersController_findById: {
@@ -624,6 +682,56 @@ export interface operations {
             };
         };
     };
+    AccountController_resetPassword: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Токен из письма + новый пароль */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ResetPasswordDto"];
+            };
+        };
+        responses: {
+            /** @description Пароль успешно сброшен */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+            /** @description Токен истёк или недействителен */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BadRequestErrorDto"];
+                };
+            };
+            /** @description Токен не найден или пользователь не существует */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NotFoundErrorDto"];
+                };
+            };
+            /** @description Пароли не совпадают */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     AccountController_sendVerificationEmail: {
         parameters: {
             query?: never;
@@ -633,7 +741,38 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["SendVerificationEmailDto"];
+                "application/json": components["schemas"]["SendEmailDto"];
+            };
+        };
+        responses: {
+            /** @description Письмо отправлено (или переотправлено) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Не авторизован */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UnauthorizedErrorDto"];
+                };
+            };
+        };
+    };
+    AccountController_sendResetPasswordEmail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SendEmailDto"];
             };
         };
         responses: {

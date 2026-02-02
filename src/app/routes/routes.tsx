@@ -17,7 +17,9 @@ import { HomePage } from '@/pages/homePage'
 import { LikePage } from '@/pages/likePage'
 import { LoginPage } from '@/pages/loginPage'
 import { MyProductPage } from '@/pages/myProductPage'
+import { ProductPage } from '@/pages/productPage'
 import { ProfilePage } from '@/pages/profilePage'
+import { ResetPasswordPage } from '@/pages/resetPasswordPage'
 import { SignupPage } from '@/pages/signupPage'
 import { StatisticsPage } from '@/pages/statisticsPage'
 import { VerifyPage } from '@/pages/verifyPage'
@@ -50,6 +52,14 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.verify,
         element: <VerifyPage />,
+      },
+      {
+        path: ROUTES.resetPassword,
+        element: <ResetPasswordPage />,
+      },
+      {
+        path: ROUTES.product,
+        element: <ProductPage />,
       },
     ],
   },

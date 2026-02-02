@@ -1,0 +1,46 @@
+.swiper {
+  .swiper-wrapper {
+    max-height: rem(700);
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    background-color: #ffffff;
+    border: rem(2) solid #fff;
+    color: #000000;
+    padding: rem(9) rem(13.5);
+    border-radius: 50%;
+    height: max-content;
+    margin: 0;
+
+    &::after {
+      font-size: rem(10);
+      font-weight: 600;
+    }
+    &:hover {
+      color: #b0d5ff;
+    }
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    &.swiper-button-disabled {
+      display: none;
+    }
+  }
+
+  .swiper-button-prev {
+    bottom: auto;
+    top: rem(20);
+    margin-top: 0;
+    left: 50% !important;
+    transform: translateX(-50%) rotate(90deg) !important;
+  }
+
+  .swiper-button-next {
+    top: auto;
+    bottom: rem(20);
+    left: 50% !important;
+    transform: translateX(-50%) rotate(90deg) !important;
+  }
+}

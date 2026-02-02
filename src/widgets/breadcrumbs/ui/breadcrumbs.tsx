@@ -8,9 +8,11 @@ import {
   BreadcrumbSeparator,
 } from '@/shared/ui/components/ui/breadcrumb'
 
+import s from './breadcrumbs.module.scss'
+
 export function Breadcrumbs() {
   return (
-    <Breadcrumb>
+    <Breadcrumb className={s['breadcrumb']}>
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink href="/">Главная</BreadcrumbLink>
