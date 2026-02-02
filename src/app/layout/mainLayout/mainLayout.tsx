@@ -4,6 +4,7 @@ import clsx from 'clsx'
 
 import { Footer } from '@/widgets/footer'
 import { Header } from '@/widgets/header'
+import { MobileNavBar } from '@/widgets/mobileNavBar'
 
 export function MainLayout() {
   return (
@@ -15,6 +16,7 @@ export function MainLayout() {
       </main>
 
       <Footer />
+      <MobileNavBar />
     </div>
   )
 }

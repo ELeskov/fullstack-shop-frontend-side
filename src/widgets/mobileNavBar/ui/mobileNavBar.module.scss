@@ -1,0 +1,29 @@
+.mobile-navbar {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 1010000;
+  background-color: #000;
+
+  &__list {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__item {
+    justify-self: center;
+    flex-grow: 1;
+    padding-block: rem(15);
+    padding-inline: rem(15);
+    :hover {
+      > .mobile-navbar__icon {
+        color: rgb(56, 125, 237);
+      }
+    }
+  }
+
+  &__icon {
+    margin-inline: auto;
+  }
+}

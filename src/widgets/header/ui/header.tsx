@@ -31,7 +31,7 @@ export function Header() {
   return (
     <header className={s['header']}>
       <div className={s['header__body']}>
-        <Logo className={s['header-logo']} />
+        <Logo className={clsx(s['header-logo'], 'hidden-mobile')} />
 
         <NavigationMenu
           viewport={false}
@@ -122,7 +122,7 @@ export function Header() {
             </ul>
           </div>
         ) : (
-          <div className={clsx(s['header__auth-btn'], 'hidden-mobile')}>
+          <div className={s['header__auth-btn']}>
             <Link to={ROUTES.login}>
               <Button
                 type="button"
