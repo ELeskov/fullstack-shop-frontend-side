@@ -8,6 +8,7 @@ export const ROUTES = {
   product: '/product',
   verify: '/auth/verify',
   resetPassword: '/auth/reset-password',
+  sendResetPasswordEmail: '/send-reset-email',
 
   profile: createRoutes('/profile', {
     basket: '/basket',

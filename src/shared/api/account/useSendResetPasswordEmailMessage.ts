@@ -12,7 +12,10 @@ export const useSendResetPasswordEmailMessage = () => {
         body: { email },
       }),
     onSuccess: async () => {
-      toast.info('Сообщение со сбросом пароля было отправлено на вашу почту.')
+      toast.info(
+        'Письмо с инструкциями по сбросу пароля отправлено на вашу почту',
+        { duration: 5000 },
+      )
     },
     onError: (err) => {
       toast.error(err.message)

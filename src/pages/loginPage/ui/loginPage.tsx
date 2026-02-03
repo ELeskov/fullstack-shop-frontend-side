@@ -7,7 +7,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import z from 'zod'
 
-import { useLoginMutation } from '@/shared/api/account'
+import {
+  useLoginMutation,
+  useSendResetPasswordEmailMessage,
+} from '@/shared/api/account'
 import { ROUTES } from '@/shared/config'
 import { Captcha } from '@/shared/ui/captcha'
 import { Button } from '@/shared/ui/components/ui/button'
@@ -50,7 +53,9 @@ export function LoginPage() {
     },
   })
 
-  const { mutateAsync, isPending } = useLoginMutation()
+  const { mutateAsync: mutateLogin, isPending } = useLoginMutation()
+  const { mutateAsync: mutateResetPassword } =
+    useSendResetPasswordEmailMessage()
 
   async function onSubmit(values: Login) {
     if (!values.captcha) {
@@ -58,7 +63,7 @@ export function LoginPage() {
       return
     }
 
-    await mutateAsync(values)
+    await mutateLogin(values)
   }
 
   return (
@@ -114,7 +119,7 @@ export function LoginPage() {
                   <FieldLabel htmlFor="password">Пароль</FieldLabel>
                   <Link
                     to={''}
-                    // onClick={() => }
+                    onClick={() => mutateResetPassword(form.getValues('email'))}
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                   >
                     Забыли пароль?

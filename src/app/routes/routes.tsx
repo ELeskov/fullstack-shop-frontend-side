@@ -13,6 +13,7 @@ import { CategoryPage } from '@/pages/categoryPage'
 import { ColorsPage } from '@/pages/colorsPage'
 import { CreateColorsPage } from '@/pages/createColorsPage'
 import { CreateProductPage } from '@/pages/createProductPage'
+import { ForgotPasswordPage } from '@/pages/forgotPasswordPage'
 import { HomePage } from '@/pages/homePage'
 import { LikePage } from '@/pages/likePage'
 import { LoginPage } from '@/pages/loginPage'
@@ -56,6 +57,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.resetPassword,
         element: <ResetPasswordPage />,
+      },
+      {
+        path: ROUTES.sendResetPasswordEmail,
+        element: <ForgotPasswordPage />,
       },
       {
         path: ROUTES.product,
