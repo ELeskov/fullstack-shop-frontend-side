@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { Link } from 'react-router'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircleCheck, TriangleAlert } from 'lucide-react'
@@ -7,8 +8,8 @@ import z from 'zod'
 
 import { LogoutButton } from '@/features/logoutButton'
 import { SendEmailVerifyMessageButton } from '@/features/sendEmailVerifyMessageButton'
-import { ChangePasswordButton } from '@/features/sendResetPasswordEmailButton'
 import { useGetMe, usePatchUser } from '@/shared/api'
+import { ROUTES } from '@/shared/config'
 import { Button } from '@/shared/ui/components/ui/button'
 import {
   Field,
@@ -17,6 +18,7 @@ import {
   FieldLabel,
 } from '@/shared/ui/components/ui/field'
 import { Input } from '@/shared/ui/components/ui/input'
+import { CustomButton } from '@/shared/ui/customButton'
 import { UserAvatarUpload } from '@/shared/ui/userAvatarUpload'
 
 import s from './userSettings.module.scss'
@@ -91,16 +93,16 @@ export function UserSettings() {
                     id="user-settings-first-name"
                     aria-invalid={fieldState.invalid}
                   />
-                  <Button
+                  <CustomButton
                     disabled={
-                      isPending ||
                       user.name === field.value ||
                       !firstNameForm.formState.isValid
                     }
+                    isLoading={isPending}
                     onClick={handleChangeUsername}
                   >
                     Сохранить
-                  </Button>
+                  </CustomButton>
                 </div>
                 {fieldState.invalid && (
                   <FieldError errors={[fieldState.error]} />
@@ -129,10 +131,11 @@ export function UserSettings() {
         </div>
 
         <div className={s['user-settings__bottom-items']}>
-          <div className="flex gap-3">
-            <ChangePasswordButton />
-            <LogoutButton />
-          </div>
+          <Link to={ROUTES.sendResetPasswordEmail}>
+            <Button variant={'outline'}>Сбросить пароль</Button>
+          </Link>
+
+          <LogoutButton />
         </div>
       </div>
     </section>

@@ -7,10 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import z from 'zod'
 
-import {
-  useLoginMutation,
-  useSendResetPasswordEmailMessage,
-} from '@/shared/api/account'
+import { useLoginMutation } from '@/shared/api/account'
 import { ROUTES } from '@/shared/config'
 import { Captcha } from '@/shared/ui/captcha'
 import { Button } from '@/shared/ui/components/ui/button'
@@ -54,12 +51,10 @@ export function LoginPage() {
   })
 
   const { mutateAsync: mutateLogin, isPending } = useLoginMutation()
-  const { mutateAsync: mutateResetPassword } =
-    useSendResetPasswordEmailMessage()
 
   async function onSubmit(values: Login) {
     if (!values.captcha) {
-      toast.warning('Пройдите капчу!')
+      toast.error('Пройдите капчу!')
       return
     }
 
@@ -69,7 +64,7 @@ export function LoginPage() {
   return (
     <div datatype="auth-page" className="flex flex-col gap-3.5 w-112.5">
       <div>
-        <h1 className="text-3xl! ">Войти в аккаунт</h1>
+        <h1 className="text-3xl!">Войти в аккаунт</h1>
         <p className="mb-6! text-neutral-400/80">
           Для входа на сайт используйте ваш email и пароль, которые были указаны
           при регистрации на сайте
@@ -118,8 +113,7 @@ export function LoginPage() {
                 <div className="flex items-center">
                   <FieldLabel htmlFor="password">Пароль</FieldLabel>
                   <Link
-                    to={''}
-                    onClick={() => mutateResetPassword(form.getValues('email'))}
+                    to={ROUTES.sendResetPasswordEmail}
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                   >
                     Забыли пароль?
