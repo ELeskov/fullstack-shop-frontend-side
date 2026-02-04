@@ -1,0 +1,111 @@
+.product-body {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: rem(30);
+  flex: 0 0 auto;
+  width: rem(400);
+  overflow: hidden;
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: rem(15);
+  }
+
+  &__badge {
+    transition: all 0.2s ease;
+    &:hover {
+      transition: all 0.2s ease;
+      background-color: rgb(77, 77, 77);
+    }
+  }
+
+  &__title {
+    @include fluid-text(22, 18);
+    font-weight: 600;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-spacing: 0;
+  }
+
+  &__review,
+  &__badges {
+    display: flex;
+    align-items: center;
+    gap: rem(10);
+  }
+
+  &__review-link {
+    &:hover {
+      color: oklch(69.019% 0.15307 253.246);
+    }
+  }
+
+  &__option {
+    width: 100%;
+  }
+
+  &__table {
+    width: 100%;
+    display: table;
+    font-size: rem(13);
+
+    tbody {
+      display: flex;
+      flex-direction: column;
+      gap: rem(10);
+    }
+
+    tr {
+      display: flex;
+
+      td {
+        padding-left: rem(8);
+        width: 50%;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-spacing: 0;
+      }
+
+      th {
+        color: #8f8fa3;
+        font-weight: 400;
+        text-align: left;
+        width: 50%;
+        position: relative;
+
+        span {
+          background-color: oklch(0.145 0 0);
+          position: relative;
+          padding-right: rem(8);
+          z-index: 100000;
+        }
+
+        &::after {
+          z-index: 1;
+          content: '';
+          background-image: linear-gradient(90deg, #d3d4dd 50%, #fff 0%);
+          background-position: bottom;
+          background-repeat: repeat-x;
+          background-size: rem(2) rem(1);
+          background-position-x:100% ;
+          height: rem(20);
+          width: 204px;
+          display: block;
+          position: absolute;
+          bottom: rem(4);
+          left: 0;
+        }
+      }
+    }
+  }
+}

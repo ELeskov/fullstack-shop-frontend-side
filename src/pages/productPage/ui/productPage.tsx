@@ -1,4 +1,5 @@
 import { Breadcrumbs } from '@/widgets/breadcrumbs'
+import { ProductBody } from '@/widgets/productBody'
 import { ProductSlider } from '@/widgets/productSlider'
 
 import s from './productPage.module.scss'
@@ -10,6 +11,7 @@ export function ProductPage() {
 
       <div className={s['product-page__content']}>
         <ProductSlider />
+        <ProductBody />
       </div>
     </section>
   )
