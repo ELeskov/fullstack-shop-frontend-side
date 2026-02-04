@@ -18,7 +18,8 @@ body {
   min-width: rem(316);
 
   &::selection {
-    background-color: var(--color-ligth);
+    background-color: white;
+    color: black;
   }
 }
 

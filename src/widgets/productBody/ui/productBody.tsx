@@ -41,25 +41,27 @@ export const ProductBody = () => {
           <tbody>
             <tr className={s['product-body__table-row']}>
               <th>
-                <span>Артикул</span>
+                <span className={s['product-body__label']}>Артикул</span>
               </th>
               <td>225918240</td>
             </tr>
             <tr className={s['product-body__table-row']}>
               <th>
-                <span>Состав</span>
+                <span className={s['product-body__label']}>Состав</span>
               </th>
               <td>aqua; Ceteareth-20; PEG-7 Glyceryl Cocoate; PVP;...</td>
             </tr>
             <tr className={s['product-body__table-row']}>
               <th>
-                <span>Степень фиксации средства</span>
+                <span className={s['product-body__label']}>
+                  Степень фиксации средства
+                </span>
               </th>
               <td>сильная фиксация; средняя фиксация</td>
             </tr>
             <tr className={s['product-body__table-row']}>
               <th>
-                <span>Действие</span>
+                <span className={s['product-body__label']}>Действие</span>
               </th>
               <td>
                 мужская укладка волос; эффект мокрых волос мужской; для...
@@ -67,24 +69,34 @@ export const ProductBody = () => {
             </tr>
             <tr className={s['product-body__table-row']}>
               <th>
-                <span>Объем товара</span>
+                <span className={s['product-body__label']}>Объем товара</span>
               </th>
               <td>30 мл</td>
             </tr>
             <tr className={s['product-body__table-row']}>
               <th>
-                <span>Срок годности</span>
+                <span className={s['product-body__label']}>Срок годности</span>
               </th>
               <td>24 мес</td>
             </tr>
             <tr className={s['product-body__table-row']}>
               <th>
-                <span>Страна производства</span>
+                <span className={s['product-body__label']}>
+                  Страна производства
+                </span>
               </th>
               <td>Россия</td>
             </tr>
           </tbody>
         </table>
+
+        <Badge
+          variant={'secondary'}
+          // onClick={}
+          className="cursor-pointer hover:bg-white/15 transition-all"
+        >
+          Характеристики и описание
+        </Badge>
       </div>
     </div>
   )

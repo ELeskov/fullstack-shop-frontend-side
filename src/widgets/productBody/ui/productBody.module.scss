@@ -38,6 +38,7 @@
     display: flex;
     align-items: center;
     gap: rem(10);
+    font-size: rem(14);
   }
 
   &__review-link {
@@ -47,12 +48,18 @@
   }
 
   &__option {
+    display: flex;
+    flex-direction: column;
+    gap: rem(25);
     width: 100%;
+    padding: rem(10);
+    border: rem(1) solid var(--border);
+    border-radius: rem(15);
+    background-color: #141414;
   }
 
   &__table {
     width: 100%;
-    display: table;
     font-size: rem(13);
 
     tbody {
@@ -62,50 +69,58 @@
     }
 
     tr {
+      display: grid;
+      grid-template-columns: 1fr 1fr; // 50/50 как у тебя
+      column-gap: rem(8);
+      align-items: end;
+    }
+
+    td {
+      padding-left: rem(8);
+      min-width: 0;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    th {
+      min-width: 0;
+      color: var(--color-gray);
+      font-weight: 400;
+      text-align: left;
       display: flex;
+      align-items: baseline;
+    }
 
-      td {
-        padding-left: rem(8);
-        width: 50%;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
-        line-clamp: 2;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        word-spacing: 0;
-      }
+    .product-body__label {
+      background-color: #141414;
+      padding-right: rem(8);
+      position: relative;
+      z-index: 2;
+      white-space: normal;
+      line-height: 1.25;
+    }
 
-      th {
-        color: #8f8fa3;
-        font-weight: 400;
-        text-align: left;
-        width: 50%;
-        position: relative;
+    th::after {
+      content: '';
+      flex: 1;
+      min-width: rem(50);
+      height: rem(3);
+      align-self: flex-end;
+      margin-bottom: rem(5);
 
-        span {
-          background-color: oklch(0.145 0 0);
-          position: relative;
-          padding-right: rem(8);
-          z-index: 100000;
-        }
+      background-image: radial-gradient(
+        circle,
+        var(--color-gray) rem(0.1),
+        transparent 1.6px
+      );
+      background-size: rem(5) rem(10);
+      background-repeat: repeat-x;
+      background-position: left center;
 
-        &::after {
-          z-index: 1;
-          content: '';
-          background-image: linear-gradient(90deg, #d3d4dd 50%, #fff 0%);
-          background-position: bottom;
-          background-repeat: repeat-x;
-          background-size: rem(2) rem(1);
-          background-position-x:100% ;
-          height: rem(20);
-          width: 204px;
-          display: block;
-          position: absolute;
-          bottom: rem(4);
-          left: 0;
-        }
-      }
+      z-index: 1;
     }
   }
 }

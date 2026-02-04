@@ -1,7 +1,7 @@
 .product-slider {
   display: flex;
   flex: 0 0 auto;
-  width: rem(700);
+  width: rem(620);
   height: rem(700);
   gap: rem(12);
 }
@@ -74,6 +74,7 @@
     object-fit: cover;
     border-radius: rem(14);
     transition: 0.2s;
+    user-select: none;
   }
 
   &.is-active img,
@@ -134,6 +135,7 @@
   height: 100%;
   object-fit: cover;
   -webkit-user-drag: none;
+  user-select: none;
 }
 
 .main__btn {
