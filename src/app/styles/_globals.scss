@@ -24,7 +24,7 @@ body {
 
 main {
   flex: 1;
-  margin-block: rem(50);
+  // margin-block: rem(50);
 
   &:has([datatype='auth-page']) {
     display: flex;
