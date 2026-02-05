@@ -1,0 +1,22 @@
+.product-summary__buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: rem(15);
+
+  @include tablet {
+    flex-direction: row;
+    gap: rem(10);
+  }
+
+  &-button {
+    width: 100%;
+    padding-block: rem(25);
+    border-radius: rem(15);
+
+    @include tablet {
+      flex: 1;
+      padding-block: rem(22);
+    }
+  }
+}

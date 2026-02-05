@@ -2,7 +2,7 @@ import { Link } from 'react-router'
 
 import { Star, Store } from 'lucide-react'
 
-import { Button } from '@/shared/ui/components/ui/button'
+import { ProductSummaryButtons } from '@/features/productSummaryButtons'
 
 import s from './productSummary.module.scss'
 
@@ -14,10 +14,7 @@ export function ProductSummary() {
         <span className={s['product-summary__price-old']}>3 982 ₽</span>
       </div>
 
-      <Button className={s['product-summary__btn']}>Добавить в корзину</Button>
-      <Button variant={'outline'} className={s['product-summary__btn']}>
-        Купить сейчас
-      </Button>
+      <ProductSummaryButtons />
 
       <div className={s['product-summary__info']}>
         <div className={s['product-summary__info-row']}>
