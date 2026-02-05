@@ -1,12 +1,21 @@
-import { Swiper, SwiperSlide } from 'swiper/react'
+import { type EmblaOptionsType } from 'embla-carousel'
+import useEmblaCarousel from 'embla-carousel-react'
 
 import { ProductCard } from '@/entities/productCard'
 
 import s from './hitsProduct.module.scss'
 
-import 'swiper/css'
+const OPTIONS: EmblaOptionsType = {
+  align: 'start',
+  slidesToScroll: 1,
+  containScroll: 'trimSnaps',
+  dragFree: false,
+  inViewThreshold: 0.5,
+}
 
 export function HitsProduct() {
+  const [emblaRef, emblaApi] = useEmblaCarousel(OPTIONS)
+
   return (
     <section className={s['hits-product']}>
       <h2 className={s['hits-product__title']}>Хиты продаж</h2>
@@ -14,13 +23,17 @@ export function HitsProduct() {
         Самые популярные товары нашего магазина.
       </p>
       <div className={s['hits-product__product-list']}>
-        <Swiper slidesPerView="auto" spaceBetween={30}>
-          {[0, 0, 0, 0, 0, 0, 0].map(() => (
-            <SwiperSlide className={s['hits-product__slide']}>
-              <ProductCard className={s['hits-product__item']} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        <div className={s['embla']} ref={emblaRef}>
+          <div className={s['embla__viewport']}>
+            <div className={s['embla__container']}>
+              {[0, 1, 2, 3, 4, 5, 6].map((index) => (
+                <div className={s['embla__slide']} key={index}>
+                  <ProductCard className={s['hits-product__item']} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   )
