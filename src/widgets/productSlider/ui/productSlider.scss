@@ -1,9 +1,19 @@
 .product-slider {
   display: flex;
   flex: 0 0 auto;
-  width: rem(620);
   height: rem(700);
   gap: rem(12);
+  aspect-ratio: 6/7;
+  height: fluid(700, 350);
+
+    @include laptop {
+    aspect-ratio: 6/8;
+  }
+
+  @include tablet {
+    height: rem(500);
+    aspect-ratio: 6/9;
+  }
 }
 
 .slider-btn {
@@ -46,6 +56,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (width <= rem(1400)) {
+    display: none;
+  }
 }
 
 .thumbs__viewport {
@@ -69,10 +83,11 @@
   cursor: pointer;
 
   img {
-    width: rem(85);
+    // width: rem(85);
     height: rem(112);
     object-fit: cover;
     border-radius: rem(14);
+    aspect-ratio: 3/4;
     transition: 0.2s;
     user-select: none;
   }

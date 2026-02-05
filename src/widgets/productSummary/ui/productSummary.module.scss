@@ -3,9 +3,12 @@
   padding: rem(20) rem(24);
   box-shadow: rem(0) rem(0) rem(22) rgba(255, 255, 255, 0.16);
   width: 100%;
-  max-width: 360px;
+  min-width: rem(300);
   height: max-content;
-  flex: 0 0 auto;
+
+  @include laptop {
+    display: none;
+  }
 
   &__price {
     display: flex;

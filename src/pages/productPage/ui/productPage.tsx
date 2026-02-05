@@ -1,5 +1,6 @@
 import { Breadcrumbs } from '@/widgets/breadcrumbs'
 import { ProductBody } from '@/widgets/productBody'
+import { ProductMobileSummary } from '@/widgets/productMobileSummary'
 import { ProductSlider } from '@/widgets/productSlider'
 import { ProductSummary } from '@/widgets/productSummary'
 
@@ -15,6 +16,7 @@ export function ProductPage() {
         <ProductBody />
         <ProductSummary />
       </div>
+      <ProductMobileSummary />
     </section>
   )
 }

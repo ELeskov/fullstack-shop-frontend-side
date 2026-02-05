@@ -14,10 +14,10 @@ export function ProductSummary() {
         <span className={s['product-summary__price-old']}>3 982 ₽</span>
       </div>
 
+      <Button className={s['product-summary__btn']}>Добавить в корзину</Button>
       <Button variant={'outline'} className={s['product-summary__btn']}>
-        Добавить в корзину
+        Купить сейчас
       </Button>
-      <Button className={s['product-summary__btn']}>Купить сейчас</Button>
 
       <div className={s['product-summary__info']}>
         <div className={s['product-summary__info-row']}>

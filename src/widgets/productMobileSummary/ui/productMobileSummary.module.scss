@@ -1,0 +1,45 @@
+.product-mobile-summary {
+  position: fixed;
+  bottom: rem(50);
+  left: 0;
+  right: 0;
+  background-color: rgb(22, 22, 22);
+  width: 100%;
+  border-top-left-radius: rem(30);
+  border-top-right-radius: rem(30);
+  padding: rem(15);
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  gap: rem(15);
+
+  &__price {
+    display: flex;
+    align-items: baseline;
+    gap: rem(8);
+
+    &-current {
+      font-weight: 700;
+      font-size: rem(14);
+      line-height: 1;
+      color: #fff;
+    }
+
+    &-old {
+      font-size: rem(12);
+      color: var(--color-gray);
+      text-decoration: line-through;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: rem(10);
+    button {
+      flex-grow: 1;
+      width: 50%;
+      padding: rem(20) rem(10);
+    }
+  }
+}

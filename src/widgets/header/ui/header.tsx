@@ -21,12 +21,8 @@ import { Logo } from '@/shared/ui/logo'
 import s from './header.module.scss'
 
 export function Header() {
-  const { data, isLoading } = useGetMe()
+  const { data } = useGetMe()
   const isAuthorization = Boolean(data)
-
-  if (isLoading) {
-    return null
-  }
 
   return (
     <header className={s['header']}>
