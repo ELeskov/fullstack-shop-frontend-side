@@ -2,10 +2,30 @@ import { Link } from 'react-router'
 
 import { Star } from 'lucide-react'
 
+import { ProductMoreInfoSheet } from '@/widgets/productMoreInfoSheet'
 import { ROUTES } from '@/shared/config'
 import { Badge } from '@/shared/ui/components/ui/badge'
+import { ProductTableOption } from '@/shared/ui/productTableOption'
 
 import s from './productBody.module.scss'
+
+const options = [
+  { label: 'Основная камера (млн. пикс.)', value: '48 Мп' },
+  { label: 'Вторая основная камера (млн. пикс.)', value: '48 Мп' },
+  { label: 'Третья основная камера', value: '48 Мп' },
+  { label: 'Фронтальная камера (млн. пикс.)', value: '18 Мп' },
+  {
+    label: 'Особенности объектива',
+    value:
+      'автоматическая стабилизация; функция Smart HDR 5; портреты с контролем фокусировки',
+  },
+  {
+    label: 'Доп. опции камеры',
+    value:
+      'коррекция искажений объектива; 15-кратный цифровой зум; ночная съемка',
+  },
+  { label: 'Встроенная вспышка', value: 'да' },
+]
 
 export const ProductBody = () => {
   const product: any = {}
@@ -37,66 +57,9 @@ export const ProductBody = () => {
       </div>
 
       <div className={s['product-body__option']}>
-        <table className={s['product-body__table']}>
-          <tbody>
-            <tr className={s['product-body__table-row']}>
-              <th>
-                <span className={s['product-body__label']}>Артикул</span>
-              </th>
-              <td>225918240</td>
-            </tr>
-            <tr className={s['product-body__table-row']}>
-              <th>
-                <span className={s['product-body__label']}>Состав</span>
-              </th>
-              <td>aqua; Ceteareth-20; PEG-7 Glyceryl Cocoate; PVP;...</td>
-            </tr>
-            <tr className={s['product-body__table-row']}>
-              <th>
-                <span className={s['product-body__label']}>
-                  Степень фиксации средства
-                </span>
-              </th>
-              <td>сильная фиксация; средняя фиксация</td>
-            </tr>
-            <tr className={s['product-body__table-row']}>
-              <th>
-                <span className={s['product-body__label']}>Действие</span>
-              </th>
-              <td>
-                мужская укладка волос; эффект мокрых волос мужской; для...
-              </td>
-            </tr>
-            <tr className={s['product-body__table-row']}>
-              <th>
-                <span className={s['product-body__label']}>Объем товара</span>
-              </th>
-              <td>30 мл</td>
-            </tr>
-            <tr className={s['product-body__table-row']}>
-              <th>
-                <span className={s['product-body__label']}>Срок годности</span>
-              </th>
-              <td>24 мес</td>
-            </tr>
-            <tr className={s['product-body__table-row']}>
-              <th>
-                <span className={s['product-body__label']}>
-                  Страна производства
-                </span>
-              </th>
-              <td>Россия</td>
-            </tr>
-          </tbody>
-        </table>
+        <ProductTableOption arrayOption={options} />
 
-        <Badge
-          variant={'secondary'}
-          // onClick={}
-          className="cursor-pointer hover:bg-white/15 transition-all"
-        >
-          Характеристики и описание
-        </Badge>
+        <ProductMoreInfoSheet />
       </div>
     </div>
   )

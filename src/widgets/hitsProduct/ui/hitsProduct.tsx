@@ -5,6 +5,8 @@ import { ProductCard } from '@/entities/productCard'
 
 import s from './hitsProduct.module.scss'
 
+import { useIsMobile } from '@/app/hooksUI/use-mobile'
+
 const OPTIONS: EmblaOptionsType = {
   align: 'start',
   slidesToScroll: 1,
@@ -14,6 +16,8 @@ const OPTIONS: EmblaOptionsType = {
 }
 
 export function HitsProduct() {
+  const isMobile = useIsMobile()
+
   const [emblaRef, emblaApi] = useEmblaCarousel(OPTIONS)
 
   return (
