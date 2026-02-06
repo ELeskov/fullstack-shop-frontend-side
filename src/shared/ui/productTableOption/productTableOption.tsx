@@ -7,9 +7,13 @@ interface ITableOptionRow {
 
 interface IProductTableOption {
   arrayOption: ITableOptionRow[]
+  fullmode?: boolean
 }
 
-export function ProductTableOption({ arrayOption }: IProductTableOption) {
+export function ProductTableOption({
+  arrayOption,
+  fullmode = false,
+}: IProductTableOption) {
   if (!arrayOption) {
     return null
   }
@@ -18,14 +22,14 @@ export function ProductTableOption({ arrayOption }: IProductTableOption) {
     <div className={s['product-table-option']}>
       <table className={s['product-table-option__table']}>
         <tbody>
-          {arrayOption.map((row) => (
-            <tr className={s['product-table-option__table-row']}>
+          {arrayOption.map((row, i) => (
+            <tr key={i} className={s['product-table-option__table-row']}>
               <th>
                 <span className={s['product-table-option__label']}>
                   {row.label}
                 </span>
               </th>
-              <td>{row.value}</td>
+              <td className={fullmode ? s['fullmode'] : ''}>{row.value}</td>
             </tr>
           ))}
         </tbody>

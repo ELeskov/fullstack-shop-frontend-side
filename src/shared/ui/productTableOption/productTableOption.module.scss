@@ -11,9 +11,9 @@
 
     tr {
       display: grid;
-      grid-template-columns: 1fr 1fr; // 50/50 как у тебя
+      grid-template-columns: 1fr 1fr;
       column-gap: rem(8);
-      align-items: end;
+      align-items: start;
     }
 
     td {
@@ -24,6 +24,10 @@
       -webkit-line-clamp: 2;
       overflow: hidden;
       text-overflow: ellipsis;
+
+      &.fullmode {
+        display: block;
+      }
     }
 
     th {
@@ -32,7 +36,7 @@
       font-weight: 400;
       text-align: left;
       display: flex;
-      align-items: baseline;
+      align-items: start;
 
       span {
         padding-right: rem(8);
@@ -53,8 +57,8 @@
       flex: 1;
       min-width: rem(50);
       height: rem(3);
-      align-self: flex-end;
-      margin-bottom: rem(5);
+      align-self: flex-start;
+      margin-top: rem(7);
 
       background-image: radial-gradient(
         circle,
