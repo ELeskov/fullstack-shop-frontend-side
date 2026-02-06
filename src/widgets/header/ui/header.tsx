@@ -118,7 +118,7 @@ export function Header() {
             </ul>
           </div>
         ) : (
-          <div className={s['header__auth-btn']}>
+          <div className={clsx(s['header__auth-btn'], 'hidden-mobile')}>
             <Link to={ROUTES.login}>
               <Button
                 type="button"

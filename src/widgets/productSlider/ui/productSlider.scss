@@ -1,17 +1,14 @@
 .product-slider {
   display: flex;
-  flex: 0 0 auto;
-  height: rem(700);
   gap: rem(12);
   aspect-ratio: 6/7;
   height: fluid(700, 350);
-
-    @include laptop {
+  width: 100%;
+  @include laptop {
     aspect-ratio: 6/8;
   }
 
   @include tablet {
-    height: rem(500);
     aspect-ratio: 6/9;
   }
 }
@@ -83,7 +80,6 @@
   cursor: pointer;
 
   img {
-    // width: rem(85);
     height: rem(112);
     object-fit: cover;
     border-radius: rem(14);

@@ -1,16 +1,9 @@
 .product-body {
-  width: fluid(450, 300);
-
   display: flex;
   align-items: flex-start;
   flex-direction: column;
   gap: rem(30);
-  flex: 0 0 auto;
   overflow: hidden;
-
-  @include laptop {
-    flex: 1;
-  }
 
   &__header {
     display: flex;

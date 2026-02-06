@@ -1,25 +1,13 @@
-import { type EmblaOptionsType } from 'embla-carousel'
-import useEmblaCarousel from 'embla-carousel-react'
-
 import { ProductCard } from '@/entities/productCard'
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from '@/shared/ui/components/ui/carousel'
 
 import s from './hitsProduct.module.scss'
 
-import { useIsMobile } from '@/app/hooksUI/use-mobile'
-
-const OPTIONS: EmblaOptionsType = {
-  align: 'start',
-  slidesToScroll: 1,
-  containScroll: 'trimSnaps',
-  dragFree: false,
-  inViewThreshold: 0.5,
-}
-
 export function HitsProduct() {
-  const isMobile = useIsMobile()
-
-  const [emblaRef, emblaApi] = useEmblaCarousel(OPTIONS)
-
   return (
     <section className={s['hits-product']}>
       <h2 className={s['hits-product__title']}>Хиты продаж</h2>
@@ -27,17 +15,19 @@ export function HitsProduct() {
         Самые популярные товары нашего магазина.
       </p>
       <div className={s['hits-product__product-list']}>
-        <div className={s['embla']} ref={emblaRef}>
-          <div className={s['embla__viewport']}>
-            <div className={s['embla__container']}>
-              {[0, 1, 2, 3, 4, 5, 6].map((index) => (
-                <div className={s['embla__slide']} key={index}>
-                  <ProductCard className={s['hits-product__item']} />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        <Carousel
+          opts={{
+            align: 'start',
+          }}
+        >
+          <CarouselContent>
+            {Array.from({ length: 10 }).map(() => (
+              <CarouselItem className="basis-1/2 lg:basis-1/5 md:">
+                <ProductCard className={s['hits-product__item']} />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
       </div>
     </section>
   )

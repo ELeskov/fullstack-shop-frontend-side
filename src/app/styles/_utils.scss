@@ -18,6 +18,18 @@
   @include visually-hidden;
 }
 
+.hidden-laptop {
+  @include laptop {
+    display: none !important;
+  }
+}
+
+.visible-laptop {
+  @include laptop-above {
+    display: none !important;
+  }
+}
+
 .hidden-tablet {
   @include tablet {
     display: none !important;

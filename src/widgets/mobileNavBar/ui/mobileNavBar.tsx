@@ -80,7 +80,7 @@ export function MobileNavBar() {
   const activeId = getActiveId()
 
   return (
-    <div className={clsx(s['mobile-navbar'], 'visible-tablet')}>
+    <div className={clsx(s['mobile-navbar'], 'visible-laptop')}>
       <ul className={s['mobile-navbar__list']}>
         {arrayLinks.map(({ id, path, icon }) => (
           <li

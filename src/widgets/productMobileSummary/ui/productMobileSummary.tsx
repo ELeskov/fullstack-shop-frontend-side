@@ -6,7 +6,7 @@ import s from './productMobileSummary.module.scss'
 
 export const ProductMobileSummary = () => {
   return (
-    <div className={clsx(s['product-mobile-summary'], 'visible-tablet')}>
+    <div className={clsx(s['product-mobile-summary'], 'visible-laptop')}>
       <div className={s['product-mobile-summary__price']}>
         <span className={s['product-mobile-summary__price-current']}>
           3 920 ₽

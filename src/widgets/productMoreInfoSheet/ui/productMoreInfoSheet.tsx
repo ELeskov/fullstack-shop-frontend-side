@@ -85,41 +85,28 @@ export function ProductMoreInfoSheet() {
           </Badge>
         </SheetTrigger>
 
-        <SheetContent side="right" className="px-4 min-w-145 flex flex-col">
-          <ScrollArea className="h-full px-6 pb-6">
+        <SheetContent
+          side="right"
+          className="px-4 min-w-145 max-lg:min-w-100 flex flex-col"
+        >
+          <ScrollArea className="h-full px-6 pb-6 max-lg:px-0">
             <SheetHeader className="px-0">
               <SheetTitle className="text-2xl!">
                 Характеристики и описание
               </SheetTitle>
             </SheetHeader>
             {productSpecs.map(({ options, title }, i) => (
-              <Section title={title}>
-                <ProductTableOption key={i} arrayOption={options} />
-              </Section>
+              <section key={i}>
+                <h3 className="py-2 pt-4">{title}</h3>
+                <ProductTableOption arrayOption={options} />
+              </section>
             ))}
-            <SheetFooter className="px-0">
+            <SheetFooter className="px-0 sticky bottom-0 z-50 bg-black mt-3">
               <ProductSummaryButtons />
             </SheetFooter>
           </ScrollArea>
         </SheetContent>
       </Sheet>
-    </div>
-  )
-}
-
-function Section({
-  title,
-  children,
-}: {
-  title: string
-  children: React.ReactNode
-}) {
-  return (
-    <div className="mt-6">
-      <h3 className="text-sm font-semibold text-muted-foreground mb-3">
-        {title}
-      </h3>
-      <div className="space-y-3">{children}</div>
     </div>
   )
 }
