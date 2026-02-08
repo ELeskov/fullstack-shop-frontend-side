@@ -9,6 +9,7 @@ import { ColorsPage } from '@/pages/colorsPage'
 import { CreateCategoriesPage } from '@/pages/createCategoriesPage'
 import { CreateColorsPage } from '@/pages/createColorsPage'
 import { CreateProductPage } from '@/pages/createProductPage'
+import { CreateShopPage } from '@/pages/createShopPage'
 import { ForgotPasswordPage } from '@/pages/forgotPasswordPage'
 import { HomePage } from '@/pages/homePage'
 import { LikePage } from '@/pages/likePage'
@@ -95,6 +96,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.profile.root,
         element: <ProfilePage />,
+      },
+      {
+        path: ROUTES.profile.shops.create,
+        element: <CreateShopPage />,
       },
       {
         path: ROUTES.profile.shops.statistics,

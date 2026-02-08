@@ -15,16 +15,17 @@ import { CustomButton } from '@/shared/ui/customButton'
 const schema = z.object({
   title: z.string().min(1, 'Название обязательно'),
   description: z.string().min(1, 'Описание обязательно'),
+  picture: z.file(),
 })
 
-type CategorySchema = z.infer<typeof schema>
+type ShopSchema = z.infer<typeof schema>
 
-interface ICreateCategoryForm {
-  editData?: CategorySchema | null
+interface ICreateShopForm {
+  editData?: ShopSchema | null
 }
 
-export function CreateCategoryForm({ editData }: ICreateCategoryForm) {
-  const { handleSubmit, reset, control } = useForm<CategorySchema>({
+export function CreateShopForm({ editData }: ICreateShopForm) {
+  const { handleSubmit, reset, control } = useForm<ShopSchema>({
     resolver: zodResolver(schema),
     defaultValues: {
       description: editData?.description ?? '',
@@ -33,14 +34,13 @@ export function CreateCategoryForm({ editData }: ICreateCategoryForm) {
     mode: 'onTouched',
   })
 
-  const onSubmit: SubmitHandler<CategorySchema> = (data) => {
+  const onSubmit: SubmitHandler<ShopSchema> = (data) => {
     console.log(data)
     reset()
   }
-
   return (
     <div className="flex flex-col gap-5 ">
-      <form id="create-category" onSubmit={handleSubmit(onSubmit)}>
+      <form id="create-shop" onSubmit={handleSubmit(onSubmit)}>
         <FieldGroup className="flex flex-row max-md:flex-col">
           <Controller
             name="title"
@@ -84,7 +84,7 @@ export function CreateCategoryForm({ editData }: ICreateCategoryForm) {
         </FieldGroup>
       </form>
       <Field orientation="horizontal">
-        <CustomButton type="submit" form="create-category">
+        <CustomButton type="submit" form="create-shop">
           Создать
         </CustomButton>
         <CustomButton
