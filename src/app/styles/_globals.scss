@@ -1,10 +1,12 @@
 @use 'helpers' as *;
+
 * {
   &::-webkit-scrollbar {
     width: rem(4);
   }
+
   &::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgb(255 255 255 / 10%);
     border-radius: rem(4);
   }
 }
@@ -45,8 +47,7 @@ h2 {
 
 .product-card-list {
   display: grid;
-  column-gap: clamp(5px, 4vw, 30px);
-  row-gap: clamp(40px, 4vw, 60px);
+  gap: clamp(40px, 4vw, 60px) clamp(5px, 4vw, 30px);
   grid-template-columns: repeat(auto-fill, minmax(18%, 1fr));
 
   @include laptop {

@@ -15,18 +15,22 @@ export const ROUTES = {
     basket: '/basket',
 
     shops: {
+      edit: '/edit',
       create: '/create',
       reviews: '/reviews',
       settings: '/settings',
       statistics: '/statistics',
       products: {
         create: '/create',
+        edit: '/edit',
       },
       colors: {
         create: '/create',
+        edit: '/edit',
       },
       categories: {
         create: '/create',
+        edit: '/edit',
       },
     },
 

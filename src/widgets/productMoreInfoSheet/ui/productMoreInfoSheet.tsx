@@ -1,4 +1,5 @@
 import { ProductSummaryButtons } from '@/features/productSummaryButtons'
+
 import { Badge } from '@/shared/ui/components/ui/badge'
 import { ScrollArea } from '@/shared/ui/components/ui/scroll-area'
 import {

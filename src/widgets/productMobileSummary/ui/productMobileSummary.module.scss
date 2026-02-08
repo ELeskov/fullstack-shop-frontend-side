@@ -3,7 +3,7 @@
   bottom: rem(50);
   left: 0;
   right: 0;
-  background-color: rgb(22, 22, 22);
+  background-color: rgb(22 22 22);
   width: 100%;
   border-top-left-radius: rem(30);
   border-top-right-radius: rem(30);
@@ -20,6 +20,7 @@
 
     &-current {
       @include fluid-text(18, 14);
+
       font-weight: 600;
       line-height: 1;
       color: #fff;
@@ -27,6 +28,7 @@
 
     &-old {
       @include fluid-text(16, 12);
+
       color: var(--color-gray);
       text-decoration: line-through;
     }
@@ -36,6 +38,7 @@
     display: flex;
     justify-content: space-between;
     gap: rem(10);
+
     button {
       flex-grow: 1;
       width: 50%;

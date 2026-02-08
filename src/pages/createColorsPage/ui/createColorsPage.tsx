@@ -6,7 +6,7 @@ import s from './createColorsPage.module.scss'
 export function CreateColorsPage() {
   return (
     <div className={s['create-colors-page']}>
-      <ProfileHeader title="Создать цвет" />
+      <ProfileHeader title="Новый цвет" />
       <CreateNewColorForm />
     </div>
   )

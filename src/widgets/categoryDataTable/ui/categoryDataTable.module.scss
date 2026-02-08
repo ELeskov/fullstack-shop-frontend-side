@@ -12,13 +12,14 @@
   &__body {
     overflow: auto;
     border-radius: rem(10);
-    border: rem(1) solid rgba(255, 255, 255, 0.1);
+    border: rem(1) solid rgb(255 255 255 / 10%);
   }
 
   &__bottom {
     display: flex;
     justify-content: space-between;
     column-gap: rem(20);
+
     &-rows-of-page-info {
       flex: 1;
       display: flex;

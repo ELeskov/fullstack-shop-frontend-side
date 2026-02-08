@@ -6,6 +6,7 @@ import { Footer } from '@/widgets/footer'
 import { Header } from '@/widgets/header'
 import { MobileNavBar } from '@/widgets/mobileNavBar'
 import { SidebarProfile } from '@/widgets/sidebarProfile'
+
 import {
   SidebarInset,
   SidebarProvider,

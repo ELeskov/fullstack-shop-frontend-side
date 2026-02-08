@@ -6,7 +6,7 @@ import s from './createProductPage.module.scss'
 export function CreateProductPage() {
   return (
     <div className={s['create-product-page']}>
-      <ProfileHeader title="Создать товар" />
+      <ProfileHeader title="Новый товар" />
       <CreateNewProductForm />
     </div>
   )

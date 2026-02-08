@@ -4,6 +4,7 @@ import clsx from 'clsx'
 import { Heart, ShoppingCart } from 'lucide-react'
 
 import { DropdownMenuProfile } from '@/widgets/dropdownMenuProfile'
+
 import { useGetMe } from '@/shared/api'
 import { ROUTES } from '@/shared/config'
 import { Button } from '@/shared/ui/components/ui/button'

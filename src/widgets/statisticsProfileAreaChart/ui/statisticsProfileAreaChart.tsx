@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
 
+import { useIsMobile } from '@/app/hooksUI/use-mobile'
+
 import {
   Card,
   CardAction,
@@ -26,8 +28,6 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from '@/shared/ui/components/ui/toggle-group'
-
-import { useIsMobile } from '@/app/hooksUI/use-mobile'
 
 const chartData = [
   { date: '2024-04-01', desktop: 222, mobile: 150 },

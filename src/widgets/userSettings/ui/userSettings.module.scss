@@ -7,7 +7,7 @@
     gap: rem(40);
     padding: clamp(rem(10), 3vw, rem(40));
     border-radius: rem(20);
-    border: rem(1) solid rgba(255, 255, 255, 0.1);
+    border: rem(1) solid rgb(255 255 255 / 10%);
   }
 
   &__preview-info-container {

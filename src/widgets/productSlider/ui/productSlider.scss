@@ -4,6 +4,7 @@
   aspect-ratio: 6/7;
   height: fluid(700, 350);
   width: 100%;
+
   @include laptop {
     aspect-ratio: 6/8;
   }
@@ -18,21 +19,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
   width: rem(44);
   height: rem(44);
-
   border: none;
   border-radius: 50%;
-
   background: #fff;
   color: #000;
-
   font-size: rem(20);
   cursor: pointer;
-
-  box-shadow: 0 rem(6) rem(16) rgba(0, 0, 0, 0.18);
-
+  box-shadow: 0 rem(6) rem(16) rgb(0 0 0 / 18%);
   transition:
     transform 0.15s ease,
     opacity 0.15s ease;
@@ -151,9 +146,9 @@
 
 .main__btn {
   @extend .slider-btn;
+
   transition: all 0.2s ease;
   opacity: 0;
-
   top: 50%;
   transform: translateY(-50%);
   z-index: 5;

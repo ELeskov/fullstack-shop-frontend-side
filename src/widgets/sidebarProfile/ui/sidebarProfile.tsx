@@ -12,6 +12,7 @@ import {
   UserRoundX,
 } from 'lucide-react'
 
+import { useGetMe } from '@/shared/api'
 import userAvatar from '@/shared/assets/icons/favicon-bg-white.svg'
 import {
   Avatar,
@@ -48,6 +49,7 @@ import { UserAvatar } from '@/shared/ui/userAvatar'
 import { profileNavData } from '../lib'
 
 export function SidebarProfile() {
+  const { data: user } = useGetMe()
   const [selectedVersion, setSelectedVersion] = useState(
     profileNavData.shops[0],
   )
@@ -152,12 +154,10 @@ export function SidebarProfile() {
                   size="lg"
                   className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                 >
-                  <UserAvatar imagePath={userAvatar} />
+                  <UserAvatar imagePath={user?.picture ? user.picture : ''} />
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-medium">Egor</span>
-                    <span className="truncate text-xs">
-                      leskovegor490@gmail.com
-                    </span>
+                    <span className="truncate font-medium">{user?.name}</span>
+                    <span className="truncate text-xs">{user?.email}</span>
                   </div>
                   <ChevronsUpDown className="ml-auto size-4" />
                 </SidebarMenuButton>

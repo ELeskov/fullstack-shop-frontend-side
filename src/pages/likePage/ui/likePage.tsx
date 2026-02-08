@@ -2,6 +2,7 @@ import clsx from 'clsx'
 
 import { Breadcrumbs } from '@/widgets/breadcrumbs'
 import { LikeProductsList } from '@/widgets/likeProductsList/ui/likeProductsList'
+
 import { TitlePage } from '@/shared/ui/titlePage'
 
 import s from './likePage.module.scss'

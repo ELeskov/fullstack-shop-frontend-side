@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { ArrowUpDown, ChevronDown } from 'lucide-react'
 
 import { SORT_OPTIONS, type SortOptionId } from '@/features/dropdownFilter/lib'
+
 import { Button } from '@/shared/ui/components/ui/button'
 import {
   DropdownMenu,

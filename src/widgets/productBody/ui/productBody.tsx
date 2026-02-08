@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import { Star } from 'lucide-react'
 
 import { ProductMoreInfoSheet } from '@/widgets/productMoreInfoSheet'
+
 import { ROUTES } from '@/shared/config'
 import { Badge } from '@/shared/ui/components/ui/badge'
 import { ProductTableOption } from '@/shared/ui/productTableOption'

@@ -12,7 +12,7 @@
     "lint:scss:fix": "stylelint \"src/**/*.scss\" --fix",
     "format": "prettier \"src/**/*\" --write",
     "lint": "lint:ts ; lint:scss",
-    "lint:fix": "lint:ts:fix ; lint:scss:fix ; format",
+    "lint:fix": "bun run lint:ts:fix ; bun run lint:scss:fix ; bun run format",
     "tsCheck": "tsc --noEmit",
     "preview": "vite preview",
     "type:gen": "bun openapi-typescript http://localhost:4000/docs/json -o ./src/shared/api/api-endpoints.ts --root-types"

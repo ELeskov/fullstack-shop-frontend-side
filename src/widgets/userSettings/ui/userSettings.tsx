@@ -8,6 +8,7 @@ import z from 'zod'
 
 import { LogoutButton } from '@/features/logoutButton'
 import { SendEmailVerifyMessageButton } from '@/features/sendEmailVerifyMessageButton'
+
 import { useGetMe, usePatchUser } from '@/shared/api'
 import { ROUTES } from '@/shared/config'
 import { Button } from '@/shared/ui/components/ui/button'

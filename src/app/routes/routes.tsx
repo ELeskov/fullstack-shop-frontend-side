@@ -1,16 +1,12 @@
 import { createBrowserRouter } from 'react-router'
 
-import { ROUTES } from '@/shared/config'
-import { FallBack } from '@/shared/ui/fallback'
-import { ProtectedRoute } from '@/shared/ui/protectedRoute'
-
-import { ProfileLayout } from '../layout/profileLayout'
-
 import { MainLayout } from '@/app/layout/mainLayout'
+
 import { BasketPage } from '@/pages/basketPage'
 import { CatalogPage } from '@/pages/catalogPage'
 import { CategoryPage } from '@/pages/categoryPage'
 import { ColorsPage } from '@/pages/colorsPage'
+import { CreateCategoriesPage } from '@/pages/createCategoriesPage'
 import { CreateColorsPage } from '@/pages/createColorsPage'
 import { CreateProductPage } from '@/pages/createProductPage'
 import { ForgotPasswordPage } from '@/pages/forgotPasswordPage'
@@ -24,6 +20,12 @@ import { ResetPasswordPage } from '@/pages/resetPasswordPage'
 import { SignupPage } from '@/pages/signupPage'
 import { StatisticsPage } from '@/pages/statisticsPage'
 import { VerifyPage } from '@/pages/verifyPage'
+
+import { ROUTES } from '@/shared/config'
+import { FallBack } from '@/shared/ui/fallback'
+import { ProtectedRoute } from '@/shared/ui/protectedRoute'
+
+import { ProfileLayout } from '../layout/profileLayout'
 
 export const router = createBrowserRouter([
   {
@@ -103,20 +105,24 @@ export const router = createBrowserRouter([
         element: <ColorsPage />,
       },
       {
-        path: ROUTES.profile.shops.colors.create,
-        element: <CreateColorsPage />,
-      },
-      {
         path: ROUTES.profile.shops.products.root,
         element: <MyProductPage />,
+      },
+      {
+        path: ROUTES.profile.shops.categories.root,
+        element: <CategoryPage />,
       },
       {
         path: ROUTES.profile.shops.products.create,
         element: <CreateProductPage />,
       },
       {
-        path: ROUTES.profile.shops.categories.root,
-        element: <CategoryPage />,
+        path: ROUTES.profile.shops.colors.create,
+        element: <CreateColorsPage />,
+      },
+      {
+        path: ROUTES.profile.shops.categories.create,
+        element: <CreateCategoriesPage />,
       },
       {
         path: ROUTES.profile.shops.reviews,

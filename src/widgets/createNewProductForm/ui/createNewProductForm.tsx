@@ -1,9 +1,9 @@
+import { useEffect, useMemo } from 'react'
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import z from 'zod'
 
-import { Button } from '@/shared/ui/components/ui/button'
 import {
   Dropzone,
   DropzoneContent,
@@ -26,8 +26,13 @@ import {
   SelectValue,
 } from '@/shared/ui/components/ui/select'
 import { Textarea } from '@/shared/ui/components/ui/textarea'
+import { CustomButton } from '@/shared/ui/customButton'
 
 import s from './createNewProductForm.module.scss'
+
+const MAX_FILES = 10
+const MAX_SIZE = 1024 * 1024 * 10
+const MIN_SIZE = 1024
 
 const schema = z.object({
   title: z.string().min(1, 'Название обязательно'),
@@ -38,36 +43,54 @@ const schema = z.object({
   color: z.string().min(1, 'Выберите цвет'),
   description: z.string(),
   images: z
-    .array(z.instanceof(File), 'Добавьте хотя бы одно изображение')
+    .array(z.instanceof(File, { message: 'Файл должен быть изображением' }))
     .min(1, 'Добавьте хотя бы одно изображение')
-    .max(10, 'Максимум 10 изображений'),
+    .max(MAX_FILES, `Максимум ${MAX_FILES} изображений`),
 })
 
 type ProductSchema = z.infer<typeof schema>
 
-export function CreateNewProductForm() {
+interface ICreateNewProductForm {
+  editData: ProductSchema | null
+}
+
+export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
+  const defaultValues = useMemo<ProductSchema>(
+    () => ({
+      title: editData?.title ?? '',
+      price: editData?.price ?? 1,
+      category: editData?.category ?? '',
+      color: editData?.color ?? '',
+      description: editData?.description ?? '',
+      images: editData?.images ?? [],
+    }),
+    [editData],
+  )
+
   const {
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset,
+    getValues,
+    setValue,
   } = useForm<ProductSchema>({
     resolver: zodResolver(schema),
-    defaultValues: {
-      title: '',
-      price: 1,
-      category: '',
-      color: '',
-      description: '',
-      images: undefined,
-    },
+    defaultValues,
+    mode: 'onBlur',
   })
 
   const onSubmit: SubmitHandler<ProductSchema> = (data) => {
     console.log(data)
     reset()
   }
+
+  useEffect(() => {
+    reset(defaultValues)
+  }, [defaultValues, reset])
+
+  const submitLabel = editData ? 'Сохранить изменения' : 'Создать'
 
   return (
     <form
@@ -84,11 +107,16 @@ export function CreateNewProductForm() {
                 render={({ field }) => (
                   <Dropzone
                     accept={{ 'image/*': [] }}
-                    maxFiles={5}
-                    maxSize={1024 * 1024 * 10} // 10MB
-                    minSize={1024} // 1KB
+                    maxFiles={MAX_FILES}
+                    maxSize={MAX_SIZE}
+                    minSize={MIN_SIZE}
                     onDrop={(acceptedFiles) => {
-                      field.onChange(acceptedFiles)
+                      const current = getValues('images') ?? []
+                      const next = [...current, ...acceptedFiles].slice(
+                        0,
+                        MAX_FILES,
+                      )
+                      field.onChange(next)
                     }}
                     src={field.value}
                   >
@@ -97,12 +125,25 @@ export function CreateNewProductForm() {
                   </Dropzone>
                 )}
               />
+              <FieldDescription>
+                Загрузите картинки для вашего товара (до {MAX_FILES} шт и не
+                более 10MB каждая)
+              </FieldDescription>
               {errors.images && (
                 <FieldError>{errors.images.message}</FieldError>
               )}
-              <FieldDescription>
-                Загрузите картинки для вашего товара
-              </FieldDescription>
+
+              <div className="mt-2">
+                <CustomButton
+                  type="button"
+                  onClick={() =>
+                    setValue('images', [], { shouldValidate: true })
+                  }
+                  disabled={isSubmitting}
+                >
+                  Очистить изображения
+                </CustomButton>
+              </div>
             </Field>
           </FieldGroup>
         </FieldSet>
@@ -114,9 +155,9 @@ export function CreateNewProductForm() {
               <Input
                 {...register('title')}
                 id="product-title"
-                name="title"
                 placeholder="Смартфон Apple iPhone 17 Pro 256 ГБ синий"
                 type="text"
+                disabled={isSubmitting}
               />
               {errors.title && <FieldError>{errors.title.message}</FieldError>}
             </Field>
@@ -125,10 +166,11 @@ export function CreateNewProductForm() {
               <Input
                 {...register('price', { valueAsNumber: true })}
                 id="product-price"
-                name="price"
                 type="number"
                 placeholder="128 999 ₽"
+                inputMode="numeric"
                 min={1}
+                step={1}
               />
               {errors.price && <FieldError>{errors.price.message}</FieldError>}
             </Field>
@@ -229,7 +271,17 @@ export function CreateNewProductForm() {
           )}
         </FieldGroup>
         <Field orientation="horizontal">
-          <Button type="submit">Создать товар</Button>
+          <CustomButton variant={'secondary'} type="submit">
+            {submitLabel}
+          </CustomButton>
+          <CustomButton
+            type="button"
+            variant="destructive"
+            onClick={() => reset(defaultValues)}
+            disabled={isSubmitting}
+          >
+            Сбросить
+          </CustomButton>
         </Field>
       </FieldGroup>
     </form>

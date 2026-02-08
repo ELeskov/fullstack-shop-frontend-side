@@ -5,9 +5,9 @@ import { useDropzone } from 'react-dropzone'
 
 import { UploadIcon } from 'lucide-react'
 
-import { Button } from '@/shared/ui/components/ui/button'
-
 import { cn } from '@/app/lib/utils'
+
+import { Button } from '@/shared/ui/components/ui/button'
 
 type DropzoneContextType = {
   src?: File[]

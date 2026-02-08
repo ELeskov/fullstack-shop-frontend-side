@@ -1,8 +1,8 @@
 @use 'helpers' as *;
 
 .page-wrapper {
-  @include container-base();
-  @include mobile-adaptation();
+  @include container-base;
+  @include mobile-adaptation;
 
   &--profile {
     @include container-base(var(--container-profile-width));

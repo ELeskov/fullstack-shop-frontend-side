@@ -1,6 +1,7 @@
 import { motion } from 'motion/react'
 
 import { animationTitleHeroText } from '@/widgets/hero/lib'
+
 import { SwipeButton } from '@/shared/ui/swipeButton'
 
 import s from './hero.module.scss'

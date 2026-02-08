@@ -1,6 +1,7 @@
 import { Breadcrumbs } from '@/widgets/breadcrumbs'
 import { CatalogFilters } from '@/widgets/catalogFilters'
 import { ProductCardList } from '@/widgets/productCardList'
+
 import { TitlePage } from '@/shared/ui/titlePage/titlePage'
 
 import s from './catalogPage.module.scss'

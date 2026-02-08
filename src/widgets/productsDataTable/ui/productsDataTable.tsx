@@ -152,11 +152,9 @@ const defaultColumns = [
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem>Copy payment ID</DropdownMenuItem>
+          <DropdownMenuLabel>Редактировать</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>View customer</DropdownMenuItem>
-          <DropdownMenuItem>View payment details</DropdownMenuItem>
+          <DropdownMenuItem className="text-red-500">Удалить</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     ),

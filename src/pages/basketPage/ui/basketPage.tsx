@@ -1,5 +1,6 @@
 import { BasketProductsList } from '@/widgets/basketProductsList'
 import { Breadcrumbs } from '@/widgets/breadcrumbs'
+
 import { TitlePage } from '@/shared/ui/titlePage/titlePage'
 
 import s from './basketPage.module.scss'

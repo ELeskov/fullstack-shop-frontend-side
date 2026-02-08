@@ -14,7 +14,7 @@
 
     @include hover {
       color: white;
-      background-color: rgb(255, 255, 255, 0.1);
+      background-color: rgb(255 255 255 / 10%);
     }
   }
 
@@ -29,8 +29,9 @@
   &-logo {
     flex: 1;
     padding: rem(5);
+
     &:focus-visible {
-      outline: rem(2) solid rgba(255, 255, 255, 0.2);
+      outline: rem(2) solid rgb(255 255 255 / 20%);
       outline-offset: rem(2);
       border-radius: rem(5);
     }
@@ -51,13 +52,14 @@
       align-items: center;
       column-gap: rem(20);
     }
+
     &-icon {
       transition: all 0.3s ease;
-      filter: drop-shadow(0 0 7px oklch(0% 0 0));
+      filter: drop-shadow(0 0 7px oklch(0% 0 0deg));
 
       @include hover {
         color: #fff;
-        filter: drop-shadow(0 0 7px oklch(100% 0.00011 271.152));
+        filter: drop-shadow(0 0 7px oklch(100% 0.00011 271.152deg));
       }
     }
   }

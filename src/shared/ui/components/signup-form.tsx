@@ -2,13 +2,14 @@ import { Link } from 'react-router'
 
 import { Atom } from 'lucide-react'
 
+import { cn } from '@/app/lib/utils'
+
 import { LoginButton } from '@/features/loginButton'
+
 import { ROUTES } from '@/shared/config'
 import { Button } from '@/shared/ui/components/ui/button'
 import { Input } from '@/shared/ui/components/ui/input'
 import { Label } from '@/shared/ui/components/ui/label'
-
-import { cn } from '@/app/lib/utils'
 
 export function SignupForm({
   className,

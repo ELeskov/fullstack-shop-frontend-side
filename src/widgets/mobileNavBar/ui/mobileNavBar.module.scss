@@ -15,9 +15,10 @@
     flex-grow: 1;
     padding-block: rem(15);
     padding-inline: rem(15);
+
     :hover {
       > .mobile-navbar__icon {
-        color: rgb(56, 125, 237);
+        color: rgb(56 125 237);
       }
     }
   }
