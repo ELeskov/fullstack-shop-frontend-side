@@ -49,17 +49,23 @@ export const profileNavData = {
         {
           title: 'Мои товары',
           url: ROUTES.profile.shops.products.root,
+          createPath: ROUTES.profile.shops.products.create,
           icon: <GalleryHorizontalEnd />,
+          isCreated: true,
         },
         {
           title: 'Цвета',
           url: ROUTES.profile.shops.colors.root,
+          createPath: ROUTES.profile.shops.colors.create,
           icon: <PaintBucket />,
+          isCreated: true,
         },
         {
           title: 'Категории',
-          url: ROUTES.profile.shops.categories,
+          url: ROUTES.profile.shops.categories.root,
+          createPath: ROUTES.profile.shops.categories.create,
           icon: <Album />,
+          isCreated: true,
         },
         {
           title: 'Отзывы',

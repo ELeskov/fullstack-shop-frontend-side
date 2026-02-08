@@ -1,27 +1,7 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router'
 
-import {
-  type ColumnFiltersState,
-  createColumnHelper,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  type SortingState,
-  useReactTable,
-} from '@tanstack/react-table'
-import clsx from 'clsx'
-import {
-  ArrowUpDown,
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-  MoreHorizontal,
-  Plus,
-} from 'lucide-react'
+import { createColumnHelper } from '@tanstack/react-table'
+import { ArrowUpDown, MoreHorizontal } from 'lucide-react'
 
 import { ROUTES } from '@/shared/config'
 import type { ICategory } from '@/shared/types'
@@ -33,26 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/shared/ui/components/ui/dropdown-menu'
-import { Input } from '@/shared/ui/components/ui/input'
-import { Label } from '@/shared/ui/components/ui/label'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/ui/components/ui/select'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/shared/ui/components/ui/table'
-
-import s from './categoryDataTable.module.scss'
+import { DataTable } from '@/shared/ui/dataTable'
 
 const columnHelper = createColumnHelper<ICategory>()
 
@@ -115,7 +76,7 @@ const defaultColumns = [
             <MoreHorizontal />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent side="right" align="start">
           <DropdownMenuItem>Редактировать</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem className="text-red-500">Удалить</DropdownMenuItem>
@@ -238,176 +199,15 @@ const categories: ICategory[] = [
 ]
 
 export function CategoryDataTable() {
-  const [colorsCollection, setColorsCollection] =
-    useState<ICategory[]>(categories)
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [sorting, setSorting] = useState<SortingState>([])
-  const [rowSelection, setRowSelection] = useState({})
-  const [pagination, setPagination] = useState({
-    pageIndex: 0,
-    pageSize: 10,
-  })
   const navigate = useNavigate()
 
-  const table = useReactTable({
-    data: colorsCollection,
-    columns: defaultColumns,
-    state: {
-      rowSelection,
-      pagination,
-      sorting,
-      columnFilters,
-    },
-    getCoreRowModel: getCoreRowModel(),
-
-    onRowSelectionChange: setRowSelection,
-
-    getSortedRowModel: getSortedRowModel(),
-    onSortingChange: setSorting,
-
-    getPaginationRowModel: getPaginationRowModel(),
-    onPaginationChange: setPagination,
-
-    onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
-  })
   return (
-    <div className={s['category-data-table']}>
-      <div className={s['category-data-table__top']}>
-        <Input
-          placeholder="Найти по названию"
-          value={(table.getColumn('title')?.getFilterValue() as string) ?? ''}
-          onChange={(event) =>
-            table.getColumn('title')?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-          name="data-table-search-product"
-        />
-        <Button
-          className="ml-auto"
-          onClick={() => navigate(ROUTES.profile.shops.colors.create)}
-        >
-          Создать цвет
-          <Plus />
-        </Button>
-      </div>
-      <div className={s['category-data-table__body']}>
-        <Table>
-          <TableHeader className="bg-muted">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
-                    {header.placeholderId
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={defaultColumns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      <div className={s['category-data-table__bottom']}>
-        <div className={s['category-data-table__bottom-rows-of-page-info']}>
-          <Label htmlFor="rows-per-page">Строк на странице</Label>
-          <Select
-            defaultValue={'10'}
-            onValueChange={(value) => {
-              table.setPageSize(Number(value))
-            }}
-          >
-            <SelectTrigger id="rows-per-page" className="w-20">
-              <SelectValue placeholder={table.getState().pagination.pageSize} />
-            </SelectTrigger>
-            <SelectContent side="top" align="center">
-              <SelectGroup>
-                {[10, 20, 30, 40, 50].map((countItems) => (
-                  <SelectItem key={countItems} value={`${countItems}`}>
-                    {countItems}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-        <div
-          className={clsx(
-            s['category-data-table__bottom-page-info'],
-            'text-muted-foreground select-none',
-          )}
-        >
-          <span>Страница</span>
-          {table.getState().pagination.pageIndex + 1} <span>из</span>
-          {table.getPageCount()}
-        </div>
-
-        <div className="flex gap-x-3">
-          <Button
-            variant={'outline'}
-            size="icon"
-            onClick={() => table.firstPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            <ChevronsLeft />
-          </Button>
-          <Button
-            variant={'outline'}
-            size="icon"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            <ChevronLeft />
-          </Button>
-          <Button
-            variant={'outline'}
-            size="icon"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            <ChevronRight />
-          </Button>
-          <Button
-            variant={'outline'}
-            size="icon"
-            onClick={() => table.lastPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            <ChevronsRight />
-          </Button>
-        </div>
-      </div>
-    </div>
+    <DataTable<ICategory>
+      data={categories}
+      columns={defaultColumns}
+      searchBy="title"
+      onCreateClick={() => navigate(ROUTES.profile.shops.categories.create)}
+      createButtonText="Создать"
+    />
   )
 }

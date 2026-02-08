@@ -2,8 +2,10 @@ import { useState } from 'react'
 import { Link } from 'react-router'
 
 import {
+  BadgePlus,
   Check,
   ChevronsUpDown,
+  Ellipsis,
   LogOut,
   Plus,
   Sparkles,
@@ -35,6 +37,7 @@ import {
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
+  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
@@ -107,6 +110,31 @@ export function SidebarProfile() {
                         {item.icon}
                         <span>{item.title}</span>
                       </SidebarMenuButton>
+                      {item.isCreated && (
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <SidebarMenuAction
+                              showOnHover
+                              className="data-[state=open]:bg-accent rounded-sm"
+                            >
+                              <Ellipsis />
+                              <span className="sr-only">More</span>
+                            </SidebarMenuAction>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent
+                            className="w-24 rounded-lg"
+                            side={isMobile ? 'bottom' : 'right'}
+                            align={isMobile ? 'end' : 'start'}
+                          >
+                            <Link to={item.createPath}>
+                              <DropdownMenuItem className="hover:text-green-400!">
+                                <BadgePlus />
+                                <span>Создать</span>
+                              </DropdownMenuItem>
+                            </Link>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      )}
                     </SidebarMenuItem>
                   </Link>
                 ))}

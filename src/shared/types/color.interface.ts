@@ -1,9 +1,9 @@
 export interface IColor {
   id: string
-  name: string
+  title: string
   value: string
   createdAt: string
   storeId: string
 }
 
-export type IColorCreate = Pick<IColor, 'name' | 'value'>
+export type IColorCreate = Pick<IColor, 'title' | 'value'>

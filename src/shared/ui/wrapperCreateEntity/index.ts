@@ -1,1 +1,0 @@
-export { WrapperCreateEntity } from './wrapperCreateEntity'

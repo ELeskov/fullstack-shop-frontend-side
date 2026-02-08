@@ -115,7 +115,7 @@ export const router = createBrowserRouter([
         element: <CreateProductPage />,
       },
       {
-        path: ROUTES.profile.shops.categories,
+        path: ROUTES.profile.shops.categories.root,
         element: <CategoryPage />,
       },
       {

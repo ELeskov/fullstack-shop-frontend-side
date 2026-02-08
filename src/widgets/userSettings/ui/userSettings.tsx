@@ -3,7 +3,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { Link } from 'react-router'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { CircleCheck, TriangleAlert } from 'lucide-react'
+import { CircleCheck, Save, Trash, TriangleAlert } from 'lucide-react'
 import z from 'zod'
 
 import { LogoutButton } from '@/features/logoutButton'
@@ -98,10 +98,21 @@ export function UserSettings() {
                       user.name === field.value ||
                       !firstNameForm.formState.isValid
                     }
+                    variant={'outline'}
                     isLoading={isPending}
                     onClick={handleChangeUsername}
                   >
-                    Сохранить
+                    {!isPending && <Save />}
+                  </CustomButton>
+                  <CustomButton
+                    disabled={
+                      user.name === field.value ||
+                      !firstNameForm.formState.isValid
+                    }
+                    variant={'destructive'}
+                    onClick={() => firstNameForm.reset()}
+                  >
+                    <Trash />
                   </CustomButton>
                 </div>
                 {fieldState.invalid && (

@@ -21,8 +21,8 @@ export function HitsProduct() {
           }}
         >
           <CarouselContent>
-            {Array.from({ length: 10 }).map(() => (
-              <CarouselItem className="basis-1/2 lg:basis-1/5 md:">
+            {Array.from({ length: 10 }).map((_, i) => (
+              <CarouselItem key={i} className="basis-1/2 lg:basis-1/5 md:">
                 <ProductCard className={s['hits-product__item']} />
               </CarouselItem>
             ))}

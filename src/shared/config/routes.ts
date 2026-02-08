@@ -11,24 +11,26 @@ export const ROUTES = {
   sendResetPasswordEmail: '/send-reset-email',
 
   profile: createRoutes('/profile', {
-    basket: '/basket',
     like: '/likes',
+    basket: '/basket',
 
     shops: {
       create: '/create',
       reviews: '/reviews',
+      settings: '/settings',
       statistics: '/statistics',
       products: {
         create: '/create',
       },
-      settings: '/settings',
       colors: {
         create: '/create',
       },
-      categories: '/categories',
+      categories: {
+        create: '/create',
+      },
     },
 
-    settings: '/settings',
     orders: '/orders',
+    settings: '/settings',
   }),
 } as const
