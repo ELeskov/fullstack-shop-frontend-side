@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { HexColorPicker } from 'react-colorful'
 
-import { Button } from '@/shared/ui/components/ui/button'
 import { Field, FieldGroup, FieldLabel } from '@/shared/ui/components/ui/field'
 import { Input } from '@/shared/ui/components/ui/input'
+import { CustomButton } from '@/shared/ui/customButton'
 
 import s from './createNewColorForm.module.scss'
 
@@ -32,7 +32,7 @@ export function CreateNewColorForm() {
             <HexColorPicker color={color} onChange={setColor} />
           </FieldGroup>
           <Field orientation="horizontal">
-            <Button type="submit">Создать</Button>
+            <CustomButton type="submit">Создать</CustomButton>
           </Field>
         </FieldGroup>
       </form>
