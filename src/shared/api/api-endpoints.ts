@@ -4,844 +4,861 @@
  */
 
 export interface paths {
-    "/api/shop": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Создание магазина */
-        post: operations["ShopController_create"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/users/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Получить пользователя по id (только для ADMIN) */
-        get: operations["UsersController_findById"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/account/@me": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Получить профиль текущего пользователя */
-        get: operations["AccountController_me"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Обновление username пользователя */
-        patch: operations["AccountController_patchUser"];
-        trace?: never;
-    };
-    "/api/account/@me/avatar": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Обновление фото аватара */
-        patch: operations["AccountController_upload"];
-        trace?: never;
-    };
-    "/api/account/register": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Регистрация пользователя */
-        post: operations["AccountController_register"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/account/login": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Вход */
-        post: operations["AccountController_login"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/account/logout": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Выход (logout) */
-        post: operations["AccountController_logout"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/account/email/verify": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Подтверждение email по токену
-         * @description Подтверждает email пользователя по одноразовому токену из письма. Устанавливает isVerified = true, удаляет токен и создаёт сессию
-         */
-        post: operations["AccountController_confirmEmail"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/account/password/reset": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Сброс пароля по токену
-         * @description Сбрасывает пароль пользователя по токену из письма восстановления. Обновляет пароль и удаляет токен сброса.
-         */
-        post: operations["AccountController_resetPassword"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/account/email/verification/send": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Отправить письмо для подтверждения email
-         * @description Отправляет письмо с одноразовым токеном подтверждения на email текущего пользователя.
-         */
-        post: operations["AccountController_sendVerificationEmail"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/account/password/reset/send": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Отправить письмо для сброса пароля
-         * @description Отправляет письмо с одноразовым токеном сброса пароля на email текущего пользователя.
-         */
-        post: operations["AccountController_sendResetPasswordEmail"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
+  '/api/shop': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** Создание магазина */
+    post: operations['ShopController_create']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/users/{id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** Получить пользователя по id (только для ADMIN) */
+    get: operations['UsersController_findById']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/account/@me': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** Получить профиль текущего пользователя */
+    get: operations['AccountController_me']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    /** Обновление username пользователя */
+    patch: operations['AccountController_patchUser']
+    trace?: never
+  }
+  '/api/account/@me/avatar': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    /** Обновление фото аватара */
+    patch: operations['AccountController_upload']
+    trace?: never
+  }
+  '/api/account/register': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** Регистрация пользователя */
+    post: operations['AccountController_register']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/account/login': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** Вход */
+    post: operations['AccountController_login']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/account/logout': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** Выход (logout) */
+    post: operations['AccountController_logout']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/account/email/verify': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * Подтверждение email по токену
+     * @description Подтверждает email пользователя по одноразовому токену из письма. Устанавливает isVerified = true, удаляет токен и создаёт сессию
+     */
+    post: operations['AccountController_confirmEmail']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/account/password/reset': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * Сброс пароля по токену
+     * @description Сбрасывает пароль пользователя по токену из письма восстановления. Обновляет пароль и удаляет токен сброса.
+     */
+    post: operations['AccountController_resetPassword']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/account/email/verification/send': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * Отправить письмо для подтверждения email
+     * @description Отправляет письмо с одноразовым токеном подтверждения на email текущего пользователя.
+     */
+    post: operations['AccountController_sendVerificationEmail']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/account/password/reset/send': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * Отправить письмо для сброса пароля
+     * @description Отправляет письмо с одноразовым токеном сброса пароля на email текущего пользователя.
+     */
+    post: operations['AccountController_sendResetPasswordEmail']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
 }
-export type webhooks = Record<string, never>;
+export type webhooks = Record<string, never>
 export interface components {
-    schemas: {
-        CreateShopDto: Record<string, never>;
-        ConflictErrorDto: {
-            /** @example 409 */
-            statusCode: number;
-            /** @example Conflict */
-            error: string;
-            /** @example Неверные учетные данные */
-            message: string;
-        };
-        UnauthorizedErrorDto: {
-            /** @example 401 */
-            statusCode: number;
-            /** @example Unauthorized */
-            error: string;
-            /** @example Неверные учетные данные */
-            message: string;
-        };
-        ForbiddenErrorDto: {
-            /** @example 403 */
-            statusCode: number;
-            /** @example Недостаточно прав (требуется роль ADMIN). */
-            error: string;
-            /** @example Неверные учетные данные */
-            message: string;
-        };
-        NotFoundErrorDto: {
-            /** @example 404 */
-            statusCode: number;
-            /** @example Not Found */
-            error: string;
-            /** @example Неверные учетные данные */
-            message: string;
-        };
-        /** @enum {string} */
-        UserRole: "REGULAR" | "ADMIN";
-        /** @enum {string} */
-        AuthMethod: "CREDENTIALS" | "GOOGLE" | "YANDEX";
-        UserResponseDto: {
-            id: string;
-            name: string;
-            email: string;
-            picture: string;
-            /** @example REGULAR */
-            role: components["schemas"]["UserRole"];
-            isVerified: boolean;
-            isTwoFactorEnable: boolean;
-            /** @example CREDENTIALS */
-            method: components["schemas"]["AuthMethod"];
-            createdAt: string;
-            updatedAt: string;
-        };
-        PatchUserDto: {
-            /**
-             * @description Имя пользователя, отображаемое в системе.
-             * @example John Doe
-             */
-            firstName: string;
-        };
-        BadRequestErrorDto: {
-            /** @example 400 */
-            statusCode: number;
-            /** @example Bad Request */
-            error: string;
-            /** @example Неверные учетные данные */
-            message: string;
-        };
-        UpdateUserAvatarResponseDto: {
-            /**
-             * @description Ссылка на автар пользователя
-             * @example https://4f35f4d0-2fb4974b-6046-4608-bcaa-2df25d95c300.s3.timeweb.cloud/avatars/1769796648317-zkv4xtz0vk-eleskov.png
-             */
-            url: string;
-        };
-        RegisterDto: {
-            /**
-             * @description Имя пользователя, отображаемое в системе.
-             * @example John Doe
-             */
-            name: string;
-            /**
-             * @description Уникальный email пользователя. Используется для регистрации и входа.
-             * @example example@example.com
-             */
-            email: string;
-            /**
-             * @description Пароль пользователя. Минимальная длина — 6 символов (валидация на бэкенде).
-             * @example password123
-             */
-            password: string;
-            /**
-             * @description Captcha verification code
-             * @example 03AFcWeA...
-             */
-            captcha: string;
-        };
-        AccountResponseDto: {
-            /**
-             * @description id пользователя
-             * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
-             */
-            userId: string;
-        };
-        LoginDto: {
-            /**
-             * @description Email пользователя. Используется как логин при авторизации.
-             * @example example@example.com
-             */
-            email: string;
-            /**
-             * @description Пароль пользователя. Минимальная длина — 6 символов (валидация на бэкенде).
-             * @example password123
-             */
-            password: string;
-            /**
-             * @description Код двухфакторной аутентификации. Обязателен только при включённой 2FA.
-             * @example 123456
-             */
-            code?: string;
-        };
-        VerificationTokenDto: {
-            /**
-             * @description Токен подтверждения из письма
-             * @example 550e8400-e29b-41d4-a716-446655440001
-             */
-            token: string;
-        };
-        ResetPasswordDto: {
-            /**
-             * @description Токен для сброса пароля из письма.
-             * @example 550e8400-e29b-41d4-a716-446655440001
-             */
-            token: string;
-            /**
-             * @description Новый пароль. Минимальная длина — 6 символов.
-             * @example newPassword123
-             */
-            password: string;
-            /**
-             * @description Подтверждение нового пароля (должно совпадать с паролем).
-             * @example newPassword123
-             */
-            confirmPassword: string;
-        };
-        SendEmailDto: {
-            /**
-             * @description Email для отправки токена верификации
-             * @example user@example.com
-             */
-            email: string;
-        };
-    };
-    responses: never;
-    parameters: never;
-    requestBodies: never;
-    headers: never;
-    pathItems: never;
+  schemas: {
+    CreateShopDto: {
+      /**
+       * @description Название магазина
+       * @example TechZone
+       */
+      title: string
+      /**
+       * @description Короткое описание магазина
+       * @example Магазин электроники и аксессуаров с быстрой доставкой.
+       */
+      description: string
+      file: File
+    }
+    ConflictErrorDto: {
+      /** @example 409 */
+      statusCode: number
+      /** @example Conflict */
+      error: string
+      /** @example Неверные учетные данные */
+      message: string
+    }
+    UnauthorizedErrorDto: {
+      /** @example 401 */
+      statusCode: number
+      /** @example Unauthorized */
+      error: string
+      /** @example Неверные учетные данные */
+      message: string
+    }
+    ForbiddenErrorDto: {
+      /** @example 403 */
+      statusCode: number
+      /** @example Недостаточно прав (требуется роль ADMIN). */
+      error: string
+      /** @example Неверные учетные данные */
+      message: string
+    }
+    NotFoundErrorDto: {
+      /** @example 404 */
+      statusCode: number
+      /** @example Not Found */
+      error: string
+      /** @example Неверные учетные данные */
+      message: string
+    }
+    /** @enum {string} */
+    UserRole: 'REGULAR' | 'ADMIN'
+    /** @enum {string} */
+    AuthMethod: 'CREDENTIALS' | 'GOOGLE' | 'YANDEX'
+    UserResponseDto: {
+      id: string
+      name: string
+      email: string
+      picture: string
+      /** @example REGULAR */
+      role: components['schemas']['UserRole']
+      isVerified: boolean
+      isTwoFactorEnable: boolean
+      /** @example CREDENTIALS */
+      method: components['schemas']['AuthMethod']
+      createdAt: string
+      updatedAt: string
+    }
+    PatchUserDto: {
+      /**
+       * @description Имя пользователя, отображаемое в системе.
+       * @example John Doe
+       */
+      firstName: string
+    }
+    BadRequestErrorDto: {
+      /** @example 400 */
+      statusCode: number
+      /** @example Bad Request */
+      error: string
+      /** @example Неверные учетные данные */
+      message: string
+    }
+    UpdateUserAvatarResponseDto: {
+      /**
+       * @description Ссылка на автар пользователя
+       * @example https://4f35f4d0-2fb4974b-6046-4608-bcaa-2df25d95c300.s3.timeweb.cloud/avatars/1769796648317-zkv4xtz0vk-eleskov.png
+       */
+      url: string
+    }
+    RegisterDto: {
+      /**
+       * @description Имя пользователя, отображаемое в системе.
+       * @example John Doe
+       */
+      name: string
+      /**
+       * @description Уникальный email пользователя. Используется для регистрации и входа.
+       * @example example@example.com
+       */
+      email: string
+      /**
+       * @description Пароль пользователя. Минимальная длина — 6 символов (валидация на бэкенде).
+       * @example password123
+       */
+      password: string
+      /**
+       * @description Captcha verification code
+       * @example 03AFcWeA...
+       */
+      captcha: string
+    }
+    AccountResponseDto: {
+      /**
+       * @description id пользователя
+       * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
+       */
+      userId: string
+    }
+    LoginDto: {
+      /**
+       * @description Email пользователя. Используется как логин при авторизации.
+       * @example example@example.com
+       */
+      email: string
+      /**
+       * @description Пароль пользователя. Минимальная длина — 6 символов (валидация на бэкенде).
+       * @example password123
+       */
+      password: string
+      /**
+       * @description Код двухфакторной аутентификации. Обязателен только при включённой 2FA.
+       * @example 123456
+       */
+      code?: string
+    }
+    VerificationTokenDto: {
+      /**
+       * @description Токен подтверждения из письма
+       * @example 550e8400-e29b-41d4-a716-446655440001
+       */
+      token: string
+    }
+    ResetPasswordDto: {
+      /**
+       * @description Токен для сброса пароля из письма.
+       * @example 550e8400-e29b-41d4-a716-446655440001
+       */
+      token: string
+      /**
+       * @description Новый пароль. Минимальная длина — 6 символов.
+       * @example newPassword123
+       */
+      password: string
+      /**
+       * @description Подтверждение нового пароля (должно совпадать с паролем).
+       * @example newPassword123
+       */
+      confirmPassword: string
+    }
+    SendEmailDto: {
+      /**
+       * @description Email для отправки токена верификации
+       * @example user@example.com
+       */
+      email: string
+    }
+  }
+  responses: never
+  parameters: never
+  requestBodies: never
+  headers: never
+  pathItems: never
 }
-export type SchemaCreateShopDto = components['schemas']['CreateShopDto'];
-export type SchemaConflictErrorDto = components['schemas']['ConflictErrorDto'];
-export type SchemaUnauthorizedErrorDto = components['schemas']['UnauthorizedErrorDto'];
-export type SchemaForbiddenErrorDto = components['schemas']['ForbiddenErrorDto'];
-export type SchemaNotFoundErrorDto = components['schemas']['NotFoundErrorDto'];
-export type SchemaUserRole = components['schemas']['UserRole'];
-export type SchemaAuthMethod = components['schemas']['AuthMethod'];
-export type SchemaUserResponseDto = components['schemas']['UserResponseDto'];
-export type SchemaPatchUserDto = components['schemas']['PatchUserDto'];
-export type SchemaBadRequestErrorDto = components['schemas']['BadRequestErrorDto'];
-export type SchemaUpdateUserAvatarResponseDto = components['schemas']['UpdateUserAvatarResponseDto'];
-export type SchemaRegisterDto = components['schemas']['RegisterDto'];
-export type SchemaAccountResponseDto = components['schemas']['AccountResponseDto'];
-export type SchemaLoginDto = components['schemas']['LoginDto'];
-export type SchemaVerificationTokenDto = components['schemas']['VerificationTokenDto'];
-export type SchemaResetPasswordDto = components['schemas']['ResetPasswordDto'];
-export type SchemaSendEmailDto = components['schemas']['SendEmailDto'];
-export type $defs = Record<string, never>;
+export type SchemaCreateShopDto = components['schemas']['CreateShopDto']
+export type SchemaConflictErrorDto = components['schemas']['ConflictErrorDto']
+export type SchemaUnauthorizedErrorDto =
+  components['schemas']['UnauthorizedErrorDto']
+export type SchemaForbiddenErrorDto = components['schemas']['ForbiddenErrorDto']
+export type SchemaNotFoundErrorDto = components['schemas']['NotFoundErrorDto']
+export type SchemaUserRole = components['schemas']['UserRole']
+export type SchemaAuthMethod = components['schemas']['AuthMethod']
+export type SchemaUserResponseDto = components['schemas']['UserResponseDto']
+export type SchemaPatchUserDto = components['schemas']['PatchUserDto']
+export type SchemaBadRequestErrorDto =
+  components['schemas']['BadRequestErrorDto']
+export type SchemaUpdateUserAvatarResponseDto =
+  components['schemas']['UpdateUserAvatarResponseDto']
+export type SchemaRegisterDto = components['schemas']['RegisterDto']
+export type SchemaAccountResponseDto =
+  components['schemas']['AccountResponseDto']
+export type SchemaLoginDto = components['schemas']['LoginDto']
+export type SchemaVerificationTokenDto =
+  components['schemas']['VerificationTokenDto']
+export type SchemaResetPasswordDto = components['schemas']['ResetPasswordDto']
+export type SchemaSendEmailDto = components['schemas']['SendEmailDto']
+export type $defs = Record<string, never>
 export interface operations {
-    ShopController_create: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateShopDto"];
-            };
-        };
-        responses: {
-            /** @description Магазин успешно создался */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Ошибка при создании магазина */
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ConflictErrorDto"];
-                };
-            };
-        };
-    };
-    UsersController_findById: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description ID пользователя */
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Пользователь найден. */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Не авторизован. */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UnauthorizedErrorDto"];
-                };
-            };
-            /** @description Недостаточно прав (требуется роль ADMIN). */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ForbiddenErrorDto"];
-                };
-            };
-            /** @description Пользователь с таким id не найден. */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["NotFoundErrorDto"];
-                };
-            };
-        };
-    };
-    AccountController_me: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Профиль текущего пользователя. */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UserResponseDto"];
-                };
-            };
-            /** @description Не авторизован. */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UnauthorizedErrorDto"];
-                };
-            };
-        };
-    };
-    AccountController_patchUser: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["PatchUserDto"];
-            };
-        };
-        responses: {
-            /** @description Данные успешно обновлены */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UserResponseDto"];
-                };
-            };
-            /** @description Некорректные данные */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["BadRequestErrorDto"];
-                };
-            };
-            /** @description Не авторизован */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UnauthorizedErrorDto"];
-                };
-            };
-        };
-    };
-    AccountController_upload: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Фото успешно обновлено */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UpdateUserAvatarResponseDto"];
-                };
-            };
-            /** @description Не авторизован */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UnauthorizedErrorDto"];
-                };
-            };
-        };
-    };
-    AccountController_register: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["RegisterDto"];
-            };
-        };
-        responses: {
-            /** @description Успешная регистрация. */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AccountResponseDto"];
-                };
-            };
-            /** @description Пользователь зарегистрирован */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Ошибка валидации входных данных. */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["BadRequestErrorDto"];
-                };
-            };
-            /** @description Пользователь не найден. Пожалуйста проверьте введенные данные */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["NotFoundErrorDto"];
-                };
-            };
-            /** @description Пользователь с такой почтой уже существует */
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ConflictErrorDto"];
-                };
-            };
-        };
-    };
-    AccountController_login: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["LoginDto"];
-            };
-        };
-        responses: {
-            /** @description Успешный вход. Может вернуть accessToken в body и/или установить cookie */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AccountResponseDto"];
-                };
-            };
-            /** @description Ошибка валидации входных данных. */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["BadRequestErrorDto"];
-                };
-            };
-            /** @description Неверные учетные данные. */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UnauthorizedErrorDto"];
-                };
-            };
-        };
-    };
-    AccountController_logout: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Сессия завершена. Очистка cookie и инвалидация сессии. */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AccountResponseDto"];
-                };
-            };
-            /** @description Нет валидной сессии для выхода. */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UnauthorizedErrorDto"];
-                };
-            };
-        };
-    };
-    AccountController_confirmEmail: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["VerificationTokenDto"];
-            };
-        };
-        responses: {
-            /** @description Email успешно подтверждён. Создана сессия авторизации */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Токен истёк или недействителен */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["BadRequestErrorDto"];
-                };
-            };
-            /** @description Токен не найден или пользователь не существует */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["NotFoundErrorDto"];
-                };
-            };
-        };
-    };
-    AccountController_resetPassword: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Токен из письма + новый пароль */
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ResetPasswordDto"];
-            };
-        };
-        responses: {
-            /** @description Пароль успешно сброшен */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": boolean;
-                };
-            };
-            /** @description Токен истёк или недействителен */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["BadRequestErrorDto"];
-                };
-            };
-            /** @description Токен не найден или пользователь не существует */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["NotFoundErrorDto"];
-                };
-            };
-            /** @description Пароли не совпадают */
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    AccountController_sendVerificationEmail: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["SendEmailDto"];
-            };
-        };
-        responses: {
-            /** @description Письмо отправлено (или переотправлено) */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Не авторизован */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UnauthorizedErrorDto"];
-                };
-            };
-        };
-    };
-    AccountController_sendResetPasswordEmail: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["SendEmailDto"];
-            };
-        };
-        responses: {
-            /** @description Письмо отправлено */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Не авторизован */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UnauthorizedErrorDto"];
-                };
-            };
-        };
-    };
+  ShopController_create: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateShopDto']
+      }
+    }
+    responses: {
+      /** @description Магазин успешно создался */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      /** @description Ошибка при создании магазина */
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ConflictErrorDto']
+        }
+      }
+    }
+  }
+  UsersController_findById: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description ID пользователя */
+        id: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Пользователь найден. */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      /** @description Не авторизован. */
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['UnauthorizedErrorDto']
+        }
+      }
+      /** @description Недостаточно прав (требуется роль ADMIN). */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ForbiddenErrorDto']
+        }
+      }
+      /** @description Пользователь с таким id не найден. */
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['NotFoundErrorDto']
+        }
+      }
+    }
+  }
+  AccountController_me: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Профиль текущего пользователя. */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['UserResponseDto']
+        }
+      }
+      /** @description Не авторизован. */
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['UnauthorizedErrorDto']
+        }
+      }
+    }
+  }
+  AccountController_patchUser: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['PatchUserDto']
+      }
+    }
+    responses: {
+      /** @description Данные успешно обновлены */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['UserResponseDto']
+        }
+      }
+      /** @description Некорректные данные */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['BadRequestErrorDto']
+        }
+      }
+      /** @description Не авторизован */
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['UnauthorizedErrorDto']
+        }
+      }
+    }
+  }
+  AccountController_upload: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Фото успешно обновлено */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['UpdateUserAvatarResponseDto']
+        }
+      }
+      /** @description Не авторизован */
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['UnauthorizedErrorDto']
+        }
+      }
+    }
+  }
+  AccountController_register: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['RegisterDto']
+      }
+    }
+    responses: {
+      /** @description Успешная регистрация. */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['AccountResponseDto']
+        }
+      }
+      /** @description Пользователь зарегистрирован */
+      201: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      /** @description Ошибка валидации входных данных. */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['BadRequestErrorDto']
+        }
+      }
+      /** @description Пользователь не найден. Пожалуйста проверьте введенные данные */
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['NotFoundErrorDto']
+        }
+      }
+      /** @description Пользователь с такой почтой уже существует */
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ConflictErrorDto']
+        }
+      }
+    }
+  }
+  AccountController_login: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['LoginDto']
+      }
+    }
+    responses: {
+      /** @description Успешный вход. Может вернуть accessToken в body и/или установить cookie */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['AccountResponseDto']
+        }
+      }
+      /** @description Ошибка валидации входных данных. */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['BadRequestErrorDto']
+        }
+      }
+      /** @description Неверные учетные данные. */
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['UnauthorizedErrorDto']
+        }
+      }
+    }
+  }
+  AccountController_logout: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Сессия завершена. Очистка cookie и инвалидация сессии. */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['AccountResponseDto']
+        }
+      }
+      /** @description Нет валидной сессии для выхода. */
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['UnauthorizedErrorDto']
+        }
+      }
+    }
+  }
+  AccountController_confirmEmail: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['VerificationTokenDto']
+      }
+    }
+    responses: {
+      /** @description Email успешно подтверждён. Создана сессия авторизации */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      /** @description Токен истёк или недействителен */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['BadRequestErrorDto']
+        }
+      }
+      /** @description Токен не найден или пользователь не существует */
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['NotFoundErrorDto']
+        }
+      }
+    }
+  }
+  AccountController_resetPassword: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** @description Токен из письма + новый пароль */
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ResetPasswordDto']
+      }
+    }
+    responses: {
+      /** @description Пароль успешно сброшен */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': boolean
+        }
+      }
+      /** @description Токен истёк или недействителен */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['BadRequestErrorDto']
+        }
+      }
+      /** @description Токен не найден или пользователь не существует */
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['NotFoundErrorDto']
+        }
+      }
+      /** @description Пароли не совпадают */
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+    }
+  }
+  AccountController_sendVerificationEmail: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['SendEmailDto']
+      }
+    }
+    responses: {
+      /** @description Письмо отправлено (или переотправлено) */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      /** @description Не авторизован */
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['UnauthorizedErrorDto']
+        }
+      }
+    }
+  }
+  AccountController_sendResetPasswordEmail: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['SendEmailDto']
+      }
+    }
+    responses: {
+      /** @description Письмо отправлено */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      /** @description Не авторизован */
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['UnauthorizedErrorDto']
+        }
+      }
+    }
+  }
 }
