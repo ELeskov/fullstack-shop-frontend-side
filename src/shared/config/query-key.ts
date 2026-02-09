@@ -9,4 +9,6 @@ export const QUERY_KEY = {
   RESET_PASSWORD: 'reset-password',
   PATCH_USER: 'patch-user',
   PATCH_AVATAR: 'patch-avatar',
+
+  SHOP_CREATE: 'shop-create',
 } as const
