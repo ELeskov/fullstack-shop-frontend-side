@@ -1,11 +1,9 @@
 import { useEffect, useMemo } from 'react'
-import { Controller, type SubmitHandler, useForm } from 'react-hook-form'
+import { type SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { motion } from 'motion/react'
 import { z } from 'zod'
-
-import { UploadShopLogo } from '@/features/uploadShopLogo'
 
 import { useCreateMutation } from '@/shared/api'
 import {
@@ -23,7 +21,6 @@ import { CustomButton } from '@/shared/ui/customButton'
 const schema = z.object({
   title: z.string().trim().min(1, 'Название обязательно'),
   description: z.string().trim().min(1, 'Описание обязательно'),
-  picture: z.string().optional(),
 })
 
 type ShopSchema = z.infer<typeof schema>
@@ -33,21 +30,19 @@ interface ICreateShopForm {
 }
 
 export function CreateShopForm({ editData }: ICreateShopForm) {
-  const defaultValues = useMemo(
+  const defaultValues = useMemo<ShopSchema>(
     () => ({
       title: editData?.title ?? '',
       description: editData?.description ?? '',
-      picture: editData?.picture ?? '',
     }),
     [editData],
   )
 
   const {
+    register,
     handleSubmit,
     reset,
-    control,
-    setValue,
-    formState: { isSubmitting, isValid },
+    formState: { errors, isSubmitting, isValid },
   } = useForm<ShopSchema>({
     resolver: zodResolver(schema),
     defaultValues,
@@ -62,12 +57,8 @@ export function CreateShopForm({ editData }: ICreateShopForm) {
   const isBusy = isSubmitting || isPending
 
   const onSubmit: SubmitHandler<ShopSchema> = async (values) => {
-    await mutateAsync({
-      title: values.title,
-      description: values.description,
-    })
-
-    reset({ title: '', description: '', picture: '' })
+    await mutateAsync(values)
+    reset({ title: '', description: '' })
   }
 
   const submitLabel = editData ? 'Сохранить' : 'Создать магазин'
@@ -81,84 +72,39 @@ export function CreateShopForm({ editData }: ICreateShopForm) {
     >
       <form id="create-shop" onSubmit={handleSubmit(onSubmit)}>
         <FieldSet>
-          <FieldGroup className="grid grid-cols-1 gap-5 md:grid-cols-2">
-            <div className="md:col-span-2">
-              <Controller
-                name="picture"
-                control={control}
-                render={({ field, fieldState }) => (
-                  <>
-                    <UploadShopLogo
-                      value={field.value}
-                      onUploaded={(url) => {
-                        setValue('picture', url, {
-                          shouldValidate: true,
-                          shouldDirty: true,
-                          shouldTouch: true,
-                        })
-                      }}
-                    />
-                    {fieldState.invalid && fieldState.error?.message && (
-                      <div className="mt-2">
-                        <FieldError>{fieldState.error.message}</FieldError>
-                      </div>
-                    )}
-                  </>
-                )}
+          <FieldGroup className="grid grid-cols-1 gap-5">
+            <Field>
+              <FieldLabel htmlFor="shop-title">Название магазина</FieldLabel>
+              <Input
+                {...register('title')}
+                id="shop-title"
+                autoComplete="off"
+                placeholder="Например: TechZone"
+                aria-invalid={!!errors.title}
+                disabled={isBusy}
               />
-            </div>
+              {errors.title?.message && (
+                <FieldError>{errors.title.message}</FieldError>
+              )}
+            </Field>
 
-            <div className="md:col-span-2">
-              <Controller
-                name="title"
-                control={control}
-                render={({ field, fieldState }) => (
-                  <Field>
-                    <FieldLabel htmlFor="shop-title">
-                      Название магазина
-                    </FieldLabel>
-                    <Input
-                      {...field}
-                      id="shop-title"
-                      autoComplete="off"
-                      placeholder="Например: TechZone"
-                      aria-invalid={fieldState.invalid}
-                      disabled={isBusy}
-                    />
-                    {fieldState.invalid && fieldState.error?.message && (
-                      <FieldError>{fieldState.error.message}</FieldError>
-                    )}
-                  </Field>
-                )}
+            <Field>
+              <FieldLabel htmlFor="shop-description">Описание</FieldLabel>
+              <Textarea
+                {...register('description')}
+                id="shop-description"
+                placeholder="Коротко опишите, что продаёте и чем отличаетесь"
+                aria-invalid={!!errors.description}
+                disabled={isBusy}
+                className="min-h-28"
               />
-            </div>
-
-            <div className="md:col-span-2">
-              <Controller
-                name="description"
-                control={control}
-                render={({ field, fieldState }) => (
-                  <Field>
-                    <FieldLabel htmlFor="shop-description">Описание</FieldLabel>
-                    <Textarea
-                      {...field}
-                      id="shop-description"
-                      placeholder="Коротко опишите, что продаёте и чем отличаетесь"
-                      aria-invalid={fieldState.invalid}
-                      disabled={isBusy}
-                      className="min-h-28"
-                    />
-                    <FieldDescription>
-                      1–2 предложения: категория товаров, доставка, гарантия и
-                      т.д.
-                    </FieldDescription>
-                    {fieldState.invalid && fieldState.error?.message && (
-                      <FieldError>{fieldState.error.message}</FieldError>
-                    )}
-                  </Field>
-                )}
-              />
-            </div>
+              <FieldDescription>
+                1–2 предложения: категория товаров, доставка, гарантия и т.д.
+              </FieldDescription>
+              {errors.description?.message && (
+                <FieldError>{errors.description.message}</FieldError>
+              )}
+            </Field>
           </FieldGroup>
         </FieldSet>
       </form>
