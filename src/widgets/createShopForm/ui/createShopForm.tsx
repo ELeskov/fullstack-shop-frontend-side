@@ -4,6 +4,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import z from 'zod'
 
 import {
+  Dropzone,
+  DropzoneContent,
+  DropzoneEmptyState,
+} from '@/shared/ui/components/ui/dropzone'
+import {
   Field,
   FieldError,
   FieldGroup,
@@ -75,6 +80,28 @@ export function CreateShopForm({ editData }: ICreateShopForm) {
                   aria-invalid={fieldState.invalid}
                   placeholder="Техника для дома и кухни"
                 />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+          <Controller
+            name="picture"
+            control={control}
+            render={({ field, fieldState }) => (
+              <Field>
+                <Dropzone {...field} maxSize={1024 * 1024 * 10} minSize={1024}>
+                  <DropzoneEmptyState />
+                  <DropzoneContent />
+                </Dropzone>
+                {/* <Input
+                  {...field}
+                  autoComplete="off"
+                  id="category-title"
+                  placeholder="Бытовая техника"
+                  aria-invalid={fieldState.invalid}
+                /> */}
                 {fieldState.invalid && (
                   <FieldError errors={[fieldState.error]} />
                 )}

@@ -1,6 +1,6 @@
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 
-import { Upload, UserRoundX } from 'lucide-react'
+import { Camera, Upload, UserRoundX } from 'lucide-react'
 
 import { usePatchAvatar } from '@/shared/api'
 import type { SchemaUserResponseDto } from '@/shared/api/api-endpoints'
@@ -10,7 +10,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar'
 import s from './userAvatarUpload.module.scss'
 
 export const UserAvatarUpload = ({ user }: { user: SchemaUserResponseDto }) => {
-  const [isShowIcon, setIsShowIcon] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const { mutateAsync } = usePatchAvatar()
 
@@ -42,8 +41,6 @@ export const UserAvatarUpload = ({ user }: { user: SchemaUserResponseDto }) => {
       />
       <div className={s['user-settings__image-wrapper']}>
         <Avatar
-          onMouseEnter={() => setIsShowIcon(true)}
-          onMouseLeave={() => setIsShowIcon(false)}
           onClick={() => fileInputRef.current?.click()}
           className={`${s['user-settings__image']} ${s['avatar-clickable']}`}
           role="button"
@@ -62,13 +59,14 @@ export const UserAvatarUpload = ({ user }: { user: SchemaUserResponseDto }) => {
             <UserRoundX size={20} />
           </AvatarFallback>
 
-          {isShowIcon && (
-            <div className={s['upload-icon-overlay']}>
-              <Upload size={16} />
-              <span>Изменить</span>
-            </div>
-          )}
+          <div className={s['upload-icon-overlay']}>
+            <Upload size={16} />
+            <span>Изменить</span>
+          </div>
         </Avatar>
+        <div className="absolute right-px bottom-px border-2 border-(--background) rounded-[50%] bg-blue-600">
+          <Camera className="p-1" />
+        </div>
       </div>
     </div>
   )

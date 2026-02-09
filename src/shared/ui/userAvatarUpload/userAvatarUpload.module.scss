@@ -8,6 +8,12 @@
     height: 100%;
     min-width: 100%;
     min-height: 100%;
+    
+    &:hover {
+      .upload-icon-overlay {
+        opacity: 1;
+      }
+    }
   }
 
   &__image-wrapper {
@@ -28,6 +34,7 @@
 }
 
 .upload-icon-overlay {
+  opacity: 0;
   transition: all 0.2s;
   position: absolute;
   inset: 0;
@@ -40,19 +47,4 @@
   gap: rem(4);
   color: white;
   font-size: rem(14);
-  animation: overlayAppear 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-@keyframes overlayAppear {
-  0% {
-    opacity: 0;
-    transform: scale(0.95);
-    backdrop-filter: blur(0);
-  }
-
-  100% {
-    opacity: 1;
-    transform: scale(1);
-    backdrop-filter: blur(rem(10));
-  }
 }
