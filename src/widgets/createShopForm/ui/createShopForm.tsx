@@ -1,21 +1,13 @@
-import { useEffect, useMemo, useState } from 'react'
-import {
-  Controller,
-  type SubmitHandler,
-  useForm,
-  useWatch,
-} from 'react-hook-form'
+import { useEffect, useMemo } from 'react'
+import { Controller, type SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { AnimatePresence, motion } from 'motion/react'
+import { motion } from 'motion/react'
 import { z } from 'zod'
 
+import { UploadShopLogo } from '@/features/uploadShopLogo'
+
 import { useCreateMutation } from '@/shared/api'
-import {
-  Dropzone,
-  DropzoneContent,
-  DropzoneEmptyState,
-} from '@/shared/ui/components/ui/dropzone'
 import {
   Field,
   FieldDescription,
@@ -24,22 +16,14 @@ import {
   FieldLabel,
   FieldSet,
 } from '@/shared/ui/components/ui/field'
-import { ImageZoom } from '@/shared/ui/components/ui/image-zoom'
 import { Input } from '@/shared/ui/components/ui/input'
 import { Textarea } from '@/shared/ui/components/ui/textarea'
 import { CustomButton } from '@/shared/ui/customButton'
 
-const MAX_SIZE = 1024 * 1024 * 10
-const MIN_SIZE = 1024
-
 const schema = z.object({
   title: z.string().trim().min(1, 'Название обязательно'),
   description: z.string().trim().min(1, 'Описание обязательно'),
-  file: z
-    .instanceof(File, { message: 'Загрузите изображение' })
-    .refine((f) => f.size >= MIN_SIZE, 'Файл слишком маленький')
-    .refine((f) => f.size <= MAX_SIZE, 'Файл слишком большой (макс. 10MB)')
-    .optional(),
+  picture: z.string().optional(),
 })
 
 type ShopSchema = z.infer<typeof schema>
@@ -48,20 +32,12 @@ interface ICreateShopForm {
   editData?: Partial<ShopSchema> | null
 }
 
-function formatFileSize(bytes: number) {
-  const kb = bytes / 1024
-  if (kb < 1024) {
-    return `${Math.ceil(kb)} KB`
-  }
-  return `${(kb / 1024).toFixed(1)} MB`
-}
-
 export function CreateShopForm({ editData }: ICreateShopForm) {
   const defaultValues = useMemo(
     () => ({
       title: editData?.title ?? '',
       description: editData?.description ?? '',
-      file: editData?.file ?? undefined,
+      picture: editData?.picture ?? '',
     }),
     [editData],
   )
@@ -82,55 +58,19 @@ export function CreateShopForm({ editData }: ICreateShopForm) {
     reset(defaultValues)
   }, [defaultValues, reset])
 
-  const file = useWatch({ control, name: 'file' })
-  const previewUrl = useMemo(() => {
-    if (!file) {
-      return null
-    }
-    return URL.createObjectURL(file)
-  }, [file])
+  const { mutateAsync, isPending } = useCreateMutation()
+  const isBusy = isSubmitting || isPending
 
-  useEffect(() => {
-    return () => {
-      if (previewUrl) {
-        URL.revokeObjectURL(previewUrl)
-      }
-    }
-  }, [previewUrl])
-
-  const [dropzoneKey, setDropzoneKey] = useState(0)
-
-  const { mutateAsync } = useCreateMutation()
-
-  const onSubmit: SubmitHandler<ShopSchema> = async ({
-    file,
-    title,
-    description,
-  }) => {
+  const onSubmit: SubmitHandler<ShopSchema> = async (values) => {
     await mutateAsync({
-      file,
-      title,
-      description,
+      title: values.title,
+      description: values.description,
     })
 
-    reset({
-      title: '',
-      description: '',
-      file: undefined,
-    })
-    setDropzoneKey((k) => k + 1)
+    reset({ title: '', description: '', picture: '' })
   }
 
   const submitLabel = editData ? 'Сохранить' : 'Создать магазин'
-
-  const clearfile = () => {
-    setValue('file', undefined, { shouldValidate: true, shouldDirty: true })
-  }
-
-  const replacefile = () => {
-    clearfile()
-    setDropzoneKey((k) => k + 1)
-  }
 
   return (
     <motion.div
@@ -142,105 +82,33 @@ export function CreateShopForm({ editData }: ICreateShopForm) {
       <form id="create-shop" onSubmit={handleSubmit(onSubmit)}>
         <FieldSet>
           <FieldGroup className="grid grid-cols-1 gap-5 md:grid-cols-2">
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.22, delay: 0.02 }}
-              className="md:col-span-2"
-            >
+            <div className="md:col-span-2">
               <Controller
-                name="file"
+                name="picture"
                 control={control}
                 render={({ field, fieldState }) => (
-                  <Field>
-                    <FieldLabel>Логотип / обложка магазина</FieldLabel>
-
-                    <AnimatePresence mode="wait">
-                      {!file ? (
-                        <motion.div
-                          key="dropzone"
-                          initial={{ opacity: 0, y: 6 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -6 }}
-                          transition={{ duration: 0.18 }}
-                        >
-                          <Dropzone
-                            key={dropzoneKey}
-                            accept={{ 'image/*': [] }}
-                            maxFiles={1}
-                            maxSize={MAX_SIZE}
-                            minSize={MIN_SIZE}
-                            onDrop={(files) => field.onChange(files?.[0])}
-                          >
-                            <DropzoneEmptyState />
-                            <DropzoneContent />
-                          </Dropzone>
-
-                          <FieldDescription>
-                            Загрузите одно изображение (JPG/PNG/WebP), до 10MB.
-                          </FieldDescription>
-                        </motion.div>
-                      ) : (
-                        <motion.div
-                          key="preview"
-                          initial={{ opacity: 0, y: 6 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -6 }}
-                          transition={{ duration: 0.18 }}
-                          className="rounded-xl border p-3"
-                        >
-                          <div className="flex flex-col gap-3">
-                            <div className="overflow-hidden rounded-lg border bg-muted/10 w-50 h-50">
-                              <ImageZoom>
-                                <img
-                                  src={previewUrl ?? ''}
-                                  alt={file.name}
-                                  className="h-50 w-50 object-cover"
-                                />
-                              </ImageZoom>
-                            </div>
-
-                            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                              <div className="min-w-0">
-                                <div className="truncate text-sm font-medium">
-                                  {file.name}
-                                </div>
-                                <div className="text-xs text-muted-foreground">
-                                  {formatFileSize(file.size)}
-                                </div>
-                              </div>
-
-                              <div className="flex flex-col gap-2 sm:flex-row">
-                                <CustomButton
-                                  type="button"
-                                  variant="secondary"
-                                  onClick={replacefile}
-                                  disabled={isSubmitting}
-                                >
-                                  Заменить фото
-                                </CustomButton>
-                              </div>
-                            </div>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-
+                  <>
+                    <UploadShopLogo
+                      value={field.value}
+                      onUploaded={(url) => {
+                        setValue('picture', url, {
+                          shouldValidate: true,
+                          shouldDirty: true,
+                          shouldTouch: true,
+                        })
+                      }}
+                    />
                     {fieldState.invalid && fieldState.error?.message && (
-                      <FieldError>{fieldState.error.message}</FieldError>
+                      <div className="mt-2">
+                        <FieldError>{fieldState.error.message}</FieldError>
+                      </div>
                     )}
-                  </Field>
+                  </>
                 )}
               />
-            </motion.div>
+            </div>
 
-            {/* -------- Title -------- */}
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.22, delay: 0.05 }}
-              className="md:col-span-2"
-            >
+            <div className="md:col-span-2">
               <Controller
                 name="title"
                 control={control}
@@ -255,7 +123,7 @@ export function CreateShopForm({ editData }: ICreateShopForm) {
                       autoComplete="off"
                       placeholder="Например: TechZone"
                       aria-invalid={fieldState.invalid}
-                      disabled={isSubmitting}
+                      disabled={isBusy}
                     />
                     {fieldState.invalid && fieldState.error?.message && (
                       <FieldError>{fieldState.error.message}</FieldError>
@@ -263,15 +131,9 @@ export function CreateShopForm({ editData }: ICreateShopForm) {
                   </Field>
                 )}
               />
-            </motion.div>
+            </div>
 
-            {/* -------- Description -------- */}
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.22, delay: 0.08 }}
-              className="md:col-span-2"
-            >
+            <div className="md:col-span-2">
               <Controller
                 name="description"
                 control={control}
@@ -283,7 +145,7 @@ export function CreateShopForm({ editData }: ICreateShopForm) {
                       id="shop-description"
                       placeholder="Коротко опишите, что продаёте и чем отличаетесь"
                       aria-invalid={fieldState.invalid}
-                      disabled={isSubmitting}
+                      disabled={isBusy}
                       className="min-h-28"
                     />
                     <FieldDescription>
@@ -296,12 +158,11 @@ export function CreateShopForm({ editData }: ICreateShopForm) {
                   </Field>
                 )}
               />
-            </motion.div>
+            </div>
           </FieldGroup>
         </FieldSet>
       </form>
 
-      {/* Actions */}
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
@@ -311,7 +172,7 @@ export function CreateShopForm({ editData }: ICreateShopForm) {
         <CustomButton
           type="submit"
           form="create-shop"
-          disabled={isSubmitting || !isValid}
+          disabled={isBusy || !isValid}
           className="w-full sm:w-auto"
         >
           {submitLabel}
@@ -320,11 +181,8 @@ export function CreateShopForm({ editData }: ICreateShopForm) {
         <CustomButton
           type="button"
           variant="destructive"
-          onClick={() => {
-            reset(defaultValues)
-            setDropzoneKey((k) => k + 1)
-          }}
-          disabled={isSubmitting}
+          onClick={() => reset(defaultValues)}
+          disabled={isBusy}
           className="w-full sm:w-auto"
         >
           Сбросить

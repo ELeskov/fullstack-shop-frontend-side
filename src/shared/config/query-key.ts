@@ -11,4 +11,5 @@ export const QUERY_KEY = {
   PATCH_AVATAR: 'patch-avatar',
 
   SHOP_CREATE: 'shop-create',
+  SHOP_UPLOAD_LOGO: 'shop-upload-logo',
 } as const

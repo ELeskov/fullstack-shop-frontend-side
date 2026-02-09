@@ -21,6 +21,23 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/api/shop/logo': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** Сохранение логотипа магазина */
+    post: operations['ShopController_upload']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/api/users/{id}': {
     parameters: {
       query?: never
@@ -219,7 +236,6 @@ export interface components {
        * @example Магазин электроники и аксессуаров с быстрой доставкой.
        */
       description: string
-      file: File
     }
     ConflictErrorDto: {
       /** @example 409 */
@@ -228,6 +244,13 @@ export interface components {
       error: string
       /** @example Неверные учетные данные */
       message: string
+    }
+    FormData: FormData
+    UploadLogoShopDto: {
+      file: components['schemas']['FormData']
+    }
+    UploadLogoShopRequestDto: {
+      path: string
     }
     UnauthorizedErrorDto: {
       /** @example 401 */
@@ -379,6 +402,10 @@ export interface components {
 }
 export type SchemaCreateShopDto = components['schemas']['CreateShopDto']
 export type SchemaConflictErrorDto = components['schemas']['ConflictErrorDto']
+export type SchemaFormData = components['schemas']['FormData']
+export type SchemaUploadLogoShopDto = components['schemas']['UploadLogoShopDto']
+export type SchemaUploadLogoShopRequestDto =
+  components['schemas']['UploadLogoShopRequestDto']
 export type SchemaUnauthorizedErrorDto =
   components['schemas']['UnauthorizedErrorDto']
 export type SchemaForbiddenErrorDto = components['schemas']['ForbiddenErrorDto']
@@ -422,6 +449,39 @@ export interface operations {
         content?: never
       }
       /** @description Ошибка при создании магазина */
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ConflictErrorDto']
+        }
+      }
+    }
+  }
+  ShopController_upload: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UploadLogoShopDto']
+      }
+    }
+    responses: {
+      /** @description Логотиип успешно сохранен */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['UploadLogoShopRequestDto']
+        }
+      }
+      /** @description Ошибка при сохранении логотипа */
       409: {
         headers: {
           [name: string]: unknown
