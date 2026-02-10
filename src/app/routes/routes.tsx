@@ -15,6 +15,7 @@ import { HomePage } from '@/pages/homePage'
 import { LikePage } from '@/pages/likePage'
 import { LoginPage } from '@/pages/loginPage'
 import { MyProductPage } from '@/pages/myProductPage'
+import { MyShopsPage } from '@/pages/myShopsPage'
 import { ProductPage } from '@/pages/productPage'
 import { ProfilePage } from '@/pages/profilePage'
 import { ResetPasswordPage } from '@/pages/resetPasswordPage'
@@ -96,6 +97,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.profile.root,
         element: <ProfilePage />,
+      },
+      {
+        path: ROUTES.profile.shops.root,
+        element: <MyShopsPage />,
       },
       {
         path: ROUTES.profile.shops.create,

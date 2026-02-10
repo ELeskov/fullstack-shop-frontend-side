@@ -3,9 +3,12 @@ import {
   ChartNoAxesColumnIncreasing,
   CircleUserRound,
   GalleryHorizontalEnd,
+  Heart,
   PaintBucket,
   Settings,
   ShoppingBag,
+  ShoppingCart,
+  Store,
   UserStar,
 } from 'lucide-react'
 
@@ -36,11 +39,38 @@ export const profileNavData = {
           url: ROUTES.profile.root,
           icon: <CircleUserRound />,
         },
+        {
+          title: 'Избранное',
+          url: ROUTES.profile.like,
+          icon: <Heart />,
+        },
+        {
+          title: 'Покупки',
+          url: ROUTES.profile.orders,
+          icon: <ShoppingBag />,
+        },
+        {
+          title: 'Корзина',
+          url: ROUTES.profile.orders,
+          icon: <ShoppingCart />,
+        },
+        {
+          title: 'Настройки',
+          url: ROUTES.profile.settings,
+          icon: <Settings />,
+        },
       ],
     },
     {
-      title: 'О магазине',
+      title: 'Магазин',
       items: [
+        {
+          title: 'Мои магазины',
+          url: ROUTES.profile.shops.root,
+          icon: <Store />,
+          isCreated: true,
+          createPath: ROUTES.profile.shops.create,
+        },
         {
           title: 'Статистика',
           url: ROUTES.profile.shops.statistics,
@@ -49,16 +79,16 @@ export const profileNavData = {
         {
           title: 'Мои товары',
           url: ROUTES.profile.shops.products.root,
-          createPath: ROUTES.profile.shops.products.create,
           icon: <GalleryHorizontalEnd />,
           isCreated: true,
+          createPath: ROUTES.profile.shops.products.create,
         },
         {
           title: 'Цвета',
           url: ROUTES.profile.shops.colors.root,
-          createPath: ROUTES.profile.shops.colors.create,
           icon: <PaintBucket />,
           isCreated: true,
+          createPath: ROUTES.profile.shops.colors.create,
         },
         {
           title: 'Категории',
@@ -73,12 +103,7 @@ export const profileNavData = {
           icon: <UserStar />,
         },
         {
-          title: 'Покупки',
-          url: ROUTES.profile.orders,
-          icon: <ShoppingBag />,
-        },
-        {
-          title: 'Настройка магазина',
+          title: 'Настройки',
           url: ROUTES.profile.shops.settings,
           icon: <Settings />,
         },

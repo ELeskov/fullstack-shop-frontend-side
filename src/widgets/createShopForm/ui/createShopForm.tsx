@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -17,6 +17,7 @@ import {
 import { Input } from '@/shared/ui/components/ui/input'
 import { Textarea } from '@/shared/ui/components/ui/textarea'
 import { CustomButton } from '@/shared/ui/customButton'
+import { PhotoUploader } from '@/shared/ui/photoUploaded/photoUploaded'
 
 const schema = z.object({
   title: z.string().trim().min(1, 'Название обязательно'),
@@ -30,6 +31,8 @@ interface ICreateShopForm {
 }
 
 export function CreateShopForm({ editData }: ICreateShopForm) {
+  const [logo, setLogo] = useState<File | null>(null)
+
   const defaultValues = useMemo<ShopSchema>(
     () => ({
       title: editData?.title ?? '',
@@ -46,7 +49,7 @@ export function CreateShopForm({ editData }: ICreateShopForm) {
   } = useForm<ShopSchema>({
     resolver: zodResolver(schema),
     defaultValues,
-    mode: 'onTouched',
+    mode: 'onBlur',
   })
 
   useEffect(() => {
@@ -70,6 +73,8 @@ export function CreateShopForm({ editData }: ICreateShopForm) {
       transition={{ duration: 0.25, ease: 'easeOut' }}
       className="flex flex-col gap-5"
     >
+      <PhotoUploader value={logo} onChange={setLogo} maxSizeMB={5} />
+
       <form id="create-shop" onSubmit={handleSubmit(onSubmit)}>
         <FieldSet>
           <FieldGroup className="grid grid-cols-1 gap-5">
