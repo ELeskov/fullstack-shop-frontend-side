@@ -245,7 +245,7 @@ export interface components {
       /** @example Неверные учетные данные */
       message: string
     }
-    FormData: FormData
+    FormData: Record<string, never>
     UploadLogoShopDto: {
       file: components['schemas']['FormData']
     }

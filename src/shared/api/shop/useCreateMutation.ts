@@ -1,13 +1,17 @@
+import { useNavigate } from 'react-router'
+
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
 
-import { apiClient } from '@/shared/config'
+import { apiClient, ROUTES } from '@/shared/config'
 import { QUERY_KEY } from '@/shared/config/query-key'
 
 import type { SchemaCreateShopDto } from '../api-endpoints'
 
-export const useCreateMutation = () =>
-  useMutation({
+export const useCreateMutation = () => {
+  const navigation = useNavigate()
+
+  return useMutation({
     mutationKey: [QUERY_KEY.SHOP_CREATE],
     mutationFn: async (shopValues: SchemaCreateShopDto) => {
       const { data, error } = await apiClient.POST('/api/shop', {
@@ -23,9 +27,11 @@ export const useCreateMutation = () =>
 
     onSuccess: () => {
       toast.success('Магазин успешно создан')
+      navigation(ROUTES.profile.shops.root)
     },
 
     onError: (error) => {
       toast.error(error.message)
     },
   })
+}

@@ -4,14 +4,12 @@ import { toast } from 'sonner'
 import { apiClient } from '@/shared/config'
 import { QUERY_KEY } from '@/shared/config/query-key'
 
-import type { SchemaUploadLogoShopDto } from '../api-endpoints'
-
 export const useUploadLogoMutation = () =>
   useMutation({
     mutationKey: [QUERY_KEY.SHOP_UPLOAD_LOGO],
-    mutationFn: async (FormData: SchemaUploadLogoShopDto) => {
+    mutationFn: async (formData: FormData) => {
       const { data, error } = await apiClient.POST('/api/shop/logo', {
-        body: FormData,
+        body: formData,
       })
 
       if (error) {

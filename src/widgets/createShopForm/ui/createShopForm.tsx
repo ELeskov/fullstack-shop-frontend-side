@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { motion } from 'motion/react'
 import { z } from 'zod'
 
-import { useCreateMutation } from '@/shared/api'
+import { useCreateMutation, useUploadLogoMutation } from '@/shared/api'
 import {
   Field,
   FieldDescription,
@@ -17,7 +17,7 @@ import {
 import { Input } from '@/shared/ui/components/ui/input'
 import { Textarea } from '@/shared/ui/components/ui/textarea'
 import { CustomButton } from '@/shared/ui/customButton'
-import { PhotoUploader } from '@/shared/ui/photoUploaded/photoUploaded'
+import { PhotoUploader } from '@/shared/ui/photoUploader/photoUploader'
 
 const schema = z.object({
   title: z.string().trim().min(1, 'Название обязательно'),
@@ -49,18 +49,27 @@ export function CreateShopForm({ editData }: ICreateShopForm) {
   } = useForm<ShopSchema>({
     resolver: zodResolver(schema),
     defaultValues,
-    mode: 'onBlur',
+    mode: 'onTouched',
   })
 
   useEffect(() => {
     reset(defaultValues)
   }, [defaultValues, reset])
 
-  const { mutateAsync, isPending } = useCreateMutation()
+  const { mutateAsync: createShopMutation, isPending } = useCreateMutation()
+  const { mutateAsync: uploadShopLogoMutation } = useUploadLogoMutation()
   const isBusy = isSubmitting || isPending
 
   const onSubmit: SubmitHandler<ShopSchema> = async (values) => {
-    await mutateAsync(values)
+    if (logo) {
+      const formData = new FormData()
+      formData.append('file', logo)
+
+      await uploadShopLogoMutation(formData)
+    }
+
+    await createShopMutation(values)
+
     reset({ title: '', description: '' })
   }
 
@@ -73,11 +82,14 @@ export function CreateShopForm({ editData }: ICreateShopForm) {
       transition={{ duration: 0.25, ease: 'easeOut' }}
       className="flex flex-col gap-5"
     >
-      <PhotoUploader value={logo} onChange={setLogo} maxSizeMB={5} />
-
       <form id="create-shop" onSubmit={handleSubmit(onSubmit)}>
         <FieldSet>
           <FieldGroup className="grid grid-cols-1 gap-5">
+            <Field>
+              <FieldLabel>Логотип магазина</FieldLabel>
+              <PhotoUploader value={logo} onChange={setLogo} maxSizeMB={5} />
+            </Field>
+
             <Field>
               <FieldLabel htmlFor="shop-title">Название магазина</FieldLabel>
               <Input

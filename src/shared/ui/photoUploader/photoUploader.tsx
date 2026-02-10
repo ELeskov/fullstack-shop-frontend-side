@@ -1,9 +1,12 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 
-import { Button } from '../components/ui/button'
-import { Card } from '../components/ui/card'
+import clsx from 'clsx'
+import { Upload } from 'lucide-react'
 
-import s from './photoUploaded.module.scss'
+import { Card } from '../components/ui/card'
+import { CustomButton } from '../customButton'
+
+import s from './photoUploader.module.scss'
 
 type AvatarUploaderProps = {
   value?: File | null
@@ -32,7 +35,6 @@ export function PhotoUploader({
   const current = isControlled ? value : inner
 
   const [dragOver, setDragOver] = useState(false)
-  const [hovered, setHovered] = useState(false)
 
   const previewUrl = useMemo(() => {
     if (!current) {
@@ -94,11 +96,6 @@ export function PhotoUploader({
     validateAndSet(file)
   }
 
-  const hoverHandlers = {
-    onMouseEnter: () => setHovered(true),
-    onMouseLeave: () => setHovered(false),
-  }
-
   return (
     <div className={`${s['root']} ${className ?? ''}`}>
       <input
@@ -111,53 +108,44 @@ export function PhotoUploader({
       />
 
       {current && previewUrl ? (
-        <div className={s['previewWrap']} {...hoverHandlers}>
+        <div className="flex flex-col gap-3.5">
           <div
-            className={s['preview']}
+            className={clsx(
+              s['preview'],
+              `cursor-${disabled ? 'not-allowed' : 'pointer'}`,
+            )}
             onClick={openPicker}
-            role="button"
             tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                openPicker()
-              }
-            }}
-            style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}
           >
             <img
               className={s['preview__img']}
               src={previewUrl}
               alt="uploaded"
+              width={155}
+              height={155}
             />
           </div>
 
-          <div
-            className={[
-              s['sidePanel'],
-              hovered && !disabled ? s['sidePanel--open'] : '',
-            ].join(' ')}
-          >
-            <Button
+          <div className="flex gap-3">
+            <CustomButton
               type="button"
-              variant="secondary"
-              size="sm"
+              variant="outline"
+              // size="sm"
               onClick={openPicker}
               disabled={disabled}
-              className={s['sidePanel__btn']}
             >
               Заменить
-            </Button>
+            </CustomButton>
 
-            <Button
+            <CustomButton
               type="button"
               variant="destructive"
               size="sm"
               onClick={() => emit(null)}
               disabled={disabled}
-              className={s['sidePanel__btn']}
             >
               Удалить
-            </Button>
+            </CustomButton>
           </div>
         </div>
       ) : (
@@ -184,6 +172,7 @@ export function PhotoUploader({
             }
           }}
         >
+          <Upload className="bg-muted p-2 size-9 rounded-sm text-zinc-400" />
           <div className={s['title']}>Загрузить фото</div>
           <div className={s['hint']}>
             Кликни или перетащи файл • до {maxSizeMB}MB

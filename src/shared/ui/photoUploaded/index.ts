@@ -1,1 +1,0 @@
-export { PhotoUploaded } from './photoUploaded'
