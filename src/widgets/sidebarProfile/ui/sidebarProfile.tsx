@@ -14,6 +14,7 @@ import {
 
 import { useGetMe } from '@/shared/api'
 import userAvatar from '@/shared/assets/icons/favicon-bg-white.svg'
+import { ROUTES } from '@/shared/config'
 import {
   Avatar,
   AvatarFallback,
@@ -28,7 +29,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/shared/ui/components/ui/dropdown-menu'
-import { Label } from '@/shared/ui/components/ui/label'
 import {
   Sidebar,
   SidebarContent,
@@ -94,7 +94,7 @@ export function SidebarProfile() {
             <DropdownMenuSeparator />
             <DropdownMenuItem className="gap-5">
               <Plus className="size-5 " />
-              <Label className="text-base flex-1">Создать магазин</Label>
+              <Link to={ROUTES.profile.shops.create}>Создать магазин</Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

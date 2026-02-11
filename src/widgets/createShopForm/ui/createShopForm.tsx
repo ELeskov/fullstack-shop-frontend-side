@@ -61,14 +61,15 @@ export function CreateShopForm({ editData }: ICreateShopForm) {
   const isBusy = isSubmitting || isPending
 
   const onSubmit: SubmitHandler<ShopSchema> = async (values) => {
+    const { shopId } = await createShopMutation(values)
+
     if (logo) {
       const formData = new FormData()
       formData.append('file', logo)
+      formData.append('shopId', shopId)
 
       await uploadShopLogoMutation(formData)
     }
-
-    await createShopMutation(values)
 
     reset({ title: '', description: '' })
   }
