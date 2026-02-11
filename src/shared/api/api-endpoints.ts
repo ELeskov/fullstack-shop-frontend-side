@@ -38,6 +38,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/shop/@me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Мои магазины */
+        get: operations["ShopController_getMyShops"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/users/{id}": {
         parameters: {
             query?: never;
@@ -264,6 +281,15 @@ export interface components {
         UploadLogoShopRequestDto: {
             path: string;
         };
+        ShopResponseDto: {
+            id: string;
+            title: string;
+            description: string;
+            picture?: string;
+            userId: string;
+            createdAt: string;
+            updatedAt: string;
+        };
         UnauthorizedErrorDto: {
             /** @example 401 */
             statusCode: number;
@@ -417,6 +443,7 @@ export type SchemaCreateShopResponseDto = components['schemas']['CreateShopRespo
 export type SchemaConflictErrorDto = components['schemas']['ConflictErrorDto'];
 export type SchemaUploadLogoShopDto = components['schemas']['UploadLogoShopDto'];
 export type SchemaUploadLogoShopRequestDto = components['schemas']['UploadLogoShopRequestDto'];
+export type SchemaShopResponseDto = components['schemas']['ShopResponseDto'];
 export type SchemaUnauthorizedErrorDto = components['schemas']['UnauthorizedErrorDto'];
 export type SchemaForbiddenErrorDto = components['schemas']['ForbiddenErrorDto'];
 export type SchemaNotFoundErrorDto = components['schemas']['NotFoundErrorDto'];
@@ -496,6 +523,33 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ConflictErrorDto"];
+                };
+            };
+        };
+    };
+    ShopController_getMyShops: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ShopResponseDto"][];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UnauthorizedErrorDto"];
                 };
             };
         };

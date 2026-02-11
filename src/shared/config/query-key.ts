@@ -12,4 +12,5 @@ export const QUERY_KEY = {
 
   SHOP_CREATE: 'shop-create',
   SHOP_UPLOAD_LOGO: 'shop-upload-logo',
+  ME_SHOP: 'me-shop',
 } as const
