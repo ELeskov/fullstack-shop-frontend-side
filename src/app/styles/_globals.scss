@@ -47,7 +47,7 @@ h2 {
 
 .product-card-list {
   display: grid;
-  gap: clamp(40px, 4vw, 60px) clamp(5px, 4vw, 30px);
+  gap: fluid(40, 60) fluid(5, 30);
   grid-template-columns: repeat(auto-fill, minmax(18%, 1fr));
 
   @include laptop {

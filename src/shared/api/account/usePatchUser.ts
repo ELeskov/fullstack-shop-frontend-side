@@ -21,8 +21,10 @@ export const usePatchUser = () => {
     onSuccess: () => {
       toast.success('Данные обновлены')
     },
-    onError: async (err) => {
+    onError: (err) => {
       toast.error(err.message)
+    },
+    onSettled: async () => {
       await queryClient.invalidateQueries({ queryKey: [QUERY_KEY.ME] })
     },
   })

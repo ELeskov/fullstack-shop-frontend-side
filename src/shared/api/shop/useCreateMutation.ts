@@ -17,6 +17,11 @@ export const useCreateMutation = () => {
       const { data } = await apiClient.POST('/api/shop', {
         body: shopValues,
       })
+
+      if (!data) {
+        throw new Error('Пустой ответ сервера при создании магазина')
+      }
+
       return data
     },
 

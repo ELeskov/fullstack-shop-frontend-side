@@ -475,7 +475,7 @@ export interface operations {
     }
     responses: {
       /** @description Магазин успешно создался */
-      201: {
+      200: {
         headers: {
           [name: string]: unknown
         }

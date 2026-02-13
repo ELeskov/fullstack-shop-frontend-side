@@ -6,4 +6,8 @@
     align-items: center;
     margin-bottom: rem(5);
   }
+
+  &__title {
+    @include fluid-text(26, 20);
+  }
 }

@@ -3,11 +3,9 @@ import {
   ChartNoAxesColumnIncreasing,
   CircleUserRound,
   GalleryHorizontalEnd,
-  Heart,
   PaintBucket,
   Settings,
   ShoppingBag,
-  ShoppingCart,
   Store,
   UserStar,
 } from 'lucide-react'
@@ -40,19 +38,9 @@ export const profileNavData = {
           icon: <CircleUserRound />,
         },
         {
-          title: 'Избранное',
-          url: ROUTES.profile.like,
-          icon: <Heart />,
-        },
-        {
           title: 'Покупки',
           url: ROUTES.profile.orders,
           icon: <ShoppingBag />,
-        },
-        {
-          title: 'Корзина',
-          url: ROUTES.profile.orders,
-          icon: <ShoppingCart />,
         },
         {
           title: 'Настройки',

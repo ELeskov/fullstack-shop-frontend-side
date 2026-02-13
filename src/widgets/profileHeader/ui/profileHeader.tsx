@@ -12,7 +12,7 @@ export function ProfileHeader({ title }: { title: string }) {
           orientation="vertical"
           className="mx-2 data-[orientation=vertical]:h-4"
         />
-        <h1 className="text-lg! font-light!">{title}</h1>
+        <h1 className={s['profile-header__title']}>{title}</h1>
       </div>
       <Separator />
     </header>

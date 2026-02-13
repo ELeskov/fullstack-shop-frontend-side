@@ -22,8 +22,8 @@ export const usePatchAvatar = () => {
     onError: (err) => {
       toast.error(err.message)
     },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.ME] })
+    onSettled: async () => {
+      await queryClient.invalidateQueries({ queryKey: [QUERY_KEY.ME] })
     },
   })
 }
