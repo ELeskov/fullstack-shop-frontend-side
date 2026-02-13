@@ -20,7 +20,7 @@ import {
 import s from './shopCard.module.scss'
 
 export function ShopCard({ data }: { data: SchemaShopResponseDto }) {
-  const { title, updatedAt, createdAt, picture } = data
+  const { title, createdAt, picture } = data
 
   return (
     <motion.div
@@ -32,19 +32,19 @@ export function ShopCard({ data }: { data: SchemaShopResponseDto }) {
     >
       <Card className={s['shop-card']}>
         <CardHeader className={s['shop-card__header']}>
-          <div className={s['shop-card__titleBlock']}>
+          <div className={s['shop-card__title-block']}>
             <h2 className={s['shop-card__title']}>{title}</h2>
-            <Badge className="bg-blue-950 text-blue-400">Выбран</Badge>
+
+            <Badge className={s['shop-card__status-badge']}>Выбран</Badge>
           </div>
 
-          <div className={s['shop-card__header-action']}>
+          <div className={s['shop-card__actions']}>
             <Button
               type="button"
-              className={s['action-btn']}
+              className={s['shop-card__action-btn']}
               aria-label="Скопировать ссылку"
               title="Скопировать ссылку"
               onClick={() => {
-                // замени на реальную ссылку
                 const url = `${window.location.origin}/shop/${data.id}`
                 navigator.clipboard.writeText(url)
               }}
@@ -54,12 +54,11 @@ export function ShopCard({ data }: { data: SchemaShopResponseDto }) {
 
             <Button
               type="button"
-              className={s['action-btn']}
+              className={s['shop-card__action-btn']}
               aria-label="Редактировать"
               title="Редактировать"
               onClick={() => {
-                // сюда твой navigate/открытие модалки
-                // navigate(ROUTES.profile.shops.edit(data.id))
+                // navigate(...)
               }}
             >
               <Pencil size={18} />
@@ -67,20 +66,23 @@ export function ShopCard({ data }: { data: SchemaShopResponseDto }) {
 
             <Button
               type="button"
-              className={s['action-btn']}
+              className={clsx(
+                s['shop-card__action-btn'],
+                s['shop-card__action-btn--danger'],
+              )}
               aria-label="Удалить"
               title="Удалить"
-              data-variant="danger"
               onClick={() => {
-                // сюда твой confirm + mutation delete
+                // confirm + mutation delete
               }}
             >
               <Trash2 size={18} />
             </Button>
           </div>
         </CardHeader>
+
         <CardContent className={s['shop-card__content']}>
-          <Avatar className={s['shop-card__image-wrap']}>
+          <Avatar className={s['shop-card__avatar']}>
             <AvatarImage
               src={picture}
               alt={`Логотип магазина ${title}`}
@@ -89,40 +91,66 @@ export function ShopCard({ data }: { data: SchemaShopResponseDto }) {
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
         </CardContent>
+
         <CardFooter className={s['shop-card__footer']}>
-          <div className={s['metrics']}>
-            <Badge variant="secondary" className={s['metrics__badge']}>
-              <div className={s['metric']}>
-                <Package className="text-emerald-500 size-4.5! max-xl:size-4!" />
-                <span className={clsx(s['metrics__label'], 'hidden-mobile')}>
+          <div className={s['shop-card__metrics']}>
+            <Badge
+              variant="secondary"
+              className={clsx(
+                s['shop-card__metric-badge'],
+                s['shop-card__metric-badge--emerald'],
+              )}
+            >
+              <div className={s['shop-card__metric']}>
+                <span className={s['shop-card__metric-icon']}>
+                  <Package className="size-4.5! max-xl:size-4!" />
+                </span>
+
+                <span
+                  className={clsx(
+                    s['shop-card__metric-label'],
+                    'hidden-mobile',
+                  )}
+                >
                   Товаров
                 </span>
               </div>
-              <span className={clsx(s['metrics__value'], 'text-emerald-600')}>
-                41
-              </span>
+
+              <span className={s['shop-card__metric-value']}>41</span>
             </Badge>
 
-            <Badge variant="secondary" className={s['metrics__badge']}>
-              <div className={s['metric']}>
-                <Star className="text-yellow-400 size-4.5! max-xl:size-4!" />
-                <span className={clsx(s['metrics__label'], 'hidden-mobile')}>
+            <Badge
+              variant="secondary"
+              className={clsx(
+                s['shop-card__metric-badge'],
+                s['shop-card__metric-badge--yellow'],
+              )}
+            >
+              <div className={s['shop-card__metric']}>
+                <span className={s['shop-card__metric-icon']}>
+                  <Star className="size-4.5! max-xl:size-4!" />
+                </span>
+
+                <span
+                  className={clsx(
+                    s['shop-card__metric-label'],
+                    'hidden-mobile',
+                  )}
+                >
                   Рейтинг
                 </span>
               </div>
-              <span className={clsx(s['metrics__value'], 'text-yellow-300')}>
-                4,6
-              </span>
+
+              <span className={s['shop-card__metric-value']}>4,6</span>
             </Badge>
           </div>
-          <div className={s['meta__date']}>
-            <div className="flex justify-end gap-2">
-              <span>Создан:</span>
-              <time>{new Date(createdAt).toLocaleDateString()}</time>
-            </div>
-            <div className="flex justify-between gap-2">
-              <span>Обновлён:</span>
-              <time>{new Date(updatedAt).toLocaleDateString()}</time>
+
+          <div className={s['shop-card__meta']}>
+            <div className={s['shop-card__meta-row']}>
+              <span className={s['shop-card__meta-label']}>Создан:</span>
+              <time className={s['shop-card__meta-value']}>
+                {new Date(createdAt).toLocaleDateString()}
+              </time>
             </div>
           </div>
         </CardFooter>
