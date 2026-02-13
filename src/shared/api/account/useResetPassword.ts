@@ -15,31 +15,25 @@ export const useResetPassword = () => {
   return useMutation({
     mutationKey: [QUERY_KEY.RESET_PASSWORD],
     mutationFn: async (dto: SchemaResetPasswordDto) => {
-      const { data, error } = await apiClient.POST(
-        '/api/account/password/reset',
-        {
-          body: {
-            token: dto.token,
-            password: dto.password,
-            confirmPassword: dto.confirmPassword,
-          },
+      const { data } = await apiClient.POST('/api/account/password/reset', {
+        body: {
+          token: dto.token,
+          password: dto.password,
+          confirmPassword: dto.confirmPassword,
         },
-      )
-
-      if (error) {
-        const message = error.message || 'Неизвестная ошибка'
-        throw new Error(message)
-      }
+      })
 
       return data
     },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: [QUERY_KEY.ME] })
+    onSuccess: () => {
       toast.success('Пароль успешно сброшен')
       navigate(ROUTES.login)
     },
     onError: (err) => {
       toast.error(err.message)
+    },
+    onSettled: async () => {
+      await queryClient.invalidateQueries({ queryKey: [QUERY_KEY.ME] })
     },
   })
 }

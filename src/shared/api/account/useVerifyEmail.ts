@@ -8,18 +8,9 @@ export const useVerifyEmail = () => {
   return useMutation({
     mutationKey: [QUERY_KEY.VERIFY_EMAIL],
     mutationFn: async (token: string) => {
-      const { response, data, error } = await apiClient.POST(
-        '/api/account/email/verify',
-        {
-          body: { token },
-        },
-      )
-
-      if (!response.ok) {
-        const errorMessage = error?.message
-
-        throw new Error(errorMessage)
-      }
+      const { data } = await apiClient.POST('/api/account/email/verify', {
+        body: { token },
+      })
 
       return data
     },

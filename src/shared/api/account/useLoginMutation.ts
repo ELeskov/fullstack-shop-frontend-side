@@ -15,23 +15,21 @@ export const useLoginMutation = () => {
   return useMutation({
     mutationKey: [QUERY_KEY.LOGIN],
     mutationFn: async (loginValues: SchemaLoginDto) => {
-      const response = await apiClient.POST('/api/account/login', {
+      const { data } = await apiClient.POST('/api/account/login', {
         body: loginValues,
       })
 
-      if (!response.data?.userId) {
-        throw new Error(response.error?.message)
-      }
-
-      return response.data
+      return data
     },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: [QUERY_KEY.ME] })
+    onSuccess: () => {
       toast.success('Вы успешно вошли в аккаунт')
       navigate(ROUTES.home, { replace: true })
     },
     onError: (err) => {
       toast.error(err.message)
+    },
+    onSettled: async () => {
+      await queryClient.invalidateQueries({ queryKey: [QUERY_KEY.ME] })
     },
   })
 }

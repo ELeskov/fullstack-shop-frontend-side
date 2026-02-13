@@ -10,23 +10,20 @@ export const usePatchAvatar = () => {
   return useMutation({
     mutationKey: [QUERY_KEY.PATCH_AVATAR],
     mutationFn: async (formData: FormData) => {
-      const { data, error } = await apiClient.PATCH('/api/account/@me/avatar', {
+      const { data } = await apiClient.PATCH('/api/account/@me/avatar', {
         body: formData,
       })
-
-      if (error) {
-        const message = error.message || 'Неизвестная ошибка'
-        throw new Error(message)
-      }
 
       return data
     },
     onSuccess: () => {
       toast.success('Аватарка обновлена')
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.ME] })
     },
-    onError: (err: Error) => {
+    onError: (err) => {
       toast.error(err.message)
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.ME] })
     },
   })
 }
