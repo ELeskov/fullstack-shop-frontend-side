@@ -7,12 +7,7 @@ export const useGetMeShops = () =>
   useQuery({
     queryKey: [QUERY_KEY.ME_SHOP],
     queryFn: async ({ signal }) => {
-      const { data, error } = await apiClient.GET('/api/shop/@me', { signal })
-
-      if (error) {
-        throw new Error(error.message)
-      }
-
+      const { data } = await apiClient.GET('/api/shop/@me', { signal })
       return data
     },
   })

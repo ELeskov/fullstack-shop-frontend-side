@@ -10,13 +10,9 @@ export const useUploadLogoMutation = () =>
   useMutation({
     mutationKey: [QUERY_KEY.SHOP_UPLOAD_LOGO],
     mutationFn: async (formData: SchemaUploadLogoShopDto) => {
-      const { data, error } = await apiClient.POST('/api/shop/logo', {
+      const { data } = await apiClient.POST('/api/shop/logo', {
         body: formData,
       })
-
-      if (error) {
-        throw new Error(error.message)
-      }
 
       return data
     },
