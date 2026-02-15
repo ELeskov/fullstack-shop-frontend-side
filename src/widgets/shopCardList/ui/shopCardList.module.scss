@@ -1,13 +1,5 @@
 .shop-card-list {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
   gap: fluid(20, 10);
-  grid-template-columns: repeat(auto-fit, minmax(rem(420), 1fr));
-
-  @include mobile {
-    grid-template-columns: repeat(auto-fit, minmax(rem(330), 1fr));
-  }
-
-  @include mobile-s {
-    grid-template-columns: repeat(auto-fit, minmax(rem(240), 1fr));
-  }
 }

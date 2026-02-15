@@ -11,8 +11,8 @@ import s from './photoUploader.module.scss'
 type AvatarUploaderProps = {
   value?: File | null
   defaultValue?: File | null
+  defaultUrl?: string | null
   onChange?: (file: File | null) => void
-
   accept?: string
   maxSizeMB?: number
   disabled?: boolean
@@ -22,6 +22,7 @@ type AvatarUploaderProps = {
 export function PhotoUploader({
   value,
   defaultValue = null,
+  defaultUrl = null,
   onChange,
   accept = 'image/*',
   maxSizeMB = 5,
@@ -32,24 +33,37 @@ export function PhotoUploader({
   const isControlled = typeof value !== 'undefined'
 
   const [inner, setInner] = useState<File | null>(defaultValue)
-  const current = isControlled ? value : inner
+  const currentFile = isControlled ? (value ?? null) : inner
 
   const [dragOver, setDragOver] = useState(false)
 
-  const previewUrl = useMemo(() => {
-    if (!current) {
-      return null
-    }
-    return URL.createObjectURL(current)
-  }, [current])
+  const [clearedDefault, setClearedDefault] = useState(false)
 
   useEffect(() => {
-    return () => {
-      if (previewUrl) {
-        URL.revokeObjectURL(previewUrl)
-      }
+    setClearedDefault(false)
+  }, [defaultUrl])
+
+  const preview = useMemo(() => {
+    if (currentFile) {
+      return { src: URL.createObjectURL(currentFile), kind: 'file' as const }
     }
-  }, [previewUrl])
+
+    if (!clearedDefault && defaultUrl) {
+      return { src: defaultUrl, kind: 'url' as const }
+    }
+
+    return null
+  }, [currentFile, defaultUrl, clearedDefault])
+
+  useEffect(() => {
+    if (!preview || preview.kind !== 'file') {
+      return
+    }
+
+    return () => {
+      URL.revokeObjectURL(preview.src)
+    }
+  }, [preview])
 
   const emit = (file: File | null) => {
     if (!isControlled) {
@@ -60,16 +74,15 @@ export function PhotoUploader({
 
   const validateAndSet = (file: File | null) => {
     if (!file) {
-      return emit(null)
+      return
     }
 
-    if (typeof maxSizeMB === 'number') {
-      const maxBytes = maxSizeMB * 1024 * 1024
-      if (file.size > maxBytes) {
-        return
-      }
+    const maxBytes = maxSizeMB * 1024 * 1024
+    if (typeof maxSizeMB === 'number' && file.size > maxBytes) {
+      return
     }
 
+    setClearedDefault(true)
     emit(file)
   }
 
@@ -82,7 +95,9 @@ export function PhotoUploader({
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null
-    validateAndSet(file)
+    if (file) {
+      validateAndSet(file)
+    }
     e.target.value = ''
   }
 
@@ -91,70 +106,85 @@ export function PhotoUploader({
     if (disabled) {
       return
     }
+
     setDragOver(false)
     const file = e.dataTransfer.files?.[0] ?? null
-    validateAndSet(file)
+    if (file) {
+      validateAndSet(file)
+    }
+  }
+
+  const onRemove = () => {
+    if (currentFile) {
+      emit(null)
+      return
+    }
+
+    if (defaultUrl) {
+      setClearedDefault(true)
+    }
   }
 
   return (
-    <div className={`${s['root']} ${className ?? ''}`}>
+    <div className={clsx(s['photo-uploader'], className)}>
       <input
         ref={inputRef}
         type="file"
         accept={accept}
-        className={s['input']}
+        className={s['photo-uploader__input']}
         onChange={onInputChange}
         disabled={disabled}
       />
 
-      {current && previewUrl ? (
-        <div className="flex flex-col gap-3.5">
+      {preview ? (
+        <div className={s['photo-uploader__preview-wrap']}>
           <div
             className={clsx(
-              s['preview'],
-              `cursor-${disabled ? 'not-allowed' : 'pointer'}`,
+              s['photo-uploader__preview'],
+              disabled && s['photo-uploader__preview--disabled'],
             )}
             onClick={openPicker}
             tabIndex={0}
+            role="button"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                openPicker()
+              }
+            }}
           >
             <img
-              className={s['preview__img']}
-              src={previewUrl}
+              className={s['photo-uploader__img']}
+              src={preview.src}
               alt="uploaded"
               width={155}
               height={155}
             />
+            <div className={s['photo-uploader__preview-overlay']}>
+              Нажми, чтобы заменить
+            </div>
           </div>
 
-          <div className="flex gap-3">
-            <CustomButton
-              type="button"
-              variant="outline"
-              // size="sm"
-              onClick={openPicker}
-              disabled={disabled}
-            >
-              Заменить
-            </CustomButton>
-
-            <CustomButton
-              type="button"
-              variant="destructive"
-              size="sm"
-              onClick={() => emit(null)}
-              disabled={disabled}
-            >
-              Удалить
-            </CustomButton>
+          <div className={s['photo-uploader__actions']}>
+            {!defaultUrl && (
+              <CustomButton
+                type="button"
+                variant="destructive"
+                onClick={onRemove}
+                disabled={disabled}
+                className="rich-btn rich-btn--danger"
+              >
+                Удалить
+              </CustomButton>
+            )}
           </div>
         </div>
       ) : (
         <Card
-          className={[
-            s['dropzone'],
-            dragOver ? s['dropzone--dragOver'] : '',
-            disabled ? s['dropzone--disabled'] : '',
-          ].join(' ')}
+          className={clsx(
+            s['photo-uploader__dropzone'],
+            dragOver && s['photo-uploader__dropzone--dragover'],
+            disabled && s['photo-uploader__dropzone--disabled'],
+          )}
           onClick={openPicker}
           onDragOver={(e) => {
             e.preventDefault()
@@ -172,9 +202,12 @@ export function PhotoUploader({
             }
           }}
         >
-          <Upload className="bg-muted p-2 size-9 rounded-sm text-zinc-400" />
-          <div className={s['title']}>Загрузить фото</div>
-          <div className={s['hint']}>
+          <span className={s['photo-uploader__icon']} aria-hidden="true">
+            <Upload />
+          </span>
+
+          <div className={s['photo-uploader__title']}>Загрузить фото</div>
+          <div className={s['photo-uploader__hint']}>
             Кликни или перетащи файл • до {maxSizeMB}MB
           </div>
         </Card>

@@ -1,0 +1,158 @@
+.shop-form {
+  width: 100%;
+}
+
+.shop-form__card {
+  position: relative;
+  overflow: hidden;
+
+  border-radius: rem(18);
+  border: rem(1) solid rgba(255, 255, 255, 0.08);
+
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+
+  box-shadow:
+    0 rem(18) rem(60) rgba(0, 0, 0, 0.55),
+    inset 0 rem(1) 0 rgba(255, 255, 255, 0.06);
+}
+
+.shop-form__layout {
+  display: grid;
+  grid-template-columns: rem(320) 1fr;
+  gap: rem(18);
+  padding: rem(18);
+
+  @include mobile {
+    grid-template-columns: 1fr;
+    padding: rem(14);
+  }
+}
+
+.shop-form__aside {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: rem(12);
+}
+
+.shop-form__main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: rem(12);
+}
+
+.shop-form__section {
+  border-radius: rem(16);
+  border: rem(1) solid rgba(255, 255, 255, 0.08);
+
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+
+  padding: rem(14);
+  box-shadow: 0 rem(14) rem(34) rgba(0, 0, 0, 0.28);
+}
+
+.shop-form__section-head {
+  display: flex;
+  flex-direction: column;
+  gap: rem(4);
+  margin-bottom: rem(10);
+}
+
+.shop-form__section-title {
+  font-size: rem(14);
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.2;
+}
+
+.shop-form__section-subtitle {
+  font-size: rem(12);
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.2;
+}
+
+.shop-form__uploader {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  // чтобы блок не "терялся" на пустом фоне
+  padding: rem(10);
+  border-radius: rem(14);
+  border: rem(1) dashed rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.shop-form__hint {
+  margin-top: rem(10);
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.shop-form__fields {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: rem(14);
+}
+
+.shop-form__field {
+  border-radius: rem(16);
+  border: rem(1) solid rgba(255, 255, 255, 0.08);
+
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+
+  padding: rem(14);
+  box-shadow: 0 rem(14) rem(34) rgba(0, 0, 0, 0.22);
+}
+
+.shop-form__textarea {
+  min-height: rem(140);
+}
+
+.shop-form__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: rem(12);
+
+  padding: rem(14) rem(18);
+  border-top: rem(1) solid rgba(255, 255, 255, 0.08);
+
+  background: rgba(0, 0, 0, 0.14);
+  backdrop-filter: blur(10px);
+
+  @include mobile {
+    flex-direction: column;
+    align-items: stretch;
+    padding: rem(12) rem(14);
+  }
+}
+
+.shop-form__footer-meta {
+  min-width: 0;
+}
+
+.shop-form__dirty {
+  font-size: rem(12);
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.shop-form__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: rem(10);
+
+  @include mobile {
+    width: 100%;
+    justify-content: stretch;
+
+    > * {
+      width: 100%;
+    }
+  }
+}

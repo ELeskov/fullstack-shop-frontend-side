@@ -15,7 +15,10 @@ export const ROUTES = {
     basket: '/basket',
 
     shops: {
-      edit: '/edit',
+      edit: {
+        path: '/edit/:shopId',
+        to: (shopId: string) => `/edit/${shopId}`,
+      },
       create: '/create',
       reviews: '/reviews',
       settings: '/settings',

@@ -5,12 +5,13 @@ import { toast } from 'sonner'
 
 import { apiClient, ROUTES } from '@/shared/config'
 import { QUERY_KEY } from '@/shared/config/query-key'
+import { saveSelectedShopId } from '@/shared/helpers'
 
 import type { SchemaCreateShopDto } from '../api-endpoints'
 
 export const useCreateMutation = () => {
   const navigation = useNavigate()
-  const queryClient = useQueryClient()
+  const qc = useQueryClient()
 
   return useMutation({
     mutationKey: [QUERY_KEY.SHOP_CREATE],
@@ -26,9 +27,15 @@ export const useCreateMutation = () => {
       return data
     },
 
-    onSuccess: (data) => {
+    onSuccess: async (created) => {
+      const { id: shopId } = created
+
+      qc.setQueryData([QUERY_KEY.ME_SELECTED_SHOP_ID], shopId)
+      saveSelectedShopId(shopId)
+
+      await qc.invalidateQueries({ queryKey: [QUERY_KEY.ME_SHOPS] })
+
       toast.success('Магазин успешно создан')
-      queryClient.setQueriesData(['active-shop', data.shopId])
       navigation(ROUTES.profile.shops.root)
     },
 
