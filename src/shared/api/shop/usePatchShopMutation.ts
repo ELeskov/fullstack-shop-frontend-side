@@ -13,7 +13,7 @@ export const usePatchShopMutation = () => {
   const navigate = useNavigate()
 
   return useMutation({
-    mutationKey: [QUERY_KEY.SHOP_CREATE],
+    mutationKey: [QUERY_KEY.CREATE_SHOP],
     mutationFn: async (shopValues: SchemaUpdateShopDto) => {
       const { data } = await apiClient.PATCH('/api/shop', {
         body: shopValues,

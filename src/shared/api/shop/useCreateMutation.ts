@@ -14,7 +14,7 @@ export const useCreateMutation = () => {
   const qc = useQueryClient()
 
   return useMutation({
-    mutationKey: [QUERY_KEY.SHOP_CREATE],
+    mutationKey: [QUERY_KEY.CREATE_SHOP],
     mutationFn: async (shopValues: SchemaCreateShopDto) => {
       const { data } = await apiClient.POST('/api/shop', {
         body: shopValues,

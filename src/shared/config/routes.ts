@@ -33,7 +33,6 @@ export const ROUTES = {
       },
       categories: {
         create: '/create',
-        edit: '/edit',
       },
     },
 

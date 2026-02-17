@@ -10,10 +10,12 @@ export const QUERY_KEY = {
   PATCH_USER: 'patch_user',
   PATCH_AVATAR: 'patch_avatar',
 
-  SHOP_CREATE: 'shop_create',
+  CREATE_SHOP: 'create_shop',
   ME_SELECTED_SHOP_ID: 'me_selected_shop_id',
   PATCH_SHOP: 'patch_shop',
   SHOP_UPLOAD_LOGO: 'shop_upload_logo',
   ME_SHOPS: 'me_shops',
   GET_SHOP_BY_ID: 'shop',
+
+  CREATE_CATEGORY: 'create_category',
 } as const

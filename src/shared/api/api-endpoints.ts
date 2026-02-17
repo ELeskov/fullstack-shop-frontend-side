@@ -4,1617 +4,1893 @@
  */
 
 export interface paths {
-    "/api/shop": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Создание магазина */
-        post: operations["ShopController_create"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Обновление названия/описания магазина */
-        patch: operations["ShopController_update"];
-        trace?: never;
-    };
-    "/api/shop/@me": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Мои магазины */
-        get: operations["ShopController_getMyShops"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/shop/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Поиск магазина по id */
-        get: operations["ShopController_getById"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/shop/logo": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Сохранение или обновление логотипа магазина */
-        post: operations["ShopController_setShopPicture"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/users/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Получить пользователя по id (только для ADMIN) */
-        get: operations["UsersController_findById"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/account/@me": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Получить профиль текущего пользователя */
-        get: operations["AccountController_me"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Обновление username пользователя */
-        patch: operations["AccountController_patchUser"];
-        trace?: never;
-    };
-    "/api/account/@me/avatar": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Обновление фото аватара */
-        patch: operations["AccountController_upload"];
-        trace?: never;
-    };
-    "/api/account/register": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Регистрация пользователя */
-        post: operations["AccountController_register"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/account/login": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Вход */
-        post: operations["AccountController_login"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/account/logout": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Выход (logout) */
-        post: operations["AccountController_logout"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/account/email/verify": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Подтверждение email по токену
-         * @description Подтверждает email пользователя по одноразовому токену из письма. Устанавливает isVerified = true, удаляет токен и создаёт сессию
-         */
-        post: operations["AccountController_confirmEmail"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/account/password/reset": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Сброс пароля по токену
-         * @description Сбрасывает пароль пользователя по токену из письма восстановления. Обновляет пароль и удаляет токен сброса.
-         */
-        post: operations["AccountController_resetPassword"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/account/email/verification/send": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Отправить письмо для подтверждения email
-         * @description Отправляет письмо с одноразовым токеном подтверждения на email текущего пользователя.
-         */
-        post: operations["AccountController_sendVerificationEmail"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/account/password/reset/send": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Отправить письмо для сброса пароля
-         * @description Отправляет письмо с одноразовым токеном сброса пароля на email текущего пользователя.
-         */
-        post: operations["AccountController_sendResetPasswordEmail"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
+  '/api/shop': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** Создание магазина */
+    post: operations['ShopController_create']
+    /** Удаление магазина */
+    delete: operations['ShopController_delete']
+    options?: never
+    head?: never
+    /** Обновление названия/описания магазина */
+    patch: operations['ShopController_update']
+    trace?: never
+  }
+  '/api/shop/logo': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** Сохранение или обновление логотипа магазина */
+    post: operations['ShopController_setShopPicture']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/shop/@me': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** Мои магазины */
+    get: operations['ShopController_getMyShops']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/shop/{id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** Поиск магазина по id */
+    get: operations['ShopController_getById']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/users/{id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** Получить пользователя по id (только для ADMIN) */
+    get: operations['UsersController_findById']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/account/register': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** Регистрация пользователя */
+    post: operations['AccountController_register']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/account/login': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** Вход */
+    post: operations['AccountController_login']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/account/logout': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** Выход (logout) */
+    post: operations['AccountController_logout']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/account/email/verify': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * Подтверждение email по токену
+     * @description Подтверждает email пользователя по одноразовому токену из письма. Устанавливает isVerified = true, удаляет токен и создаёт сессию
+     */
+    post: operations['AccountController_confirmEmail']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/account/password/reset': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * Сброс пароля по токену
+     * @description Сбрасывает пароль пользователя по токену из письма восстановления. Обновляет пароль и удаляет токен сброса.
+     */
+    post: operations['AccountController_resetPassword']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/account/email/verification/send': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * Отправить письмо для подтверждения email
+     * @description Отправляет письмо с одноразовым токеном подтверждения на email текущего пользователя.
+     */
+    post: operations['AccountController_sendVerificationEmail']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/account/password/reset/send': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * Отправить письмо для сброса пароля
+     * @description Отправляет письмо с одноразовым токеном сброса пароля на email текущего пользователя.
+     */
+    post: operations['AccountController_sendResetPasswordEmail']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/account/@me': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** Получить профиль текущего пользователя */
+    get: operations['AccountController_me']
+    put?: never
+    post?: never
+    /** Удаление аккаунта */
+    delete: operations['AccountController_delete']
+    options?: never
+    head?: never
+    /** Обновление username пользователя */
+    patch: operations['AccountController_patchUser']
+    trace?: never
+  }
+  '/api/account/@me/avatar': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    /** Обновление фото аватара */
+    patch: operations['AccountController_upload']
+    trace?: never
+  }
+  '/api/category': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** @description Создание категории */
+    post: operations['CategoryController_create']
+    /** @description Удаление категории */
+    delete: operations['CategoryController_delete']
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
 }
-export type webhooks = Record<string, never>;
+export type webhooks = Record<string, never>
 export interface components {
-    schemas: {
-        CreateShopDto: {
-            /**
-             * @description Название магазина
-             * @example TechZone
-             */
-            title: string;
-            /**
-             * @description Короткое описание магазина
-             * @example Магазин электроники и аксессуаров с быстрой доставкой.
-             */
-            description: string;
-        };
-        ShopResponseDto: {
-            id: string;
-            title: string;
-            description: string;
-            picture?: string;
-            userId: string;
-            createdAt: string;
-            updatedAt: string;
-        };
-        ApiErrorResponseDto: {
-            /** @example 400 */
-            statusCode: number;
-            /** @example Bad Request */
-            error: string;
-            /** @example Неверные учетные данные */
-            message: string;
-            /**
-             * @example UNAUTHORIZED
-             * @enum {string}
-             */
-            code: "VALIDATION_FAILED" | "UNAUTHORIZED" | "FORBIDDEN" | "NOT_FOUND" | "CONFLICT" | "INTERNAL";
-            /**
-             * @description Ошибки по полям (обычно из ValidationPipe)
-             * @example {
-             *       "email": [
-             *         "Invalid email"
-             *       ]
-             *     }
-             */
-            details?: Record<string, never>;
-            /**
-             * @description Путь запроса (для отладки)
-             * @example /api/account/login
-             */
-            path: string;
-            /**
-             * @description ISO timestamp (для отладки)
-             * @example 2026-02-13T11:32:54.861Z
-             */
-            timestamp: string;
-        };
-        UpdateShopDto: {
-            /**
-             * @description Название магазина
-             * @example TechZone
-             */
-            title: string;
-            /**
-             * @description Короткое описание магазина
-             * @example Магазин электроники и аксессуаров с быстрой доставкой.
-             */
-            description: string;
-            /**
-             * @description Id магазина
-             * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
-             */
-            shopId: string;
-        };
-        CreateShopResponseDto: {
-            /**
-             * @description Id магазина
-             * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
-             */
-            shopId: string;
-        };
-        UploadLogoShopDto: {
-            /**
-             * @description Id магазина
-             * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
-             */
-            shopId: string;
-            /** Format: binary */
-            file: string;
-        };
-        UploadLogoShopRequestDto: {
-            path: string;
-        };
-        /** @enum {string} */
-        UserRole: "REGULAR" | "ADMIN";
-        /** @enum {string} */
-        AuthMethod: "CREDENTIALS" | "GOOGLE" | "YANDEX";
-        UserResponseDto: {
-            id: string;
-            name: string;
-            email: string;
-            picture: string;
-            /** @example REGULAR */
-            role: components["schemas"]["UserRole"];
-            isVerified: boolean;
-            isTwoFactorEnable: boolean;
-            /** @example CREDENTIALS */
-            method: components["schemas"]["AuthMethod"];
-            createdAt: string;
-            updatedAt: string;
-        };
-        PatchUserDto: {
-            /**
-             * @description Имя пользователя, отображаемое в системе.
-             * @example John Doe
-             */
-            firstName: string;
-        };
-        UpdateUserAvatarResponseDto: {
-            /**
-             * @description Ссылка на автар пользователя
-             * @example https://4f35f4d0-2fb4974b-6046-4608-bcaa-2df25d95c300.s3.timeweb.cloud/avatars/1769796648317-zkv4xtz0vk-eleskov.png
-             */
-            url: string;
-        };
-        RegisterDto: {
-            /**
-             * @description Имя пользователя, отображаемое в системе.
-             * @example John Doe
-             */
-            name: string;
-            /**
-             * @description Уникальный email пользователя. Используется для регистрации и входа.
-             * @example example@example.com
-             */
-            email: string;
-            /**
-             * @description Пароль пользователя. Минимальная длина — 6 символов (валидация на бэкенде).
-             * @example password123
-             */
-            password: string;
-            /**
-             * @description Captcha verification code
-             * @example 03AFcWeA...
-             */
-            captcha: string;
-        };
-        AccountResponseDto: {
-            /**
-             * @description id пользователя
-             * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
-             */
-            userId: string;
-        };
-        LoginDto: {
-            /**
-             * @description Email пользователя. Используется как логин при авторизации.
-             * @example example@example.com
-             */
-            email: string;
-            /**
-             * @description Пароль пользователя. Минимальная длина — 6 символов (валидация на бэкенде).
-             * @example password123
-             */
-            password: string;
-            /**
-             * @description Код двухфакторной аутентификации. Обязателен только при включённой 2FA.
-             * @example 123456
-             */
-            code?: string;
-        };
-        VerificationTokenDto: {
-            /**
-             * @description Токен подтверждения из письма
-             * @example 550e8400-e29b-41d4-a716-446655440001
-             */
-            token: string;
-        };
-        ResetPasswordDto: {
-            /**
-             * @description Токен для сброса пароля из письма.
-             * @example 550e8400-e29b-41d4-a716-446655440001
-             */
-            token: string;
-            /**
-             * @description Новый пароль. Минимальная длина — 6 символов.
-             * @example newPassword123
-             */
-            password: string;
-            /**
-             * @description Подтверждение нового пароля (должно совпадать с паролем).
-             * @example newPassword123
-             */
-            confirmPassword: string;
-        };
-        SendEmailDto: {
-            /**
-             * @description Email для отправки токена верификации
-             * @example user@example.com
-             */
-            email: string;
-        };
-    };
-    responses: never;
-    parameters: never;
-    requestBodies: never;
-    headers: never;
-    pathItems: never;
+  schemas: {
+    CreateShopDto: {
+      /**
+       * @description Название магазина
+       * @example TechZone
+       */
+      title: string
+      /**
+       * @description Короткое описание магазина
+       * @example Магазин электроники и аксессуаров с быстрой доставкой.
+       */
+      description: string
+    }
+    ShopResponseDto: {
+      id: string
+      title: string
+      description: string
+      picture?: string
+      userId: string
+      createdAt: string
+      updatedAt: string
+    }
+    ApiErrorResponseDto: {
+      /** @example 400 */
+      statusCode: number
+      /** @example Bad Request */
+      error: string
+      /** @example Неверные учетные данные */
+      message: string
+      /**
+       * @example UNAUTHORIZED
+       * @enum {string}
+       */
+      code:
+        | 'VALIDATION_FAILED'
+        | 'UNAUTHORIZED'
+        | 'FORBIDDEN'
+        | 'NOT_FOUND'
+        | 'CONFLICT'
+        | 'INTERNAL'
+      /**
+       * @description Ошибки по полям (обычно из ValidationPipe)
+       * @example {
+       *       "email": [
+       *         "Invalid email"
+       *       ]
+       *     }
+       */
+      details?: Record<string, never>
+      /**
+       * @description Путь запроса (для отладки)
+       * @example /api/account/login
+       */
+      path: string
+      /**
+       * @description ISO timestamp (для отладки)
+       * @example 2026-02-13T11:32:54.861Z
+       */
+      timestamp: string
+    }
+    UploadLogoShopDto: {
+      /**
+       * @description Id магазина
+       * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
+       */
+      shopId: string
+      /** Format: binary */
+      file: string
+    }
+    UploadLogoShopRequestDto: {
+      path: string
+    }
+    UpdateShopDto: {
+      /**
+       * @description Название магазина
+       * @example TechZone
+       */
+      title: string
+      /**
+       * @description Короткое описание магазина
+       * @example Магазин электроники и аксессуаров с быстрой доставкой.
+       */
+      description: string
+      /**
+       * @description Id магазина
+       * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
+       */
+      shopId: string
+    }
+    CreateShopResponseDto: {
+      /**
+       * @description Id магазина
+       * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
+       */
+      shopId: string
+    }
+    DeleteShopDto: {
+      /**
+       * @description Id магазина
+       * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
+       */
+      shopId: string
+    }
+    RegisterDto: {
+      /**
+       * @description Имя пользователя, отображаемое в системе.
+       * @example John Doe
+       */
+      name: string
+      /**
+       * @description Уникальный email пользователя. Используется для регистрации и входа.
+       * @example example@example.com
+       */
+      email: string
+      /**
+       * @description Пароль пользователя. Минимальная длина — 6 символов (валидация на бэкенде).
+       * @example password123
+       */
+      password: string
+      /**
+       * @description Captcha verification code
+       * @example 03AFcWeA...
+       */
+      captcha: string
+    }
+    AccountResponseDto: {
+      /**
+       * @description id пользователя
+       * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
+       */
+      userId: string
+    }
+    LoginDto: {
+      /**
+       * @description Email пользователя. Используется как логин при авторизации.
+       * @example example@example.com
+       */
+      email: string
+      /**
+       * @description Пароль пользователя. Минимальная длина — 6 символов (валидация на бэкенде).
+       * @example password123
+       */
+      password: string
+      /**
+       * @description Код двухфакторной аутентификации. Обязателен только при включённой 2FA.
+       * @example 123456
+       */
+      code?: string
+    }
+    VerificationTokenDto: {
+      /**
+       * @description Токен подтверждения из письма
+       * @example 550e8400-e29b-41d4-a716-446655440001
+       */
+      token: string
+    }
+    ResetPasswordDto: {
+      /**
+       * @description Токен для сброса пароля из письма.
+       * @example 550e8400-e29b-41d4-a716-446655440001
+       */
+      token: string
+      /**
+       * @description Новый пароль. Минимальная длина — 6 символов.
+       * @example newPassword123
+       */
+      password: string
+      /**
+       * @description Подтверждение нового пароля (должно совпадать с паролем).
+       * @example newPassword123
+       */
+      confirmPassword: string
+    }
+    SendEmailDto: {
+      /**
+       * @description Email для отправки токена верификации
+       * @example user@example.com
+       */
+      email: string
+    }
+    /** @enum {string} */
+    UserRole: 'REGULAR' | 'ADMIN'
+    /** @enum {string} */
+    AuthMethod: 'CREDENTIALS' | 'GOOGLE' | 'YANDEX'
+    UserResponseDto: {
+      id: string
+      name: string
+      email: string
+      picture: string
+      /** @example REGULAR */
+      role: components['schemas']['UserRole']
+      isVerified: boolean
+      isTwoFactorEnable: boolean
+      /** @example CREDENTIALS */
+      method: components['schemas']['AuthMethod']
+      createdAt: string
+      updatedAt: string
+    }
+    PatchUserDto: {
+      /**
+       * @description Имя пользователя, отображаемое в системе.
+       * @example John Doe
+       */
+      firstName: string
+    }
+    UpdateUserAvatarResponseDto: {
+      /**
+       * @description Ссылка на автар пользователя
+       * @example https://4f35f4d0-2fb4974b-6046-4608-bcaa-2df25d95c300.s3.timeweb.cloud/avatars/1769796648317-zkv4xtz0vk-eleskov.png
+       */
+      url: string
+    }
+    CreateCategoryDto: {
+      /**
+       * @description Название категории
+       * @example Куртки
+       */
+      title: string
+      /** @example Куртки */
+      description: string
+      /**
+       * @description Id магазина
+       * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
+       */
+      shopId: string
+    }
+    CategoryResponseDto: {
+      /**
+       * @description ID категории
+       * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
+       */
+      id: string
+      /**
+       * @description Название категории
+       * @example Куртки
+       */
+      title: string
+      /**
+       * @description Описание категории
+       * @example Куртки
+       */
+      description: string
+      /**
+       * @description ID магазина к которому привязана категория
+       * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
+       */
+      shopId: string
+    }
+    DeleteCategoryDto: {
+      /**
+       * @description Id категории
+       * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
+       */
+      categoryId: string
+    }
+  }
+  responses: never
+  parameters: never
+  requestBodies: never
+  headers: never
+  pathItems: never
 }
-export type SchemaCreateShopDto = components['schemas']['CreateShopDto'];
-export type SchemaShopResponseDto = components['schemas']['ShopResponseDto'];
-export type SchemaApiErrorResponseDto = components['schemas']['ApiErrorResponseDto'];
-export type SchemaUpdateShopDto = components['schemas']['UpdateShopDto'];
-export type SchemaCreateShopResponseDto = components['schemas']['CreateShopResponseDto'];
-export type SchemaUploadLogoShopDto = components['schemas']['UploadLogoShopDto'];
-export type SchemaUploadLogoShopRequestDto = components['schemas']['UploadLogoShopRequestDto'];
-export type SchemaUserRole = components['schemas']['UserRole'];
-export type SchemaAuthMethod = components['schemas']['AuthMethod'];
-export type SchemaUserResponseDto = components['schemas']['UserResponseDto'];
-export type SchemaPatchUserDto = components['schemas']['PatchUserDto'];
-export type SchemaUpdateUserAvatarResponseDto = components['schemas']['UpdateUserAvatarResponseDto'];
-export type SchemaRegisterDto = components['schemas']['RegisterDto'];
-export type SchemaAccountResponseDto = components['schemas']['AccountResponseDto'];
-export type SchemaLoginDto = components['schemas']['LoginDto'];
-export type SchemaVerificationTokenDto = components['schemas']['VerificationTokenDto'];
-export type SchemaResetPasswordDto = components['schemas']['ResetPasswordDto'];
-export type SchemaSendEmailDto = components['schemas']['SendEmailDto'];
-export type $defs = Record<string, never>;
+export type SchemaCreateShopDto = components['schemas']['CreateShopDto']
+export type SchemaShopResponseDto = components['schemas']['ShopResponseDto']
+export type SchemaApiErrorResponseDto =
+  components['schemas']['ApiErrorResponseDto']
+export type SchemaUploadLogoShopDto = components['schemas']['UploadLogoShopDto']
+export type SchemaUploadLogoShopRequestDto =
+  components['schemas']['UploadLogoShopRequestDto']
+export type SchemaUpdateShopDto = components['schemas']['UpdateShopDto']
+export type SchemaCreateShopResponseDto =
+  components['schemas']['CreateShopResponseDto']
+export type SchemaDeleteShopDto = components['schemas']['DeleteShopDto']
+export type SchemaRegisterDto = components['schemas']['RegisterDto']
+export type SchemaAccountResponseDto =
+  components['schemas']['AccountResponseDto']
+export type SchemaLoginDto = components['schemas']['LoginDto']
+export type SchemaVerificationTokenDto =
+  components['schemas']['VerificationTokenDto']
+export type SchemaResetPasswordDto = components['schemas']['ResetPasswordDto']
+export type SchemaSendEmailDto = components['schemas']['SendEmailDto']
+export type SchemaUserRole = components['schemas']['UserRole']
+export type SchemaAuthMethod = components['schemas']['AuthMethod']
+export type SchemaUserResponseDto = components['schemas']['UserResponseDto']
+export type SchemaPatchUserDto = components['schemas']['PatchUserDto']
+export type SchemaUpdateUserAvatarResponseDto =
+  components['schemas']['UpdateUserAvatarResponseDto']
+export type SchemaCreateCategoryDto = components['schemas']['CreateCategoryDto']
+export type SchemaCategoryResponseDto =
+  components['schemas']['CategoryResponseDto']
+export type SchemaDeleteCategoryDto = components['schemas']['DeleteCategoryDto']
+export type $defs = Record<string, never>
 export interface operations {
-    ShopController_create: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateShopDto"];
-            };
-        };
-        responses: {
-            /** @description Магазин успешно создался */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ShopResponseDto"];
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-        };
-    };
-    ShopController_update: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateShopDto"];
-            };
-        };
-        responses: {
-            /** @description Данные магазин успешно обновлен */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["CreateShopResponseDto"];
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-        };
-    };
-    ShopController_getMyShops: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ShopResponseDto"][];
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-        };
-    };
-    ShopController_getById: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Магазин найден */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ShopResponseDto"];
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-        };
-    };
-    ShopController_setShopPicture: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "multipart/form-data": components["schemas"]["UploadLogoShopDto"];
-            };
-        };
-        responses: {
-            /** @description Логотиип успешно сохранен */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UploadLogoShopRequestDto"];
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-        };
-    };
-    UsersController_findById: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description ID пользователя */
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Пользователь найден. */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-        };
-    };
-    AccountController_me: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Профиль текущего пользователя. */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UserResponseDto"];
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-        };
-    };
-    AccountController_patchUser: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["PatchUserDto"];
-            };
-        };
-        responses: {
-            /** @description Данные успешно обновлены */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UserResponseDto"];
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-        };
-    };
-    AccountController_upload: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Фото успешно обновлено */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UpdateUserAvatarResponseDto"];
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-        };
-    };
-    AccountController_register: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["RegisterDto"];
-            };
-        };
-        responses: {
-            /** @description Успешная регистрация. */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AccountResponseDto"];
-                };
-            };
-            /** @description Пользователь зарегистрирован */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-        };
-    };
-    AccountController_login: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["LoginDto"];
-            };
-        };
-        responses: {
-            /** @description Успешный вход. Может вернуть accessToken в body и/или установить cookie */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AccountResponseDto"];
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-        };
-    };
-    AccountController_logout: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Сессия завершена. Очистка cookie и инвалидация сессии. */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AccountResponseDto"];
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-        };
-    };
-    AccountController_confirmEmail: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["VerificationTokenDto"];
-            };
-        };
-        responses: {
-            /** @description Email успешно подтверждён. Создана сессия авторизации */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-        };
-    };
-    AccountController_resetPassword: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Токен из письма + новый пароль */
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ResetPasswordDto"];
-            };
-        };
-        responses: {
-            /** @description Пароль успешно сброшен */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": boolean;
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-        };
-    };
-    AccountController_sendVerificationEmail: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["SendEmailDto"];
-            };
-        };
-        responses: {
-            /** @description Письмо отправлено (или переотправлено) */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-        };
-    };
-    AccountController_sendResetPasswordEmail: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["SendEmailDto"];
-            };
-        };
-        responses: {
-            /** @description Письмо отправлено */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiErrorResponseDto"];
-                };
-            };
-        };
-    };
+  ShopController_create: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateShopDto']
+      }
+    }
+    responses: {
+      /** @description Магазин успешно создался */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ShopResponseDto']
+        }
+      }
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+    }
+  }
+  ShopController_delete: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['DeleteShopDto']
+      }
+    }
+    responses: {
+      /** @description Магазин успешно удален */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          /** @example true */
+          'application/json': unknown
+        }
+      }
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+    }
+  }
+  ShopController_update: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateShopDto']
+      }
+    }
+    responses: {
+      /** @description Данные магазин успешно обновлен */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['CreateShopResponseDto']
+        }
+      }
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+    }
+  }
+  ShopController_setShopPicture: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'multipart/form-data': components['schemas']['UploadLogoShopDto']
+      }
+    }
+    responses: {
+      /** @description Логотиип успешно сохранен */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['UploadLogoShopRequestDto']
+        }
+      }
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+    }
+  }
+  ShopController_getMyShops: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ShopResponseDto'][]
+        }
+      }
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+    }
+  }
+  ShopController_getById: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        id: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Магазин найден */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ShopResponseDto']
+        }
+      }
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+    }
+  }
+  UsersController_findById: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description ID пользователя */
+        id: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Пользователь найден. */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+    }
+  }
+  AccountController_register: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['RegisterDto']
+      }
+    }
+    responses: {
+      /** @description Успешная регистрация. */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['AccountResponseDto']
+        }
+      }
+      /** @description Пользователь зарегистрирован */
+      201: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+    }
+  }
+  AccountController_login: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['LoginDto']
+      }
+    }
+    responses: {
+      /** @description Успешный вход. Может вернуть accessToken в body и/или установить cookie */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['AccountResponseDto']
+        }
+      }
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+    }
+  }
+  AccountController_logout: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Сессия завершена. Очистка cookie и инвалидация сессии. */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['AccountResponseDto']
+        }
+      }
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+    }
+  }
+  AccountController_confirmEmail: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['VerificationTokenDto']
+      }
+    }
+    responses: {
+      /** @description Email успешно подтверждён. Создана сессия авторизации */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+    }
+  }
+  AccountController_resetPassword: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** @description Токен из письма + новый пароль */
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ResetPasswordDto']
+      }
+    }
+    responses: {
+      /** @description Пароль успешно сброшен */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': boolean
+        }
+      }
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+    }
+  }
+  AccountController_sendVerificationEmail: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['SendEmailDto']
+      }
+    }
+    responses: {
+      /** @description Письмо отправлено (или переотправлено) */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+    }
+  }
+  AccountController_sendResetPasswordEmail: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['SendEmailDto']
+      }
+    }
+    responses: {
+      /** @description Письмо отправлено */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+    }
+  }
+  AccountController_me: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Профиль текущего пользователя. */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['UserResponseDto']
+        }
+      }
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+    }
+  }
+  AccountController_delete: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Пользователь успешно удален */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          /** @example true */
+          'application/json': unknown
+        }
+      }
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+    }
+  }
+  AccountController_patchUser: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['PatchUserDto']
+      }
+    }
+    responses: {
+      /** @description Данные успешно обновлены */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['UserResponseDto']
+        }
+      }
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+    }
+  }
+  AccountController_upload: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Фото успешно обновлено */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['UpdateUserAvatarResponseDto']
+        }
+      }
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiErrorResponseDto']
+        }
+      }
+    }
+  }
+  CategoryController_create: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateCategoryDto']
+      }
+    }
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['CategoryResponseDto']
+        }
+      }
+    }
+  }
+  CategoryController_delete: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['DeleteCategoryDto']
+      }
+    }
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          /** @example true */
+          'application/json': unknown
+        }
+      }
+    }
+  }
 }
