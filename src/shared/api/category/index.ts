@@ -1,1 +1,2 @@
-export * from './useCreateMutation'
+export * from './useCreateCategoryMutation'
+export * from './useDeleteCategoryMutation'

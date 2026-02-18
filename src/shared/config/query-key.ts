@@ -11,11 +11,13 @@ export const QUERY_KEY = {
   PATCH_AVATAR: 'patch_avatar',
 
   CREATE_SHOP: 'create_shop',
-  ME_SELECTED_SHOP_ID: 'me_selected_shop_id',
   PATCH_SHOP: 'patch_shop',
+  ME_SELECTED_SHOP_ID: 'me_selected_shop_id',
   SHOP_UPLOAD_LOGO: 'shop_upload_logo',
   ME_SHOPS: 'me_shops',
   GET_SHOP_BY_ID: 'shop',
+  SHOP_CATEGORIES: 'shop-categories',
 
   CREATE_CATEGORY: 'create_category',
+  DELETE_CATEGORY: 'delete_category',
 } as const

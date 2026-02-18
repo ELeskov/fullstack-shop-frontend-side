@@ -3,6 +3,7 @@ import { Controller, type SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import z from 'zod'
 
+import { useCreateCategoryMutation } from '@/shared/api'
 import {
   Field,
   FieldError,
@@ -24,6 +25,7 @@ interface ICreateCategoryForm {
 }
 
 export function CreateCategoryForm({ editData }: ICreateCategoryForm) {
+  const { mutateAsync } = useCreateCategoryMutation()
   const { handleSubmit, reset, control } = useForm<CategorySchema>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -33,9 +35,8 @@ export function CreateCategoryForm({ editData }: ICreateCategoryForm) {
     mode: 'onTouched',
   })
 
-  const onSubmit: SubmitHandler<CategorySchema> = (data) => {
-    console.log(data)
-    reset()
+  const onSubmit: SubmitHandler<CategorySchema> = async (data) => {
+    await mutateAsync(data)
   }
 
   return (

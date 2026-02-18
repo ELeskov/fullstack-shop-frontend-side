@@ -35,7 +35,7 @@ const throwOnHttpError: Middleware = {
       }
     }
 
-    throw new ApiClientError(payload)
+    throw new ApiClientError(payload!)
   },
 }
 
