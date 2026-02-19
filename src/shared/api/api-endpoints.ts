@@ -74,6 +74,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/shop/{shopId}/categories": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Получить все категории магазина */
+        get: operations["ShopController_getMyCategories"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/{shopId}/colors": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Получить все цвета магазина */
+        get: operations["ShopController_getColors"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/users/{id}": {
         parameters: {
             query?: never;
@@ -276,6 +310,24 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/color": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Создать цвет для магазина */
+        post: operations["ColorController_create"];
+        /** Удалить цвет магазина */
+        delete: operations["ColorController_delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -345,6 +397,45 @@ export interface components {
         UploadLogoShopRequestDto: {
             path: string;
         };
+        CategoryResponseDto: {
+            /**
+             * @description ID категории
+             * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
+             */
+            id: string;
+            /**
+             * @description Название категории
+             * @example Куртки
+             */
+            title: string;
+            /**
+             * @description Описание категории
+             * @example Куртки
+             */
+            description: string;
+            /**
+             * @description ID магазина к которому привязана категория
+             * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
+             */
+            shopId: string;
+            /**
+             * Format: date-time
+             * @description Дата создания магазина
+             */
+            createdAt: string;
+        };
+        ColorResponseDto: {
+            /** @example a0d3d0d9-1b4f-4fb8-9c3c-4f0f5d2d8a32 */
+            id: string;
+            /** @example Белый */
+            title: string;
+            /** @example #FFFFFF */
+            value: string;
+            /** @example c8cbd1a7-7d9c-4c6f-8b2c-4db6c7d1a0aa */
+            shopId: string;
+            /** @example 2026-02-19T12:00:00.000Z */
+            createdAt: string;
+        };
         UpdateShopDto: {
             /**
              * @description Название магазина
@@ -412,7 +503,7 @@ export interface components {
              */
             email: string;
             /**
-             * @description Пароль пользователя. Минимальная длина — 6 символов (валидация на бэкенде).
+             * @description Пароль пользователя. Минимальная длина — 6 символов
              * @example password123
              */
             password: string;
@@ -499,39 +590,41 @@ export interface components {
              */
             shopId: string;
         };
-        CategoryResponseDto: {
-            /**
-             * @description ID категории
-             * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
-             */
-            id: string;
-            /**
-             * @description Название категории
-             * @example Куртки
-             */
-            title: string;
-            /**
-             * @description Описание категории
-             * @example Куртки
-             */
-            description: string;
-            /**
-             * @description ID магазина к которому привязана категория
-             * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
-             */
-            shopId: string;
-            /**
-             * Format: date-time
-             * @description Дата создания магазина
-             */
-            createdAt: string;
-        };
         DeleteCategoryDto: {
             /**
              * @description Id категории
              * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
              */
             categoryId: string;
+        };
+        CreateColorDto: {
+            /**
+             * @description ID магазина
+             * @example c8cbd1a7-7d9c-4c6f-8b2c-4db6c7d1a0aa
+             */
+            shopId: string;
+            /**
+             * @description Название цвета
+             * @example Белый
+             */
+            title: string;
+            /**
+             * @description HEX значение цвета
+             * @example #FFFFFF
+             */
+            value: string;
+        };
+        DeleteColorDto: {
+            /**
+             * @description ID магазина
+             * @example 5f3adf09-7d49-4d6c-8e07-2ce0bb8b0c8e
+             */
+            shopId: string;
+            /**
+             * @description ID цвета
+             * @example a0d3d0d9-1b4f-4fb8-9c3c-4f0f5d2d8a32
+             */
+            colorId: string;
         };
     };
     responses: never;
@@ -545,6 +638,8 @@ export type SchemaShopResponseDto = components['schemas']['ShopResponseDto'];
 export type SchemaApiErrorResponseDto = components['schemas']['ApiErrorResponseDto'];
 export type SchemaUploadLogoShopDto = components['schemas']['UploadLogoShopDto'];
 export type SchemaUploadLogoShopRequestDto = components['schemas']['UploadLogoShopRequestDto'];
+export type SchemaCategoryResponseDto = components['schemas']['CategoryResponseDto'];
+export type SchemaColorResponseDto = components['schemas']['ColorResponseDto'];
 export type SchemaUpdateShopDto = components['schemas']['UpdateShopDto'];
 export type SchemaCreateShopResponseDto = components['schemas']['CreateShopResponseDto'];
 export type SchemaDeleteShopDto = components['schemas']['DeleteShopDto'];
@@ -560,8 +655,9 @@ export type SchemaUserResponseDto = components['schemas']['UserResponseDto'];
 export type SchemaPatchUserDto = components['schemas']['PatchUserDto'];
 export type SchemaUpdateUserAvatarResponseDto = components['schemas']['UpdateUserAvatarResponseDto'];
 export type SchemaCreateCategoryDto = components['schemas']['CreateCategoryDto'];
-export type SchemaCategoryResponseDto = components['schemas']['CategoryResponseDto'];
 export type SchemaDeleteCategoryDto = components['schemas']['DeleteCategoryDto'];
+export type SchemaCreateColorDto = components['schemas']['CreateColorDto'];
+export type SchemaDeleteColorDto = components['schemas']['DeleteColorDto'];
 export type $defs = Record<string, never>;
 export interface operations {
     ShopController_create: {
@@ -794,7 +890,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Логотиип успешно сохранен */
+            /** @description Логотип успешно сохранен */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -938,6 +1034,144 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ShopResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ShopController_getMyCategories: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                shopId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CategoryResponseDto"][];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ShopController_getColors: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                shopId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ColorResponseDto"][];
                 };
             };
             400: {
@@ -1881,6 +2115,150 @@ export interface operations {
                 content: {
                     /** @example true */
                     "application/json": unknown;
+                };
+            };
+        };
+    };
+    ColorController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateColorDto"];
+            };
+        };
+        responses: {
+            /** @description Цвет создан */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ColorResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ColorController_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeleteColorDto"];
+            };
+        };
+        responses: {
+            /** @description Цвет удалён */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CreateColorDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };

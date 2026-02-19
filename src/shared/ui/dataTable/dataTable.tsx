@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 
 import {
   type ColumnDef,
@@ -63,12 +63,10 @@ export function DataTable<TData>({
   createButtonText = 'Создать',
   initialPageSize = 10,
 }: DataTableProps<TData>) {
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  )
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [rowSelection, setRowSelection] = React.useState({})
-  const [pagination, setPagination] = React.useState({
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [rowSelection, setRowSelection] = useState({})
+  const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: initialPageSize,
   })

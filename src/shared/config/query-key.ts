@@ -16,8 +16,12 @@ export const QUERY_KEY = {
   SHOP_UPLOAD_LOGO: 'shop_upload_logo',
   ME_SHOPS: 'me_shops',
   GET_SHOP_BY_ID: 'shop',
-  SHOP_CATEGORIES: 'shop-categories',
+  SHOP_CATEGORIES: 'shop_categories',
+  SHOP_COLORS: 'shop_colors',
 
   CREATE_CATEGORY: 'create_category',
   DELETE_CATEGORY: 'delete_category',
+
+  CREATE_COLOR: 'create_color',
+  DELETE_COLOR: 'delete_color',
 } as const

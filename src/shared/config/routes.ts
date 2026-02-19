@@ -29,7 +29,6 @@ export const ROUTES = {
       },
       colors: {
         create: '/create',
-        edit: '/edit',
       },
       categories: {
         create: '/create',

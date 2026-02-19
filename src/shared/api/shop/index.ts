@@ -1,4 +1,6 @@
 export * from './useCreateMutation'
+export * from './useGetMeAllCategories'
+export * from './useGetMeAllColors'
 export * from './useGetMeShops'
 export * from './usePatchShopMutation'
 export * from './useSelectedShopId'

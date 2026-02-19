@@ -1,0 +1,196 @@
+.create-new-color-form {
+  width: 100%;
+}
+
+.create-new-color-form__card {
+  position: relative;
+  overflow: hidden;
+
+  border-radius: rem(18);
+  border: rem(1) solid rgba(255, 255, 255, 0.08);
+
+  padding: rem(16);
+
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(12px);
+
+  box-shadow:
+    0 rem(18) rem(60) rgba(0, 0, 0, 0.55),
+    inset 0 rem(1) 0 rgba(255, 255, 255, 0.06);
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+
+    background-image: radial-gradient(
+      circle at 20% 10%,
+      rgba(96, 165, 250, 0.08),
+      transparent 40%
+    );
+    opacity: 0.9;
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.create-new-color-form__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: rem(12);
+
+  padding-bottom: rem(12);
+  border-bottom: rem(1) solid rgba(255, 255, 255, 0.08);
+  margin-bottom: rem(14);
+
+  @include mobile {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.create-new-color-form__title-block {
+  display: flex;
+  flex-direction: column;
+  gap: rem(4);
+  min-width: 0;
+}
+
+.create-new-color-form__title {
+  font-size: rem(16);
+  font-weight: 750;
+  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.2;
+}
+
+.create-new-color-form__subtitle {
+  font-size: rem(12);
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.3;
+}
+
+.create-new-color-form__preview {
+  display: inline-flex;
+  align-items: center;
+  gap: rem(10);
+
+  padding: rem(8) rem(10);
+  border-radius: rem(14);
+
+  border: rem(1) solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+
+  box-shadow: 0 rem(12) rem(30) rgba(0, 0, 0, 0.25);
+
+  user-select: none;
+}
+
+.create-new-color-form__swatch {
+  width: rem(22);
+  height: rem(22);
+  border-radius: rem(8);
+
+  border: rem(1) solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 0 rem(16) rgba(255, 255, 255, 0.08),
+    inset 0 rem(1) 0 rgba(255, 255, 255, 0.18);
+}
+
+.create-new-color-form__hex {
+  font-size: rem(12);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(0, 0, 0, 0.22);
+
+  border: rem(1) solid rgba(255, 255, 255, 0.08);
+  border-radius: rem(999);
+  padding: rem(3) rem(10);
+}
+
+.create-new-color-form__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: rem(12);
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.create-new-color-form__field {
+  border-radius: rem(16);
+  border: rem(1) solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  padding: rem(14);
+
+  box-shadow: 0 rem(14) rem(34) rgba(0, 0, 0, 0.22);
+}
+
+.create-new-color-form__input {
+  background: rgba(0, 0, 0, 0.18);
+  border: rem(1) solid rgba(255, 255, 255, 0.08);
+}
+
+.create-new-color-form__picker-wrap {
+  grid-column: 1 / -1;
+
+  border-radius: rem(18);
+  border: rem(1) solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+
+  padding: rem(14);
+
+  box-shadow:
+    0 rem(18) rem(44) rgba(0, 0, 0, 0.35),
+    inset 0 rem(1) 0 rgba(255, 255, 255, 0.05);
+}
+
+.create-new-color-form__picker-wrap :global(.react-colorful) {
+  width: 100%;
+  height: rem(190);
+}
+
+.create-new-color-form__picker-wrap :global(.react-colorful__saturation) {
+  border-radius: rem(14);
+}
+
+.create-new-color-form__picker-wrap :global(.react-colorful__hue) {
+  margin-top: rem(12);
+  height: rem(12);
+  border-radius: rem(999);
+  border: rem(1) solid rgba(255, 255, 255, 0.08);
+}
+
+.create-new-color-form__picker-wrap :global(.react-colorful__pointer) {
+  width: rem(18);
+  height: rem(18);
+  border-radius: rem(999);
+  border: rem(2) solid rgba(255, 255, 255, 0.9);
+  box-shadow:
+    0 rem(10) rem(24) rgba(0, 0, 0, 0.4),
+    0 0 rem(16) rgba(255, 255, 255, 0.16);
+}
+
+.create-new-color-form__footer {
+  margin-top: rem(14);
+  padding-top: rem(14);
+
+  display: flex;
+  justify-content: flex-end;
+
+  @include mobile {
+    > * {
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,117 @@
+.category-form {
+  display: flex;
+  flex-direction: column;
+  gap: rem(14);
+}
+
+.category-form__card {
+  position: relative;
+  overflow: hidden;
+
+  border-radius: rem(18);
+  border: rem(1) solid rgba(255, 255, 255, 0.08);
+
+  padding: rem(16);
+
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(12px);
+
+  box-shadow:
+    0 rem(18) rem(60) rgba(0, 0, 0, 0.55),
+    inset 0 rem(1) 0 rgba(255, 255, 255, 0.06);
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+
+    background-image:
+      radial-gradient(
+        circle at 15% 15%,
+        rgba(96, 165, 250, 0.08),
+        transparent 45%
+      ),
+      radial-gradient(
+        circle at 90% 70%,
+        rgba(16, 185, 129, 0.06),
+        transparent 40%
+      );
+    opacity: 0.9;
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.category-form__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  padding-bottom: rem(12);
+  margin-bottom: rem(14);
+
+  border-bottom: rem(1) solid rgba(255, 255, 255, 0.08);
+}
+
+.category-form__title-block {
+  display: flex;
+  flex-direction: column;
+  gap: rem(4);
+  min-width: 0;
+}
+
+.category-form__title {
+  font-size: rem(16);
+  font-weight: 750;
+  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.2;
+}
+
+.category-form__subtitle {
+  font-size: rem(12);
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.35;
+}
+
+.category-form__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: rem(12);
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.category-form__field {
+  border-radius: rem(16);
+  border: rem(1) solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  padding: rem(14);
+
+  box-shadow: 0 rem(14) rem(34) rgba(0, 0, 0, 0.22);
+}
+
+.category-form__input {
+  background: rgba(0, 0, 0, 0.18);
+  border: rem(1) solid rgba(255, 255, 255, 0.08);
+}
+
+.category-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: rem(10);
+
+  @include mobile {
+    flex-direction: column;
+
+    > * {
+      width: 100%;
+    }
+  }
+}
