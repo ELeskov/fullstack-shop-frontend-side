@@ -1,8 +1,8 @@
-import type { JSX } from 'react'
+import type { PropsWithChildren } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 
 import { FallBack } from '@/shared/ui/fallback'
 
-export function Providers({ children }: { children: JSX.Element }) {
+export function Providers({ children }: PropsWithChildren) {
   return <ErrorBoundary FallbackComponent={FallBack}>{children}</ErrorBoundary>
 }

@@ -5,11 +5,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import z from 'zod'
 
 import {
-  Dropzone,
-  DropzoneContent,
-  DropzoneEmptyState,
-} from '@/shared/ui/components/ui/dropzone'
-import {
   Field,
   FieldDescription,
   FieldError,
@@ -27,12 +22,13 @@ import {
 } from '@/shared/ui/components/ui/select'
 import { Textarea } from '@/shared/ui/components/ui/textarea'
 import { CustomButton } from '@/shared/ui/customButton'
+import { MultiPhotoUploader } from '@/shared/ui/multiPhotoUploader'
+import { GroupedOptionsEditor } from '@/shared/ui/productFormOptionsList/productFormOptionsList'
 
 import s from './createNewProductForm.module.scss'
 
 const MAX_FILES = 10
-const MAX_SIZE = 1024 * 1024 * 10
-const MIN_SIZE = 1024
+const MAX_SIZE_MB = 10
 
 const schema = z.object({
   title: z.string().min(1, 'Название обязательно'),
@@ -73,7 +69,6 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
     control,
     formState: { errors, isSubmitting },
     reset,
-    getValues,
     setValue,
   } = useForm<ProductSchema>({
     resolver: zodResolver(schema),
@@ -105,30 +100,22 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
                 name="images"
                 control={control}
                 render={({ field }) => (
-                  <Dropzone
-                    accept={{ 'image/*': [] }}
+                  <MultiPhotoUploader
+                    value={field.value ?? []}
+                    onChange={(files) => field.onChange(files ?? [])}
+                    maxSizeMB={MAX_SIZE_MB}
                     maxFiles={MAX_FILES}
-                    maxSize={MAX_SIZE}
-                    minSize={MIN_SIZE}
-                    onDrop={(acceptedFiles) => {
-                      const current = getValues('images') ?? []
-                      const next = [...current, ...acceptedFiles].slice(
-                        0,
-                        MAX_FILES,
-                      )
-                      field.onChange(next)
-                    }}
-                    src={field.value}
-                  >
-                    <DropzoneEmptyState />
-                    <DropzoneContent />
-                  </Dropzone>
+                    accept="image/png,image/jpeg,image/webp"
+                    disabled={isSubmitting}
+                  />
                 )}
               />
+
               <FieldDescription>
                 Загрузите картинки для вашего товара (до {MAX_FILES} шт и не
-                более 10MB каждая)
+                более {MAX_SIZE_MB}MB каждая)
               </FieldDescription>
+
               {errors.images && (
                 <FieldError>{errors.images.message}</FieldError>
               )}
@@ -161,6 +148,7 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
               />
               {errors.title && <FieldError>{errors.title.message}</FieldError>}
             </Field>
+
             <Field>
               <FieldLabel htmlFor="product-price">Цена (руб)</FieldLabel>
               <Input
@@ -171,6 +159,7 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
                 inputMode="numeric"
                 min={1}
                 step={1}
+                disabled={isSubmitting}
               />
               {errors.price && <FieldError>{errors.price.message}</FieldError>}
             </Field>
@@ -189,6 +178,7 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
                     onValueChange={field.onChange}
                     value={field.value}
                     name="product-category"
+                    disabled={isSubmitting}
                   >
                     <SelectTrigger id="product-category">
                       <SelectValue placeholder="Выберите категорию" />
@@ -215,9 +205,9 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
                 <FieldError>{errors.category.message}</FieldError>
               )}
             </Field>
+
             <Field>
               <FieldLabel htmlFor="product-color">Цвет</FieldLabel>
-
               <Controller
                 control={control}
                 name="color"
@@ -226,6 +216,7 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
                     onValueChange={field.onChange}
                     value={field.value}
                     name="product-color"
+                    disabled={isSubmitting}
                   >
                     <SelectTrigger id="product-color">
                       <SelectValue placeholder="Выберите цвет" />
@@ -253,6 +244,7 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
             </Field>
           </FieldGroup>
         </FieldSet>
+
         <FieldGroup>
           <FieldLabel htmlFor="product-description">Описание</FieldLabel>
           <Controller
@@ -263,6 +255,7 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
                 onChange={field.onChange}
                 value={field.value}
                 id="product-description"
+                disabled={isSubmitting}
               />
             )}
           />
@@ -270,10 +263,16 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
             <FieldError>{errors.description.message}</FieldError>
           )}
         </FieldGroup>
+
         <Field orientation="horizontal">
-          <CustomButton variant={'secondary'} type="submit">
+          <CustomButton
+            variant={'secondary'}
+            type="submit"
+            disabled={isSubmitting}
+          >
             {submitLabel}
           </CustomButton>
+
           <CustomButton
             type="button"
             variant="destructive"
@@ -284,6 +283,8 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
           </CustomButton>
         </Field>
       </FieldGroup>
+
+      <GroupedOptionsEditor />
     </form>
   )
 }

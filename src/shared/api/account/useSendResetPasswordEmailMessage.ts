@@ -7,8 +7,8 @@ import { QUERY_KEY } from '@/shared/config/query-key'
 export const useSendResetPasswordEmailMessage = () => {
   return useMutation({
     mutationKey: [QUERY_KEY.SEND_MESSAGE_RESET_PASSWORD_EMAIL],
-    mutationFn: (email: string) =>
-      apiClient.POST('/api/account/password/reset/send', {
+    mutationFn: async (email: string) =>
+      await apiClient.POST('/api/account/password/reset/send', {
         body: { email },
       }),
     onSuccess: async () => {

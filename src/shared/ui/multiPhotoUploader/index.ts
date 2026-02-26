@@ -1,0 +1,1 @@
+export { MultiPhotoUploader } from './multiPhotoUploader'

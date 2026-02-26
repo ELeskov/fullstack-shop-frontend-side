@@ -24,15 +24,13 @@ import {
 import { Input } from '@/shared/ui/components/ui/input'
 import { CustomButton } from '@/shared/ui/customButton'
 
-const hexSchema = z
-  .string()
-  .trim()
-  .transform((v) => v.toUpperCase())
-  .refine((v) => /^#([0-9A-F]{6})$/.test(v), 'Нужен HEX в формате #RRGGBB')
-
 const schema = z.object({
   title: z.string().trim().min(1, 'Название обязательно'),
-  value: hexSchema,
+  value: z
+    .string()
+    .trim()
+    .transform((v) => v.toUpperCase())
+    .refine((v) => /^#([0-9A-F]{6})$/.test(v), 'Нужен HEX в формате #RRGGBB'),
 })
 
 type ColorFormSchema = z.infer<typeof schema>
@@ -53,6 +51,7 @@ export function CreateNewColorForm() {
 
   const onSubmit: SubmitHandler<ColorFormSchema> = async (data) => {
     const shopId = loadSelectedShopId()
+
     if (!shopId) {
       toast.error('Сначала выбери магазин')
       return
@@ -64,11 +63,9 @@ export function CreateNewColorForm() {
       value: data.value.toUpperCase(),
     })
 
-    toast.success('Цвет создан')
     form.reset({ title: '', value: '#FFFFFF' })
   }
 
-  // превью без useState — берём прямо из формы
   const previewHex = form.watch('value')?.toUpperCase() || '#FFFFFF'
 
   return (

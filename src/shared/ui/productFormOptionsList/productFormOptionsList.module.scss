@@ -1,0 +1,112 @@
+.grouped-options {
+  display: flex;
+  flex-direction: column;
+  gap: rem(12);
+}
+
+.grouped-options__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: rem(12);
+}
+
+.grouped-options__add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: rem(8);
+}
+
+.grouped-options__list {
+  display: flex;
+  flex-direction: column;
+  gap: rem(12);
+}
+
+.grouped-options__group {
+  padding: rem(12);
+  border-radius: rem(18);
+  border: rem(1) solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  box-shadow:
+    0 rem(14) rem(34) rgba(0, 0, 0, 0.28),
+    inset 0 rem(1) 0 rgba(255, 255, 255, 0.06);
+}
+
+.grouped-options__group-head {
+  display: flex;
+  gap: rem(10);
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: rem(10);
+}
+
+.grouped-options__group-name {
+  flex: 1;
+  min-width: rem(180);
+}
+
+.grouped-options__remove-group {
+  display: inline-flex;
+  align-items: center;
+  gap: rem(8);
+  white-space: nowrap;
+}
+
+.grouped-options__options {
+  display: flex;
+  flex-direction: column;
+  gap: rem(10);
+}
+
+.grouped-options__option-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr rem(34);
+  gap: rem(10);
+  align-items: center;
+
+  padding: rem(10);
+  border-radius: rem(14);
+  border: rem(1) solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.grouped-options__dots {
+  position: absolute;
+  left: rem(12);
+  right: rem(12);
+  top: 50%;
+  height: rem(2);
+  transform: translateY(-50%);
+  pointer-events: none;
+
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.22) 1px,
+    transparent 1px
+  );
+  background-size: rem(10) rem(2);
+  opacity: 0.35;
+}
+
+.grouped-options__input {
+  position: relative; // чтобы быть над точками
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.grouped-options__remove-opt {
+  position: relative;
+  z-index: 1;
+  justify-self: end;
+}
+
+.grouped-options__options-actions {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.grouped-options__row-error {
+  grid-column: 1 / -1;
+}
