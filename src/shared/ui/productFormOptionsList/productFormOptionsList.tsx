@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   type Control,
   type FieldErrors,
@@ -18,40 +19,43 @@ import { CustomButton } from '@/shared/ui/customButton'
 
 import s from './productFormOptionsList.module.scss'
 
-type OptionInput = {
-  name: string
-  value: string
+type ProductSchema = {
+  title: string
+  price: number
+  category: string
+  color: string
+  description: string
+  images: File[]
+  groupedOptions: {
+    groupName: string
+    options: { name: string; value: string }[]
+  }[]
 }
 
-export type GroupOptionInput = {
-  groupName: string
-  options: OptionInput[]
-}
-
-type Props<TForm extends { groupedOptions: GroupOptionInput[] }> = {
-  control: Control<TForm>
-  register: UseFormRegister<TForm>
-  errors: FieldErrors<TForm>
+type Props = {
+  control: Control<ProductSchema, any, ProductSchema>
+  register: UseFormRegister<ProductSchema>
+  errors: FieldErrors<ProductSchema>
   disabled?: boolean
   className?: string
 }
 
-function OptionsList<TForm extends { groupedOptions: GroupOptionInput[] }>({
+function OptionsList({
   control,
   register,
   disabled,
   groupIndex,
   error,
 }: {
-  control: Control<TForm>
-  register: UseFormRegister<TForm>
+  control: Control<ProductSchema, any, ProductSchema>
+  register: UseFormRegister<ProductSchema>
   disabled?: boolean
   groupIndex: number
   error?: any
 }) {
   const { fields, append, remove } = useFieldArray({
     control,
-    name: `groupedOptions.${groupIndex}.options` as const,
+    name: `groupedOptions.${groupIndex}.options`,
   })
 
   return (
@@ -65,16 +69,16 @@ function OptionsList<TForm extends { groupedOptions: GroupOptionInput[] }>({
             disabled={disabled}
             className={s['grouped-options__input']}
             {...register(
-              `groupedOptions.${groupIndex}.options.${optIndex}.name` as const,
+              `groupedOptions.${groupIndex}.options.${optIndex}.name`,
             )}
           />
 
           <Input
-            placeholder="Значение (например, 6.9)"
+            placeholder="Значение (например, 6.9\)"
             disabled={disabled}
             className={s['grouped-options__input']}
             {...register(
-              `groupedOptions.${groupIndex}.options.${optIndex}.value` as const,
+              `groupedOptions.${groupIndex}.options.${optIndex}.value`,
             )}
           />
 
@@ -94,15 +98,15 @@ function OptionsList<TForm extends { groupedOptions: GroupOptionInput[] }>({
             <X size={16} />
           </button>
 
-          {error?.[optIndex]?.name?.message && (
+          {(error?.[optIndex]?.name?.message ||
+            error?.[optIndex]?.value?.message) && (
             <div className={s['grouped-options__row-error']}>
-              <FieldError>{String(error[optIndex].name.message)}</FieldError>
-            </div>
-          )}
-
-          {error?.[optIndex]?.value?.message && (
-            <div className={s['grouped-options__row-error']}>
-              <FieldError>{String(error[optIndex].value.message)}</FieldError>
+              {error?.[optIndex]?.name?.message && (
+                <FieldError>{String(error[optIndex].name.message)}</FieldError>
+              )}
+              {error?.[optIndex]?.value?.message && (
+                <FieldError>{String(error[optIndex].value.message)}</FieldError>
+              )}
             </div>
           )}
         </div>
@@ -112,7 +116,7 @@ function OptionsList<TForm extends { groupedOptions: GroupOptionInput[] }>({
         <CustomButton
           type="button"
           variant="secondary"
-          onClick={() => append({ name: '', value: '' } as any)}
+          onClick={() => append({ name: '', value: '' })}
           disabled={disabled}
           className={s['grouped-options__add-btn']}
         >
@@ -124,15 +128,19 @@ function OptionsList<TForm extends { groupedOptions: GroupOptionInput[] }>({
   )
 }
 
-export function GroupedOptionsEditor<
-  TForm extends { groupedOptions: GroupOptionInput[] },
->({ control, register, errors, disabled, className }: Props<TForm>) {
+export function GroupedOptionsEditor({
+  control,
+  register,
+  errors,
+  disabled,
+  className,
+}: Props) {
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'groupedOptions' as const,
+    name: 'groupedOptions',
   })
 
-  const groupsError: any = (errors as any)?.groupedOptions
+  const groupsError = errors.groupedOptions
 
   return (
     <div className={clsx(s['grouped-options'], className)}>
@@ -149,7 +157,7 @@ export function GroupedOptionsEditor<
           type="button"
           variant="secondary"
           onClick={() =>
-            append({ groupName: '', options: [{ name: '', value: '' }] } as any)
+            append({ groupName: '', options: [{ name: '', value: '' }] })
           }
           disabled={disabled}
           className={s['grouped-options__add-btn']}
@@ -173,9 +181,7 @@ export function GroupedOptionsEditor<
                   placeholder="Название группы (например, Экран)"
                   disabled={disabled}
                   className={s['grouped-options__group-name']}
-                  {...register(
-                    `groupedOptions.${groupIndex}.groupName` as const,
-                  )}
+                  {...register(`groupedOptions.${groupIndex}.groupName`)}
                 />
 
                 <CustomButton
@@ -194,7 +200,7 @@ export function GroupedOptionsEditor<
                 <FieldError>{String(groupErr.groupName.message)}</FieldError>
               )}
 
-              <OptionsList<TForm>
+              <OptionsList
                 control={control}
                 register={register}
                 disabled={disabled}

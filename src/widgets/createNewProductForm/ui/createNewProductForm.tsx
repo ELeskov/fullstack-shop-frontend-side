@@ -42,6 +42,22 @@ const schema = z.object({
     .array(z.instanceof(File, { message: 'Файл должен быть изображением' }))
     .min(1, 'Добавьте хотя бы одно изображение')
     .max(MAX_FILES, `Максимум ${MAX_FILES} изображений`),
+
+  groupedOptions: z
+    .array(
+      z.object({
+        groupName: z.string().min(1, 'Название группы обязательно'),
+        options: z
+          .array(
+            z.object({
+              name: z.string().min(1, 'Название характеристики обязательно'),
+              value: z.string().min(1, 'Значение обязательно'),
+            }),
+          )
+          .min(1, 'Добавьте хотя бы одну характеристику'),
+      }),
+    )
+    .default([]),
 })
 
 type ProductSchema = z.infer<typeof schema>
@@ -59,6 +75,7 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
       color: editData?.color ?? '',
       description: editData?.description ?? '',
       images: editData?.images ?? [],
+      groupedOptions: editData?.groupedOptions ?? [],
     }),
     [editData],
   )
@@ -264,6 +281,15 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
           )}
         </FieldGroup>
 
+        <FieldSet>
+          <GroupedOptionsEditor
+            control={control}
+            register={register}
+            errors={errors}
+            disabled={isSubmitting}
+          />
+        </FieldSet>
+
         <Field orientation="horizontal">
           <CustomButton
             variant={'secondary'}
@@ -283,8 +309,6 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
           </CustomButton>
         </Field>
       </FieldGroup>
-
-      <GroupedOptionsEditor />
     </form>
   )
 }
