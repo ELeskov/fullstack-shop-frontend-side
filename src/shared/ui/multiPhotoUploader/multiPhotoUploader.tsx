@@ -22,6 +22,8 @@ type MultiPhotoUploaderProps = {
   disabled?: boolean
   error?: boolean
   className?: string
+
+  onClearAll?: () => void
 }
 
 type PreviewItem = {
@@ -50,6 +52,7 @@ export function MultiPhotoUploader({
   disabled,
   error,
   className,
+  onClearAll,
 }: MultiPhotoUploaderProps) {
   const resolvedMax = maxFiles ?? maxCount ?? 10
 
@@ -64,6 +67,7 @@ export function MultiPhotoUploader({
   const [dragOver, setDragOver] = useState(false)
 
   const idMapRef = useRef<WeakMap<File, string>>(new WeakMap())
+
   const getId = (file: File) => {
     const map = idMapRef.current
     const existing = map.get(file)
@@ -214,7 +218,6 @@ export function MultiPhotoUploader({
       (f, i) => i !== idx && fileKey(f) === keyNew,
     )
 
-    // если файл уже есть — переносим его на место idx
     if (dupeIndex !== -1) {
       const next = files.slice()
       next.splice(dupeIndex, 1)
@@ -276,15 +279,24 @@ export function MultiPhotoUploader({
           </div>
         </div>
 
-        <CustomButton
-          type="button"
-          onClick={openAddPicker}
-          disabled={disabled || !canAddMore}
-          className={s['multi-photo-uploader__top-btn']}
-        >
-          <Upload size={18} />
-          Добавить
-        </CustomButton>
+        <div className={s['multi-photo-uploader__head-actions']}>
+          {onClearAll && files.length > 0 && (
+            <CustomButton
+              type="button"
+              variant="destructive"
+              onClick={onClearAll}
+              disabled={disabled}
+              className={clsx(
+                'rich-btn',
+                'rich-btn--danger',
+                s['multi-photo-uploader__clear-btn'],
+              )}
+            >
+              <Trash2 size={18} />
+              Очистить
+            </CustomButton>
+          )}
+        </div>
       </div>
 
       <motion.div

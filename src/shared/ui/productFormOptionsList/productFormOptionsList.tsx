@@ -1,7 +1,9 @@
-import React from 'react'
 import {
+  type ArrayPath,
   type Control,
-  type FieldErrors,
+  type FieldArray,
+  type FieldValues,
+  type Path,
   useFieldArray,
   type UseFormRegister,
 } from 'react-hook-form'
@@ -19,106 +21,102 @@ import { CustomButton } from '@/shared/ui/customButton'
 
 import s from './productFormOptionsList.module.scss'
 
-type ProductSchema = {
-  title: string
-  price: number
-  category: string
-  color: string
-  description: string
-  images: File[]
-  groupedOptions: {
-    groupName: string
-    options: { name: string; value: string }[]
-  }[]
+export type GroupOptionItem = {
+  groupName: string
+  options: { name: string; value: string }[]
 }
 
-type Props = {
-  control: Control<ProductSchema, any, ProductSchema>
-  register: UseFormRegister<ProductSchema>
-  errors: FieldErrors<ProductSchema>
+type OptionsListProps<TForm extends FieldValues> = {
+  control: Control<TForm, any, TForm>
+  register: UseFormRegister<TForm>
+  optionsPath: ArrayPath<TForm>
   disabled?: boolean
-  className?: string
+  error?: any
 }
 
-function OptionsList({
+function OptionsList<TForm extends FieldValues>({
   control,
   register,
+  optionsPath,
   disabled,
-  groupIndex,
   error,
-}: {
-  control: Control<ProductSchema, any, ProductSchema>
-  register: UseFormRegister<ProductSchema>
-  disabled?: boolean
-  groupIndex: number
-  error?: any
-}) {
+}: OptionsListProps<TForm>) {
   const { fields, append, remove } = useFieldArray({
     control,
-    name: `groupedOptions.${groupIndex}.options`,
+    name: optionsPath,
   })
 
   return (
     <div className={s['grouped-options__options']}>
-      {fields.map((opt, optIndex) => (
-        <div key={opt.id} className={s['grouped-options__option-row']}>
-          <div className={s['grouped-options__dots']} aria-hidden="true" />
+      {fields.map((opt, optIndex) => {
+        const namePath = `${optionsPath}.${optIndex}.name` as Path<TForm>
+        const valuePath = `${optionsPath}.${optIndex}.value` as Path<TForm>
 
-          <Input
-            placeholder="Параметр (например, Диагональ экрана)"
-            disabled={disabled}
-            className={s['grouped-options__input']}
-            {...register(
-              `groupedOptions.${groupIndex}.options.${optIndex}.name`,
-            )}
-          />
+        return (
+          <div key={opt.id} className={s['grouped-options__option-row']}>
+            <div className={s['grouped-options__dots']} aria-hidden="true" />
 
-          <Input
-            placeholder="Значение (например, 6.9\)"
-            disabled={disabled}
-            className={s['grouped-options__input']}
-            {...register(
-              `groupedOptions.${groupIndex}.options.${optIndex}.value`,
-            )}
-          />
+            <Input
+              placeholder="Параметр (например, Диагональ экрана)"
+              disabled={disabled}
+              className={s['grouped-options__input']}
+              {...register(namePath)}
+            />
 
-          <button
-            type="button"
-            className={clsx(
-              'rich-btn',
-              'rich-btn--icon',
-              'rich-btn--danger',
-              s['grouped-options__remove-opt'],
-            )}
-            onClick={() => remove(optIndex)}
-            disabled={disabled}
-            aria-label="Удалить характеристику"
-            title="Удалить"
-          >
-            <X size={16} />
-          </button>
+            <Input
+              placeholder='Значение (например, 6.9")'
+              disabled={disabled}
+              className={s['grouped-options__input']}
+              {...register(valuePath)}
+            />
 
-          {(error?.[optIndex]?.name?.message ||
-            error?.[optIndex]?.value?.message) && (
-            <div className={s['grouped-options__row-error']}>
-              {error?.[optIndex]?.name?.message && (
-                <FieldError>{String(error[optIndex].name.message)}</FieldError>
+            <CustomButton
+              type="button"
+              className={clsx(
+                'rich-btn',
+                'rich-btn--icon',
+                'rich-btn--danger',
+                s['grouped-options__remove-opt'],
               )}
-              {error?.[optIndex]?.value?.message && (
-                <FieldError>{String(error[optIndex].value.message)}</FieldError>
-              )}
-            </div>
-          )}
-        </div>
-      ))}
+              onClick={() => remove(optIndex)}
+              disabled={disabled}
+              aria-label="Удалить характеристику"
+              title="Удалить"
+            >
+              <X size={16} />
+            </CustomButton>
+
+            {(error?.[optIndex]?.name?.message ||
+              error?.[optIndex]?.value?.message) && (
+              <div className={s['grouped-options__row-error']}>
+                {error?.[optIndex]?.name?.message && (
+                  <FieldError>
+                    {String(error[optIndex].name.message)}
+                  </FieldError>
+                )}
+                {error?.[optIndex]?.value?.message && (
+                  <FieldError>
+                    {String(error[optIndex].value.message)}
+                  </FieldError>
+                )}
+              </div>
+            )}
+          </div>
+        )
+      })}
 
       <div className={s['grouped-options__options-actions']}>
         <CustomButton
           type="button"
           variant="secondary"
-          onClick={() => append({ name: '', value: '' })}
+          onClick={() =>
+            append({ name: '', value: '' } as FieldArray<
+              TForm,
+              ArrayPath<TForm>
+            >)
+          }
           disabled={disabled}
-          className={s['grouped-options__add-btn']}
+          className={clsx('rich-btn', s['grouped-options__add-btn'])}
         >
           <Plus size={18} />
           Добавить характеристику
@@ -128,19 +126,24 @@ function OptionsList({
   )
 }
 
-export function GroupedOptionsEditor({
+type GroupedOptionsEditorProps<TForm extends FieldValues> = {
+  control: Control<TForm, any, TForm>
+  register: UseFormRegister<TForm>
+  name: ArrayPath<TForm>
+  error?: any
+  disabled?: boolean
+  className?: string
+}
+
+export function GroupedOptionsEditor<TForm extends FieldValues>({
   control,
   register,
-  errors,
+  name,
+  error,
   disabled,
   className,
-}: Props) {
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'groupedOptions',
-  })
-
-  const groupsError = errors.groupedOptions
+}: GroupedOptionsEditorProps<TForm>) {
+  const { fields, append, remove } = useFieldArray({ control, name })
 
   return (
     <div className={clsx(s['grouped-options'], className)}>
@@ -148,7 +151,7 @@ export function GroupedOptionsEditor({
         <div>
           <FieldLabel>Характеристики и описание</FieldLabel>
           <FieldDescription>
-            Добавь группы (например, “Экран”, “Память”) и характеристики внутри
+            Добавь группы (например, "Экран", "Память") и характеристики внутри
             них.
           </FieldDescription>
         </div>
@@ -157,23 +160,30 @@ export function GroupedOptionsEditor({
           type="button"
           variant="secondary"
           onClick={() =>
-            append({ groupName: '', options: [{ name: '', value: '' }] })
+            append({
+              groupName: '',
+              options: [{ name: '', value: '' }],
+            } as FieldArray<TForm, ArrayPath<TForm>>)
           }
           disabled={disabled}
-          className={s['grouped-options__add-btn']}
+          className={clsx('rich-btn', s['grouped-options__add-btn'])}
         >
           <Plus size={18} />
           Добавить группу
         </CustomButton>
       </div>
 
-      {typeof groupsError?.message === 'string' && (
-        <FieldError>{groupsError.message}</FieldError>
+      {typeof error?.message === 'string' && (
+        <FieldError>{error.message}</FieldError>
       )}
 
       <div className={s['grouped-options__list']}>
         {fields.map((group, groupIndex) => {
-          const groupErr = groupsError?.[groupIndex]
+          const groupErr = error?.[groupIndex]
+          const groupNamePath = `${name}.${groupIndex}.groupName` as Path<TForm>
+          const optionsPath =
+            `${name}.${groupIndex}.options` as ArrayPath<TForm>
+
           return (
             <div key={group.id} className={s['grouped-options__group']}>
               <div className={s['grouped-options__group-head']}>
@@ -181,7 +191,7 @@ export function GroupedOptionsEditor({
                   placeholder="Название группы (например, Экран)"
                   disabled={disabled}
                   className={s['grouped-options__group-name']}
-                  {...register(`groupedOptions.${groupIndex}.groupName`)}
+                  {...register(groupNamePath)}
                 />
 
                 <CustomButton
@@ -189,7 +199,7 @@ export function GroupedOptionsEditor({
                   variant="destructive"
                   onClick={() => remove(groupIndex)}
                   disabled={disabled}
-                  className={s['grouped-options__remove-group']}
+                  className={clsx('rich-btn', 'rich-btn--danger')}
                 >
                   <Trash2 size={18} />
                   Удалить
@@ -200,15 +210,15 @@ export function GroupedOptionsEditor({
                 <FieldError>{String(groupErr.groupName.message)}</FieldError>
               )}
 
-              <OptionsList
+              <OptionsList<TForm>
                 control={control}
                 register={register}
+                optionsPath={optionsPath}
                 disabled={disabled}
-                groupIndex={groupIndex}
                 error={groupErr?.options}
               />
 
-              {groupErr?.options?.message && (
+              {typeof groupErr?.options?.message === 'string' && (
                 <FieldError>{String(groupErr.options.message)}</FieldError>
               )}
             </div>
