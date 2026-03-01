@@ -2,6 +2,7 @@ import { useEffect, useMemo } from 'react'
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import clsx from 'clsx'
 import z from 'zod'
 
 import {
@@ -23,7 +24,7 @@ import {
 import { Textarea } from '@/shared/ui/components/ui/textarea'
 import { CustomButton } from '@/shared/ui/customButton'
 import { MultiPhotoUploader } from '@/shared/ui/multiPhotoUploader'
-import { GroupedOptionsEditor } from '@/shared/ui/productFormOptionsList/productFormOptionsList'
+import { GroupedOptionsEditor } from '@/shared/ui/productFormOptionsList'
 
 import s from './createNewProductForm.module.scss'
 
@@ -42,7 +43,6 @@ const schema = z.object({
     .array(z.instanceof(File, { message: 'Файл должен быть изображением' }))
     .min(1, 'Добавьте хотя бы одно изображение')
     .max(MAX_FILES, `Максимум ${MAX_FILES} изображений`),
-
   groupedOptions: z
     .array(
       z.object({
@@ -87,7 +87,7 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
     formState: { errors, isSubmitting },
     reset,
     setValue,
-  } = useForm<ProductSchema>({
+  } = useForm<ProductSchema, any, ProductSchema>({
     resolver: zodResolver(schema),
     defaultValues,
     mode: 'onBlur',
@@ -120,6 +120,9 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
                   <MultiPhotoUploader
                     value={field.value ?? []}
                     onChange={(files) => field.onChange(files ?? [])}
+                    onClearAll={() =>
+                      setValue('images', [], { shouldValidate: true })
+                    }
                     maxSizeMB={MAX_SIZE_MB}
                     maxFiles={MAX_FILES}
                     accept="image/png,image/jpeg,image/webp"
@@ -136,18 +139,6 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
               {errors.images && (
                 <FieldError>{errors.images.message}</FieldError>
               )}
-
-              <div className="mt-2">
-                <CustomButton
-                  type="button"
-                  onClick={() =>
-                    setValue('images', [], { shouldValidate: true })
-                  }
-                  disabled={isSubmitting}
-                >
-                  Очистить изображения
-                </CustomButton>
-              </div>
             </Field>
           </FieldGroup>
         </FieldSet>
@@ -282,17 +273,19 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
         </FieldGroup>
 
         <FieldSet>
-          <GroupedOptionsEditor
+          <GroupedOptionsEditor<ProductSchema>
             control={control}
             register={register}
-            errors={errors}
+            name="groupedOptions"
+            error={errors.groupedOptions}
             disabled={isSubmitting}
           />
         </FieldSet>
 
         <Field orientation="horizontal">
           <CustomButton
-            variant={'secondary'}
+            className={clsx('rich-btn', 'rich-btn--blue')}
+            variant="secondary"
             type="submit"
             disabled={isSubmitting}
           >
@@ -300,6 +293,7 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
           </CustomButton>
 
           <CustomButton
+            className={clsx('rich-btn', 'rich-btn--danger')}
             type="button"
             variant="destructive"
             onClick={() => reset(defaultValues)}

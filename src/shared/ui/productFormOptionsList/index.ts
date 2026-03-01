@@ -1,1 +1,1 @@
-export { ProductFormOptionsList } from './productFormOptionsList'
+export { GroupedOptionsEditor } from './productFormOptionsList'
