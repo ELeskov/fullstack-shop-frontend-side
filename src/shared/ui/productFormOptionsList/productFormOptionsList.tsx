@@ -74,7 +74,7 @@ function OptionsList({
           />
 
           <Input
-            placeholder="Значение (например, 6.9\)"
+            placeholder="Значение (например, 6.9)"
             disabled={disabled}
             className={s['grouped-options__input']}
             {...register(
@@ -82,7 +82,7 @@ function OptionsList({
             )}
           />
 
-          <button
+          <CustomButton
             type="button"
             className={clsx(
               'rich-btn',
@@ -96,7 +96,7 @@ function OptionsList({
             title="Удалить"
           >
             <X size={16} />
-          </button>
+          </CustomButton>
 
           {(error?.[optIndex]?.name?.message ||
             error?.[optIndex]?.value?.message) && (
