@@ -15,7 +15,7 @@ export const useGetMeAllCategories = () => {
       }
 
       const { data: shops, error } = await apiClient.GET(
-        '/api/shop/{shopId}/categories',
+        '/api/shops/{shopId}/categories',
         {
           params: {
             path: { shopId: activeShopId },

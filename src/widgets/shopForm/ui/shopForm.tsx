@@ -88,7 +88,10 @@ export function ShopForm({ shopId, editData, pictureUrl }: IShopForm) {
       resolvedShopId = created.id
     } else {
       if (isDirty) {
-        await updateShopMutation({ ...values, shopId: resolvedShopId })
+        await updateShopMutation({
+          body: { ...values },
+          shopId: resolvedShopId,
+        })
       }
     }
 

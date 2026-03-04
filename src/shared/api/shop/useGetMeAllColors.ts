@@ -10,10 +10,13 @@ export const useGetMeAllColors = (shopId: string) =>
     queryKey: [QUERY_KEY.SHOP_COLORS, shopId],
     enabled: Boolean(shopId),
     queryFn: async ({ signal }): Promise<SchemaColorResponseDto[]> => {
-      const { data, error } = await apiClient.GET('/api/shop/{shopId}/colors', {
-        params: { path: { shopId } },
-        signal,
-      })
+      const { data, error } = await apiClient.GET(
+        '/api/shops/{shopId}/colors',
+        {
+          params: { path: { shopId } },
+          signal,
+        },
+      )
 
       if (error) {
         throw new Error(error.message ?? 'Ошибка загрузки цветов')

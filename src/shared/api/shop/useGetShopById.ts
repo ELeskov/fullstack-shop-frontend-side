@@ -13,7 +13,7 @@ export const useGetShopById = (shopId?: string) =>
         throw new Error('Id не найден')
       }
 
-      const { data } = await apiClient.GET('/api/shop/{id}', {
+      const { data } = await apiClient.GET('/api/shops/{id}', {
         params: { path: { id: shopId } },
         signal,
       })

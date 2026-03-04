@@ -8,15 +8,23 @@ import { QUERY_KEY } from '@/shared/config/query-key'
 
 import type { SchemaUpdateShopDto } from '../api-endpoints'
 
+interface UpdateShopVariables {
+  shopId: string
+  body: SchemaUpdateShopDto
+}
+
 export const usePatchShopMutation = () => {
   const queryClient = useQueryClient()
   const navigate = useNavigate()
 
   return useMutation({
     mutationKey: [QUERY_KEY.CREATE_SHOP],
-    mutationFn: async (shopValues: SchemaUpdateShopDto) => {
-      const { data } = await apiClient.PATCH('/api/shop', {
-        body: shopValues,
+    mutationFn: async ({ body, shopId }: UpdateShopVariables) => {
+      const { data } = await apiClient.PATCH('/api/shops/{id}', {
+        body: { ...body },
+        params: {
+          path: { id: shopId },
+        },
       })
 
       if (!data) {

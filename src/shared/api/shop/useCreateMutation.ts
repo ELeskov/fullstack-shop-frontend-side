@@ -16,7 +16,7 @@ export const useCreateMutation = () => {
   return useMutation({
     mutationKey: [QUERY_KEY.CREATE_SHOP],
     mutationFn: async (shopValues: SchemaCreateShopDto) => {
-      const { data } = await apiClient.POST('/api/shop', {
+      const { data } = await apiClient.POST('/api/shops', {
         body: shopValues,
       })
 
