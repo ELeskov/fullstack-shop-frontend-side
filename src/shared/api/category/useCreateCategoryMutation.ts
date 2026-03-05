@@ -12,24 +12,33 @@ import type { SchemaCreateCategoryDto } from '../api-endpoints'
 export const useCreateCategoryMutation = () => {
   const navigation = useNavigate()
   const qc = useQueryClient()
-  const activeShopId = loadSelectedShopId()
-
-  if (!activeShopId) {
-    throw new Error('Не удалось найти магазин')
-  }
 
   return useMutation({
     mutationKey: [QUERY_KEY.CREATE_CATEGORY],
     mutationFn: async (
       categoryBody: Omit<SchemaCreateCategoryDto, 'shopId'>,
     ) => {
-      const { data } = await apiClient.POST('/api/category', {
+      const activeShopId = loadSelectedShopId()
+
+      if (!activeShopId) {
+        throw new Error('Не удалось найти выбранный магазин')
+      }
+
+      const { data, error } = await apiClient.POST('/api/category/{shopId}', {
+        params: {
+          path: {
+            shopId: activeShopId,
+          },
+        },
         body: {
           title: categoryBody.title,
           description: categoryBody.description,
-          shopId: activeShopId,
         },
       })
+
+      if (error) {
+        throw new Error(error.message ?? 'Ошибка создания категории')
+      }
 
       if (!data) {
         throw new Error('Пустой ответ сервера при создании категории')
@@ -48,9 +57,12 @@ export const useCreateCategoryMutation = () => {
     },
 
     onSettled: () => {
-      qc.invalidateQueries({
-        queryKey: [QUERY_KEY.SHOP_CATEGORIES, activeShopId],
-      })
+      const activeShopId = loadSelectedShopId()
+      if (activeShopId) {
+        qc.invalidateQueries({
+          queryKey: [QUERY_KEY.SHOP_CATEGORIES, activeShopId],
+        })
+      }
     },
   })
 }

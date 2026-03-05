@@ -334,7 +334,7 @@ export interface paths {
         patch: operations["AccountController_upload"];
         trace?: never;
     };
-    "/api/category": {
+    "/api/category/{shopId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -343,9 +343,25 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** @description Создание категории */
+        /** Создать категорию для магазина */
         post: operations["CategoryController_create"];
-        /** @description Удаление категории */
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/category/{shopId}/{categoryId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Удалить категорию магазина */
         delete: operations["CategoryController_delete"];
         options?: never;
         head?: never;
@@ -668,18 +684,6 @@ export interface components {
             title: string;
             /** @example Куртки */
             description: string;
-            /**
-             * @description Id магазина
-             * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
-             */
-            shopId: string;
-        };
-        DeleteCategoryDto: {
-            /**
-             * @description Id категории
-             * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
-             */
-            categoryId: string;
         };
         CreateColorDto: {
             /**
@@ -724,7 +728,6 @@ export type SchemaUserResponseDto = components['schemas']['UserResponseDto'];
 export type SchemaPatchUserDto = components['schemas']['PatchUserDto'];
 export type SchemaUpdateUserAvatarResponseDto = components['schemas']['UpdateUserAvatarResponseDto'];
 export type SchemaCreateCategoryDto = components['schemas']['CreateCategoryDto'];
-export type SchemaDeleteCategoryDto = components['schemas']['DeleteCategoryDto'];
 export type SchemaCreateColorDto = components['schemas']['CreateColorDto'];
 export type $defs = Record<string, never>;
 export interface operations {
@@ -2432,7 +2435,10 @@ export interface operations {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                /** @description Уникальный идентификатор магазина */
+                shopId: string;
+            };
             cookie?: never;
         };
         requestBody: {
@@ -2441,6 +2447,7 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Категория успешно создана */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -2449,28 +2456,125 @@ export interface operations {
                     "application/json": components["schemas"]["CategoryResponseDto"];
                 };
             };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
         };
     };
     CategoryController_delete: {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                /** @description Уникальный идентификатор магазина */
+                shopId: string;
+                /** @description ID удаляемой категории */
+                categoryId: string;
+            };
             cookie?: never;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["DeleteCategoryDto"];
-            };
-        };
+        requestBody?: never;
         responses: {
+            /** @description Категория удалена */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    /** @example true */
-                    "application/json": unknown;
+                    "application/json": boolean;
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
                 };
             };
         };
