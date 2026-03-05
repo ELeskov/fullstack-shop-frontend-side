@@ -23,7 +23,6 @@ export const ColorsDataTable = () => {
   const navigate = useNavigate()
   const activeShopId = loadSelectedShopId()
   const { data: colors = [] } = useGetMeAllColors(activeShopId!)
-  console.log(colors)
 
   const { mutateAsync: deleteColor } = useDeleteColorMutation()
 

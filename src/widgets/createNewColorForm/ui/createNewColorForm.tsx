@@ -59,8 +59,10 @@ export function CreateNewColorForm() {
 
     await mutateAsync({
       shopId,
-      title: data.title.trim(),
-      value: data.value.toUpperCase(),
+      payload: {
+        title: data.title.trim(),
+        value: data.value.toUpperCase(),
+      },
     })
 
     form.reset({ title: '', value: '#FFFFFF' })

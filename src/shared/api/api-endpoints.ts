@@ -108,6 +108,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/users": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Получить список всех пользователей */
+        get: operations["UsersController_findAll"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/users/{id}": {
         parameters: {
             query?: never;
@@ -115,14 +132,39 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Получить пользователя по id (только для ADMIN) */
+        /** Получить детальную информацию о пользователе */
         get: operations["UsersController_findById"];
+        put?: never;
+        post?: never;
+        /**
+         * Жесткое удаление пользователя
+         * @description Удаляет пользователя из базы вместе с его магазинами и заказами, а также очищает S3 хранилище.
+         */
+        delete: operations["UsersController_deleteUser"];
+        options?: never;
+        head?: never;
+        /**
+         * Принудительное редактирование профиля пользователя
+         * @description Позволяет админу менять имя, email или сбрасывать аватарку (передав пустую строку).
+         */
+        patch: operations["UsersController_updateProfile"];
+        trace?: never;
+    };
+    "/api/users/{id}/role": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
         put?: never;
         post?: never;
         delete?: never;
         options?: never;
         head?: never;
-        patch?: never;
+        /** Изменить роль пользователя (Повысить/Понизить) */
+        patch: operations["UsersController_updateRole"];
         trace?: never;
     };
     "/api/account/register": {
@@ -272,7 +314,7 @@ export interface paths {
         options?: never;
         head?: never;
         /** Обновление username пользователя */
-        patch: operations["AccountController_patchUser"];
+        patch: operations["AccountController_updateProfile"];
         trace?: never;
     };
     "/api/account/@me/avatar": {
@@ -310,7 +352,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/color": {
+    "/api/color/{shopId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -319,9 +361,31 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Создать цвет для магазина */
+        /**
+         * Создать цвет для магазина
+         * @description Создает новый цвет, привязанный к указанному магазину. Операция доступна только владельцу магазина.
+         */
         post: operations["ColorController_create"];
-        /** Удалить цвет магазина */
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/color/{shopId}/{colorId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Удалить цвет магазина
+         * @description Удаляет цвет по его идентификатору. Требует прав владельца магазина.
+         */
         delete: operations["ColorController_delete"];
         options?: never;
         head?: never;
@@ -462,6 +526,31 @@ export interface components {
              */
             shopId: string;
         };
+        UpdateRoleDto: {
+            /**
+             * @description Новая роль пользователя
+             * @example ADMIN
+             * @enum {string}
+             */
+            role: "REGULAR" | "ADMIN";
+        };
+        AdminUpdateUserDto: {
+            /**
+             * @description Новое имя пользователя
+             * @example Иван
+             */
+            name?: string;
+            /**
+             * @description Новый email
+             * @example new@example.com
+             */
+            email?: string;
+            /**
+             * @description Ссылка на новую аватарку. Передайте пустую строку, чтобы удалить текущую.
+             * @example
+             */
+            picture?: string;
+        };
         RegisterDto: {
             /**
              * @description Имя пользователя, отображаемое в системе.
@@ -594,11 +683,6 @@ export interface components {
         };
         CreateColorDto: {
             /**
-             * @description ID магазина
-             * @example c8cbd1a7-7d9c-4c6f-8b2c-4db6c7d1a0aa
-             */
-            shopId: string;
-            /**
              * @description Название цвета
              * @example Белый
              */
@@ -608,18 +692,6 @@ export interface components {
              * @example #FFFFFF
              */
             value: string;
-        };
-        DeleteColorDto: {
-            /**
-             * @description ID магазина
-             * @example 5f3adf09-7d49-4d6c-8e07-2ce0bb8b0c8e
-             */
-            shopId: string;
-            /**
-             * @description ID цвета
-             * @example a0d3d0d9-1b4f-4fb8-9c3c-4f0f5d2d8a32
-             */
-            colorId: string;
         };
     };
     responses: never;
@@ -638,6 +710,8 @@ export type SchemaColorResponseDto = components['schemas']['ColorResponseDto'];
 export type SchemaUpdateShopDto = components['schemas']['UpdateShopDto'];
 export type SchemaCreateShopResponseDto = components['schemas']['CreateShopResponseDto'];
 export type SchemaDeleteShopDto = components['schemas']['DeleteShopDto'];
+export type SchemaUpdateRoleDto = components['schemas']['UpdateRoleDto'];
+export type SchemaAdminUpdateUserDto = components['schemas']['AdminUpdateUserDto'];
 export type SchemaRegisterDto = components['schemas']['RegisterDto'];
 export type SchemaAccountResponseDto = components['schemas']['AccountResponseDto'];
 export type SchemaLoginDto = components['schemas']['LoginDto'];
@@ -652,7 +726,6 @@ export type SchemaUpdateUserAvatarResponseDto = components['schemas']['UpdateUse
 export type SchemaCreateCategoryDto = components['schemas']['CreateCategoryDto'];
 export type SchemaDeleteCategoryDto = components['schemas']['DeleteCategoryDto'];
 export type SchemaCreateColorDto = components['schemas']['CreateColorDto'];
-export type SchemaDeleteColorDto = components['schemas']['DeleteColorDto'];
 export type $defs = Record<string, never>;
 export interface operations {
     ShopController_create: {
@@ -1223,6 +1296,72 @@ export interface operations {
             };
         };
     };
+    UsersController_findAll: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Список пользователей */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
     UsersController_findById: {
         parameters: {
             query?: never;
@@ -1235,7 +1374,225 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Пользователь найден. */
+            /** @description Пользователь найден со всеми связями */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    UsersController_deleteUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID пользователя */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Пользователь успешно удален */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /** @example true */
+                    "application/json": unknown;
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    UsersController_updateProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID пользователя */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminUpdateUserDto"];
+            };
+        };
+        responses: {
+            /** @description Профиль пользователя обновлен */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    UsersController_updateRole: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID пользователя */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateRoleDto"];
+            };
+        };
+        responses: {
+            /** @description Роль успешно изменена */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1931,7 +2288,7 @@ export interface operations {
             };
         };
     };
-    AccountController_patchUser: {
+    AccountController_updateProfile: {
         parameters: {
             query?: never;
             header?: never;
@@ -2122,16 +2479,20 @@ export interface operations {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                /** @description Уникальный идентификатор магазина */
+                shopId: string;
+            };
             cookie?: never;
         };
+        /** @description Данные цвета: название (например, "Красный") и значение (например, "#FF0000") */
         requestBody: {
             content: {
                 "application/json": components["schemas"]["CreateColorDto"];
             };
         };
         responses: {
-            /** @description Цвет создан */
+            /** @description Цвет успешно создан */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -2194,22 +2555,23 @@ export interface operations {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                /** @description Уникальный идентификатор магазина */
+                shopId: string;
+                /** @description Уникальный идентификатор удаляемого цвета */
+                colorId: string;
+            };
             cookie?: never;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["DeleteColorDto"];
-            };
-        };
+        requestBody?: never;
         responses: {
-            /** @description Цвет удалён */
+            /** @description Цвет успешно удалён */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["CreateColorDto"];
+                    "application/json": boolean;
                 };
             };
             400: {

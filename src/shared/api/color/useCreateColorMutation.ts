@@ -7,14 +7,24 @@ import type { SchemaCreateColorDto } from '@/shared/api/api-endpoints'
 import { apiClient, ROUTES } from '@/shared/config'
 import { QUERY_KEY } from '@/shared/config/query-key'
 
+interface CreateColorArgs {
+  shopId: string
+  payload: SchemaCreateColorDto
+}
+
 export const useCreateColorMutation = () => {
   const qc = useQueryClient()
   const navigate = useNavigate()
 
   return useMutation({
     mutationKey: [QUERY_KEY.CREATE_COLOR],
-    mutationFn: async (payload: SchemaCreateColorDto) => {
-      const { data, error } = await apiClient.POST('/api/color', {
+    mutationFn: async ({ shopId, payload }: CreateColorArgs) => {
+      const { data, error } = await apiClient.POST('/api/color/{shopId}', {
+        params: {
+          path: {
+            shopId,
+          },
+        },
         body: payload,
       })
 
@@ -31,12 +41,16 @@ export const useCreateColorMutation = () => {
 
     onSuccess: async (_, variables) => {
       toast.success('Цвет успешно создан')
+
       await qc.invalidateQueries({
         queryKey: [QUERY_KEY.SHOP_COLORS, variables.shopId],
       })
+
       navigate(ROUTES.profile.shops.colors.root)
     },
 
-    onError: (error) => toast.error(error.message),
+    onError: (error) => {
+      toast.error(error.message)
+    },
   })
 }
