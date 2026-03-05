@@ -75,7 +75,7 @@ export const router = createBrowserRouter([
   },
   {
     element: (
-      <ProtectedRoute requiredRole="REGULAR">
+      <ProtectedRoute allowedRoles={['ADMIN', 'REGULAR']}>
         <MainLayout />
       </ProtectedRoute>
     ),
@@ -89,7 +89,7 @@ export const router = createBrowserRouter([
   },
   {
     element: (
-      <ProtectedRoute requiredRole="REGULAR">
+      <ProtectedRoute allowedRoles={['ADMIN', 'REGULAR']}>
         <ProfileLayout />
       </ProtectedRoute>
     ),
