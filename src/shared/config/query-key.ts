@@ -18,10 +18,16 @@ export const QUERY_KEY = {
   GET_SHOP_BY_ID: 'shop',
   SHOP_CATEGORIES: 'shop_categories',
   SHOP_COLORS: 'shop_colors',
+  SHOP_PRODUCTS: 'shop_products',
 
   CREATE_CATEGORY: 'create_category',
   DELETE_CATEGORY: 'delete_category',
 
   CREATE_COLOR: 'create_color',
   DELETE_COLOR: 'delete_color',
+
+  CREATE_PRODUCT: 'create_product',
+  UPDATE_PRODUCT: 'update_product',
+  GET_PRODUCT_BY_ID: 'product',
+  DELETE_PRODUCT: 'delete_product',
 } as const

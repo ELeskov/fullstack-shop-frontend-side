@@ -408,6 +408,81 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/product/{shopId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Создать продукт с опциями и изображениями */
+        post: operations["ProductController_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/product/shop/{shopId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Получить все товары магазина
+         * @description Возвращает список всех товаров, принадлежащих указанному магазину, включая краткую информацию о категории и цвете.
+         */
+        get: operations["ProductController_findAllByShopId"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/product/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Получить детальную информацию о товаре
+         * @description Возвращает полную информацию о товаре по его ID, включая все характеристики (groupedOptions), категорию, цвет и отзывы.
+         */
+        get: operations["ProductController_findById"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/product/{shopId}/{productId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Удалить продукт */
+        delete: operations["ProductController_delete"];
+        options?: never;
+        head?: never;
+        /** Обновить продукт */
+        patch: operations["ProductController_update"];
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -697,6 +772,166 @@ export interface components {
              */
             value: string;
         };
+        ProductOptionDto: {
+            /**
+             * @description Название опции
+             * @example Размер
+             */
+            name: string;
+            /**
+             * @description Значение опции
+             * @example XL
+             */
+            value: string;
+        };
+        GroupOptionDto: {
+            /**
+             * @description Название группы
+             * @example Характеристики
+             */
+            groupName: string;
+            /** @description Массив опций */
+            options: components["schemas"]["ProductOptionDto"][];
+        };
+        CreateProductDto: {
+            /**
+             * @description Название продукта
+             * @example Футболка oversize
+             */
+            title: string;
+            /**
+             * @description Описание продукта
+             * @example Хлопок 100%...
+             */
+            description: string;
+            /**
+             * @description Цена продукта
+             * @example 1500
+             */
+            price: number;
+            /**
+             * @description ID категории
+             * @example uuid...
+             */
+            categoryId: string;
+            /**
+             * @description ID цвета
+             * @example uuid...
+             */
+            colorId?: string;
+            /**
+             * @description Группы опций. Передавать как JSON-строку
+             * @example [{"groupName":"Размеры","options":[{"name":"Размер","value":"XL"}]}]
+             */
+            groupOptions?: components["schemas"]["GroupOptionDto"][];
+            /** @description Изображения товара (до 10 штук) */
+            files?: string[];
+        };
+        ProductCategoryResponseDto: {
+            /** @example uuid-cat */
+            id: string;
+            /** @example Электроника */
+            title: string;
+        };
+        ProductColorResponseDto: {
+            /** @example uuid-col */
+            id: string;
+            /** @example Черный */
+            title: string;
+            /** @example #000000 */
+            value: string;
+        };
+        ProductOptionResponseDto: {
+            /** @example uuid-1234 */
+            id: string;
+            /** @example Размер */
+            name: string;
+            /** @example XL */
+            value: string;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        GroupOptionResponseDto: {
+            /** @example uuid-5678 */
+            id: string;
+            /** @example Характеристики */
+            groupName: string;
+            options: components["schemas"]["ProductOptionResponseDto"][];
+            /** Format: date-time */
+            createdAt: string;
+        };
+        ProductResponseDto: {
+            /** @example uuid-product */
+            id: string;
+            /** @example iPhone 15 */
+            title: string;
+            /** @example Отличный смартфон... */
+            description: string;
+            /** @example 89990 */
+            price: number;
+            /**
+             * @example [
+             *       "https://s3.../img1.jpg"
+             *     ]
+             */
+            images: string[];
+            /** @example uuid-shop */
+            shopId: string;
+            /** @example uuid-category */
+            categoryId: string;
+            /** @example uuid-color */
+            colorId?: Record<string, never>;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            category?: components["schemas"]["ProductCategoryResponseDto"];
+            color?: components["schemas"]["ProductColorResponseDto"] | null;
+            groupedOptions?: components["schemas"]["GroupOptionResponseDto"][];
+            /** @description Массив отзывов */
+            reviews?: Record<string, never>[];
+        };
+        UpdateProductDto: {
+            /**
+             * @description Название продукта
+             * @example Футболка oversize
+             */
+            title?: string;
+            /**
+             * @description Описание продукта
+             * @example Хлопок 100%...
+             */
+            description?: string;
+            /**
+             * @description Цена продукта
+             * @example 1500
+             */
+            price?: number;
+            /**
+             * @description ID категории
+             * @example uuid...
+             */
+            categoryId?: string;
+            /**
+             * @description ID цвета
+             * @example uuid...
+             */
+            colorId?: string;
+            /**
+             * @description Группы опций. Передавать как JSON-строку
+             * @example [{"groupName":"Размеры","options":[{"name":"Размер","value":"XL"}]}]
+             */
+            groupOptions?: components["schemas"]["GroupOptionDto"][];
+            /** @description Изображения товара (до 10 штук) */
+            files?: string[];
+            /**
+             * @description Массив URL-ов существующих изображений, которые нужно оставить
+             * @example [
+             *       "https://s3.../img1.jpg"
+             *     ]
+             */
+            existingImages?: string[];
+        };
     };
     responses: never;
     parameters: never;
@@ -729,6 +964,15 @@ export type SchemaPatchUserDto = components['schemas']['PatchUserDto'];
 export type SchemaUpdateUserAvatarResponseDto = components['schemas']['UpdateUserAvatarResponseDto'];
 export type SchemaCreateCategoryDto = components['schemas']['CreateCategoryDto'];
 export type SchemaCreateColorDto = components['schemas']['CreateColorDto'];
+export type SchemaProductOptionDto = components['schemas']['ProductOptionDto'];
+export type SchemaGroupOptionDto = components['schemas']['GroupOptionDto'];
+export type SchemaCreateProductDto = components['schemas']['CreateProductDto'];
+export type SchemaProductCategoryResponseDto = components['schemas']['ProductCategoryResponseDto'];
+export type SchemaProductColorResponseDto = components['schemas']['ProductColorResponseDto'];
+export type SchemaProductOptionResponseDto = components['schemas']['ProductOptionResponseDto'];
+export type SchemaGroupOptionResponseDto = components['schemas']['GroupOptionResponseDto'];
+export type SchemaProductResponseDto = components['schemas']['ProductResponseDto'];
+export type SchemaUpdateProductDto = components['schemas']['UpdateProductDto'];
 export type $defs = Record<string, never>;
 export interface operations {
     ShopController_create: {
@@ -2676,6 +2920,372 @@ export interface operations {
                 };
                 content: {
                     "application/json": boolean;
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ProductController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID магазина */
+                shopId: string;
+            };
+            cookie?: never;
+        };
+        /** @description Данные продукта. Для загрузки картинок используйте поле files. Опции передавайте как JSON-строку в groupOptions. */
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["CreateProductDto"];
+            };
+        };
+        responses: {
+            /** @description Продукт успешно создан */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ProductController_findAllByShopId: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID магазина */
+                shopId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Список товаров магазина успешно получен */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductResponseDto"][];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ProductController_findById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Уникальный ID товара */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Детальная информация о товаре успешно получена */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ProductController_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID магазина */
+                shopId: string;
+                /** @description ID удаляемого продукта */
+                productId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Продукт успешно удален */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ProductController_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID магазина */
+                shopId: string;
+                /** @description ID редактируемого продукта */
+                productId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["UpdateProductDto"];
+            };
+        };
+        responses: {
+            /** @description Продукт успешно обновлен */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductResponseDto"];
                 };
             };
             400: {

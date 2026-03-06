@@ -10,6 +10,7 @@ import { CreateCategoriesPage } from '@/pages/createCategoriesPage'
 import { CreateColorsPage } from '@/pages/createColorsPage'
 import { CreateProductPage } from '@/pages/createProductPage'
 import { CreateShopPage } from '@/pages/createShopPage'
+import { EditProductPage } from '@/pages/editProductPage'
 import { EditShopPage } from '@/pages/editShopPage'
 import { ForgotPasswordPage } from '@/pages/forgotPasswordPage'
 import { HomePage } from '@/pages/homePage'
@@ -122,6 +123,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.profile.shops.products.root,
         element: <MyProductPage />,
+      },
+      {
+        path: ROUTES.profile.shops.products.edit.path,
+        element: <EditProductPage />,
       },
       {
         path: ROUTES.profile.shops.categories.root,

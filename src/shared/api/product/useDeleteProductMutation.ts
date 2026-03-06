@@ -5,39 +5,39 @@ import { apiClient } from '@/shared/config'
 import { QUERY_KEY } from '@/shared/config/query-key'
 import { loadSelectedShopId } from '@/shared/helpers'
 
-export const useDeleteCategoryMutation = () => {
+export const useDeleteProductMutation = () => {
   const qc = useQueryClient()
 
   return useMutation({
-    mutationKey: [QUERY_KEY.DELETE_CATEGORY],
-    mutationFn: async (categoryId: string) => {
+    mutationKey: [QUERY_KEY.DELETE_PRODUCT],
+    mutationFn: async (productId: string) => {
       const activeShopId = loadSelectedShopId()
 
       if (!activeShopId) {
-        throw new Error('Магазин не выбран')
+        throw new Error('Магазин не найден')
       }
 
       const { data, error } = await apiClient.DELETE(
-        '/api/category/{shopId}/{categoryId}',
+        '/api/product/{shopId}/{productId}',
         {
           params: {
             path: {
               shopId: activeShopId,
-              categoryId,
+              productId,
             },
           },
         },
       )
 
       if (error) {
-        throw new Error(error.message ?? 'Ошибка удаления категории')
+        throw new Error(error.message ?? 'Ошибка удаления товара')
       }
 
       return data
     },
 
     onSuccess: async () => {
-      toast.success('Категория успешно удалена')
+      toast.success('Товар успешно удален')
     },
 
     onError: (error) => {
@@ -46,9 +46,10 @@ export const useDeleteCategoryMutation = () => {
 
     onSettled: () => {
       const activeShopId = loadSelectedShopId()
+
       if (activeShopId) {
         qc.invalidateQueries({
-          queryKey: [QUERY_KEY.SHOP_CATEGORIES, activeShopId],
+          queryKey: [QUERY_KEY.SHOP_PRODUCTS, activeShopId],
         })
       }
     },

@@ -5,7 +5,7 @@ import { ArrowUpDown, MoreHorizontal } from 'lucide-react'
 
 import { useGetMeAllColors } from '@/shared/api'
 import type { SchemaColorResponseDto } from '@/shared/api/api-endpoints'
-import { useDeleteColorMutation } from '@/shared/api/color/useDeleteColorMutation'
+import { useDeleteColorMutation } from '@/shared/api/color'
 import { ROUTES } from '@/shared/config'
 import { loadSelectedShopId } from '@/shared/helpers'
 import { Button } from '@/shared/ui/components/ui/button'
@@ -22,8 +22,7 @@ const columnHelper = createColumnHelper<SchemaColorResponseDto>()
 export const ColorsDataTable = () => {
   const navigate = useNavigate()
   const activeShopId = loadSelectedShopId()
-  const { data: colors = [] } = useGetMeAllColors(activeShopId!)
-
+  const { data: colors = [] } = useGetMeAllColors()
   const { mutateAsync: deleteColor } = useDeleteColorMutation()
 
   const defaultColumns = [

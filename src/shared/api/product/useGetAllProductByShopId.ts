@@ -4,17 +4,18 @@ import { apiClient } from '@/shared/config'
 import { QUERY_KEY } from '@/shared/config/query-key'
 import { loadSelectedShopId } from '@/shared/helpers'
 
-export const useGetMeAllCategories = () => {
+export const useGetMeAllProductByShopId = () => {
   const activeShopId = loadSelectedShopId()
 
   return useQuery({
-    queryKey: [QUERY_KEY.SHOP_CATEGORIES, activeShopId],
+    queryKey: [QUERY_KEY.SHOP_PRODUCTS, activeShopId],
     queryFn: async ({ signal }) => {
       if (!activeShopId) {
         throw new Error('Магазин не выбран')
       }
+
       const { data: shops, error } = await apiClient.GET(
-        '/api/shops/{shopId}/categories',
+        '/api/product/shop/{shopId}',
         {
           params: {
             path: { shopId: activeShopId },
@@ -24,10 +25,11 @@ export const useGetMeAllCategories = () => {
       )
 
       if (error) {
-        throw new Error(error.message ?? 'Ошибка загрузки ккатегорий')
+        throw new Error(error.message ?? 'Ошибка загрузки товаров')
       }
 
       return shops
     },
+    enabled: !!activeShopId,
   })
 }

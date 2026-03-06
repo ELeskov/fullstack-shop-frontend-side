@@ -14,6 +14,9 @@ type MultiPhotoUploaderProps = {
   defaultValue?: File[]
   onChange?: (files: File[]) => void
 
+  existingImages?: string[]
+  onRemoveExisting?: (index: number) => void
+
   accept?: string
   maxSizeMB?: number
   maxFiles?: number
@@ -28,8 +31,10 @@ type MultiPhotoUploaderProps = {
 
 type PreviewItem = {
   id: string
-  file: File
+  file?: File
   url: string
+  isExisting: boolean
+  originalIndex?: number
 }
 
 const fileKey = (f: File) => `${f.name}__${f.size}__${f.lastModified}`
@@ -43,6 +48,9 @@ export function MultiPhotoUploader({
   value,
   defaultValue = [],
   onChange,
+
+  existingImages = [],
+  onRemoveExisting,
 
   accept = 'image/*',
   maxSizeMB = 5,
@@ -87,7 +95,6 @@ export function MultiPhotoUploader({
     if (disabled) {
       return
     }
-
     dragCounterRef.current += 1
     setDragOver(true)
   }
@@ -106,7 +113,6 @@ export function MultiPhotoUploader({
     if (disabled) {
       return
     }
-
     dragCounterRef.current -= 1
     if (dragCounterRef.current <= 0) {
       dragCounterRef.current = 0
@@ -120,13 +126,10 @@ export function MultiPhotoUploader({
     if (disabled) {
       return
     }
-
     dragCounterRef.current = 0
     setDragOver(false)
-
     const dropped = Array.from(e.dataTransfer.files ?? [])
     addMany(dropped)
-
     e.dataTransfer.clearData()
   }
 
@@ -161,7 +164,10 @@ export function MultiPhotoUploader({
       .filter(validateOne)
       .filter((f) => !currentKeys.has(fileKey(f)))
 
-    const capacity = Math.max(0, resolvedMax - files.length)
+    // Учитываем УЖЕ загруженные старые картинки при расчете свободного места!
+    const currentTotalCount = files.length + existingImages.length
+    const capacity = Math.max(0, resolvedMax - currentTotalCount)
+
     if (capacity === 0) {
       return
     }
@@ -169,7 +175,7 @@ export function MultiPhotoUploader({
     emit([...files, ...prepared.slice(0, capacity)])
   }
 
-  const removeAt = (idx: number) => {
+  const removeFileAt = (idx: number) => {
     if (disabled) {
       return
     }
@@ -234,21 +240,39 @@ export function MultiPhotoUploader({
     e.target.value = ''
   }
 
+  // ОБЪЕДИНЯЕМ СТАРЫЕ И НОВЫЕ КАРТИНКИ ДЛЯ ПРЕВЬЮ
   const previews: PreviewItem[] = useMemo(() => {
-    return files.map((file) => ({
+    const oldPreviews = existingImages.map((url, idx) => ({
+      id: `existing-${idx}-${url}`, // Уникальный ID для старых
+      url,
+      isExisting: true,
+      originalIndex: idx, // Чтобы знать, какой индекс удалять
+    }))
+
+    const newPreviews = files.map((file, idx) => ({
       id: getId(file),
       file,
       url: URL.createObjectURL(file),
+      isExisting: false,
+      originalIndex: idx,
     }))
-  }, [files])
+
+    return [...oldPreviews, ...newPreviews]
+  }, [existingImages, files])
 
   useEffect(() => {
     return () => {
-      previews.forEach((p) => URL.revokeObjectURL(p.url))
+      // Очищаем только URL новых файлов (Blob)
+      previews.forEach((p) => {
+        if (!p.isExisting) {
+          URL.revokeObjectURL(p.url)
+        }
+      })
     }
   }, [previews])
 
-  const canAddMore = files.length < resolvedMax
+  const totalImagesCount = existingImages.length + files.length
+  const canAddMore = totalImagesCount < resolvedMax
 
   return (
     <div className={clsx(s['multi-photo-uploader'], className)}>
@@ -275,16 +299,20 @@ export function MultiPhotoUploader({
         <div className={s['multi-photo-uploader__meta']}>
           <div className={s['multi-photo-uploader__title']}>Фото товара</div>
           <div className={s['multi-photo-uploader__hint']}>
-            {files.length}/{resolvedMax} • клик или drag&drop • до {maxSizeMB}MB
+            {totalImagesCount}/{resolvedMax} • клик или drag&drop • до{' '}
+            {maxSizeMB}MB
           </div>
         </div>
 
         <div className={s['multi-photo-uploader__head-actions']}>
-          {onClearAll && files.length > 0 && (
+          {onClearAll && totalImagesCount > 0 && (
             <CustomButton
               type="button"
               variant="destructive"
-              onClick={onClearAll}
+              onClick={() => {
+                onClearAll()
+                // Если нужно, вы можете добавить вызов onRemoveExisting для всех старых
+              }}
               disabled={disabled}
               className={clsx(
                 'rich-btn',
@@ -313,7 +341,7 @@ export function MultiPhotoUploader({
         onDrop={onDrop}
       >
         <AnimatePresence mode="popLayout">
-          {previews.map((p, idx) => (
+          {previews.map((p, absoluteIndex) => (
             <motion.div
               layout
               key={p.id}
@@ -336,7 +364,7 @@ export function MultiPhotoUploader({
               >
                 <img
                   src={p.url}
-                  alt={`uploaded-${idx + 1}`}
+                  alt={`uploaded-${absoluteIndex + 1}`}
                   className={s['multi-photo-uploader__img']}
                 />
 
@@ -348,7 +376,13 @@ export function MultiPhotoUploader({
                     'rich-btn--danger',
                     s['multi-photo-uploader__btn-delete'],
                   )}
-                  onClick={() => removeAt(idx)}
+                  onClick={() => {
+                    if (p.isExisting && onRemoveExisting) {
+                      onRemoveExisting(p.originalIndex!)
+                    } else if (!p.isExisting) {
+                      removeFileAt(p.originalIndex!)
+                    }
+                  }}
                   disabled={disabled}
                   aria-label="Удалить фото"
                   title="Удалить"
@@ -356,24 +390,28 @@ export function MultiPhotoUploader({
                   <Trash2 size={16} />
                 </CustomButton>
 
-                <CustomButton
-                  type="button"
-                  className={clsx(
-                    'rich-btn',
-                    'rich-btn--neutral',
-                    s['multi-photo-uploader__btn-replace'],
-                  )}
-                  onClick={() => openReplacePicker(idx)}
-                  disabled={disabled}
-                  aria-label="Заменить фото"
-                  title="Заменить"
-                >
-                  <RefreshCcw size={16} />
-                  Заменить
-                </CustomButton>
+                {/* Кнопка "Заменить" работает только для новых файлов. 
+                    Если хотите сделать ее для старых, логика сильно усложнится. */}
+                {!p.isExisting && (
+                  <CustomButton
+                    type="button"
+                    className={clsx(
+                      'rich-btn',
+                      'rich-btn--neutral',
+                      s['multi-photo-uploader__btn-replace'],
+                    )}
+                    onClick={() => openReplacePicker(p.originalIndex!)}
+                    disabled={disabled}
+                    aria-label="Заменить фото"
+                    title="Заменить"
+                  >
+                    <RefreshCcw size={16} />
+                    Заменить
+                  </CustomButton>
+                )}
 
                 <div className={s['multi-photo-uploader__badge']}>
-                  {idx + 1}
+                  {absoluteIndex + 1}
                 </div>
               </div>
             </motion.div>
@@ -414,7 +452,7 @@ export function MultiPhotoUploader({
                 Добавить фото
               </div>
               <div className={s['multi-photo-uploader__dz-hint']}>
-                Осталось: {resolvedMax - files.length}
+                Осталось: {resolvedMax - totalImagesCount}
               </div>
             </Card>
           </motion.div>

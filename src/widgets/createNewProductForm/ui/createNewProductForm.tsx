@@ -3,8 +3,14 @@ import { Controller, type SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import clsx from 'clsx'
+import { LoaderCircle } from 'lucide-react'
 import z from 'zod'
 
+import { useGetMeAllCategories, useGetMeAllColors } from '@/shared/api'
+import {
+  useCreateProductMutation,
+  useUpdateProductMutation,
+} from '@/shared/api/product'
 import {
   Field,
   FieldDescription,
@@ -31,51 +37,69 @@ import s from './createNewProductForm.module.scss'
 const MAX_FILES = 10
 const MAX_SIZE_MB = 10
 
-const schema = z.object({
-  title: z.string().min(1, 'Название обязательно'),
-  price: z
-    .number('Значение должно быть числом')
-    .min(1, 'Цена должна быть больше 0'),
-  category: z.string().min(1, 'Выберите категорию'),
-  color: z.string().min(1, 'Выберите цвет'),
-  description: z.string(),
-  images: z
-    .array(z.instanceof(File, { message: 'Файл должен быть изображением' }))
-    .min(1, 'Добавьте хотя бы одно изображение')
-    .max(MAX_FILES, `Максимум ${MAX_FILES} изображений`),
-  groupedOptions: z
-    .array(
-      z.object({
-        groupName: z.string().min(1, 'Название группы обязательно'),
-        options: z
-          .array(
-            z.object({
-              name: z.string().min(1, 'Название характеристики обязательно'),
-              value: z.string().min(1, 'Значение обязательно'),
-            }),
-          )
-          .min(1, 'Добавьте хотя бы одну характеристику'),
-      }),
-    )
-    .default([]),
-})
+const schema = z
+  .object({
+    id: z.string().optional(),
+    title: z.string().min(1, 'Название обязательно'),
+    price: z
+      .number('Значение должно быть числом')
+      .min(1, 'Цена должна быть больше 0'),
+    categoryId: z.string().min(1, 'Выберите категорию'),
+    colorId: z.string().optional(),
+    description: z.string().min(1, 'Описание обязательно'),
+
+    existingImages: z.array(z.string()).default([]),
+
+    images: z
+      .array(z.instanceof(File, { message: 'Файл должен быть изображением' }))
+      .max(MAX_FILES, `Максимум ${MAX_FILES} изображений`)
+      .default([]),
+
+    groupedOptions: z
+      .array(
+        z.object({
+          groupName: z.string().min(1, 'Название группы обязательно'),
+          options: z
+            .array(
+              z.object({
+                name: z.string().min(1, 'Название характеристики обязательно'),
+                value: z.string().min(1, 'Значение обязательно'),
+              }),
+            )
+            .min(1, 'Добавьте хотя бы одну характеристику'),
+        }),
+      )
+      .default([]),
+  })
+  .refine(
+    (data) => {
+      return data.existingImages.length + data.images.length > 0
+    },
+    {
+      message: 'Добавьте хотя бы одно изображение',
+      path: ['images'],
+    },
+  )
 
 type ProductSchema = z.infer<typeof schema>
 
 interface ICreateNewProductForm {
-  editData: ProductSchema | null
+  editData?: ProductSchema | null
 }
 
 export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
+  const isEditing = !!editData?.id
+
   const defaultValues = useMemo<ProductSchema>(
     () => ({
       title: editData?.title ?? '',
       price: editData?.price ?? 1,
-      category: editData?.category ?? '',
-      color: editData?.color ?? '',
+      categoryId: editData?.categoryId ?? '',
+      colorId: editData?.colorId ?? '',
       description: editData?.description ?? '',
-      images: editData?.images ?? [],
+      images: [],
       groupedOptions: editData?.groupedOptions ?? [],
+      existingImages: editData?.existingImages ?? [],
     }),
     [editData],
   )
@@ -84,18 +108,57 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
     register,
     handleSubmit,
     control,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     reset,
     setValue,
+    watch,
   } = useForm<ProductSchema, any, ProductSchema>({
     resolver: zodResolver(schema),
     defaultValues,
-    mode: 'onBlur',
+    mode: 'onTouched',
   })
+  const { data: categories, isPending: isCreating } = useGetMeAllCategories()
+  const { data: colors, isPending: isUpdating } = useGetMeAllColors()
 
-  const onSubmit: SubmitHandler<ProductSchema> = (data) => {
-    console.log(data)
-    reset()
+  const { mutateAsync: createProduct } = useCreateProductMutation()
+  const { mutateAsync: updateProduct } = useUpdateProductMutation()
+
+  const isBusy = isCreating || isUpdating
+
+  const currentExistingImages = watch('existingImages')
+
+  const onSubmit: SubmitHandler<ProductSchema> = async (data) => {
+    const formData = new FormData()
+
+    formData.append('title', data.title)
+    formData.append('description', data.description)
+    formData.append('price', data.price.toString())
+    formData.append('categoryId', data.categoryId)
+
+    if (data.colorId) {
+      formData.append('colorId', data.colorId)
+    }
+
+    if (data.groupedOptions && data.groupedOptions.length > 0) {
+      formData.append('groupOptions', JSON.stringify(data.groupedOptions))
+    }
+
+    if (data.images && data.images.length > 0) {
+      data.images.forEach((file) => {
+        formData.append('files', file)
+      })
+    }
+
+    if (isEditing && data.existingImages && data.existingImages.length > 0) {
+      formData.append('existingImages', JSON.stringify(data.existingImages))
+    }
+
+    if (isEditing) {
+      await updateProduct({ productId: editData.id!, formData })
+    } else {
+      await createProduct(formData)
+      reset()
+    }
   }
 
   useEffect(() => {
@@ -120,13 +183,22 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
                   <MultiPhotoUploader
                     value={field.value ?? []}
                     onChange={(files) => field.onChange(files ?? [])}
-                    onClearAll={() =>
+                    existingImages={currentExistingImages}
+                    onRemoveExisting={(index) => {
+                      const updated = [...currentExistingImages]
+                      updated.splice(index, 1)
+                      setValue('existingImages', updated, {
+                        shouldValidate: true,
+                      })
+                    }}
+                    onClearAll={() => {
                       setValue('images', [], { shouldValidate: true })
-                    }
+                      setValue('existingImages', [], { shouldValidate: true })
+                    }}
                     maxSizeMB={MAX_SIZE_MB}
                     maxFiles={MAX_FILES}
                     accept="image/png,image/jpeg,image/webp"
-                    disabled={isSubmitting}
+                    disabled={isBusy}
                   />
                 )}
               />
@@ -152,7 +224,7 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
                 id="product-title"
                 placeholder="Смартфон Apple iPhone 17 Pro 256 ГБ синий"
                 type="text"
-                disabled={isSubmitting}
+                disabled={isBusy}
               />
               {errors.title && <FieldError>{errors.title.message}</FieldError>}
             </Field>
@@ -167,7 +239,7 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
                 inputMode="numeric"
                 min={1}
                 step={1}
-                disabled={isSubmitting}
+                disabled={isBusy}
               />
               {errors.price && <FieldError>{errors.price.message}</FieldError>}
             </Field>
@@ -180,37 +252,36 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
               <FieldLabel htmlFor="product-category">Категория</FieldLabel>
               <Controller
                 control={control}
-                name="category"
+                name="categoryId"
                 render={({ field }) => (
                   <Select
                     onValueChange={field.onChange}
                     value={field.value}
                     name="product-category"
-                    disabled={isSubmitting}
+                    disabled={isBusy}
                   >
                     <SelectTrigger id="product-category">
                       <SelectValue placeholder="Выберите категорию" />
                     </SelectTrigger>
+
                     <SelectContent>
-                      <SelectItem value="smartphones">Телефоны</SelectItem>
-                      <SelectItem value="laptops">Ноутбуки</SelectItem>
-                      <SelectItem value="tablets">Планшеты</SelectItem>
-                      <SelectItem value="headphones">Наушники</SelectItem>
-                      <SelectItem value="smartwatches">Смарт-часы</SelectItem>
-                      <SelectItem value="accessories">Аксессуары</SelectItem>
-                      <SelectItem value="audio">Аудиотехника</SelectItem>
-                      <SelectItem value="tv">Телевизоры</SelectItem>
-                      <SelectItem value="photo">Фото и видео</SelectItem>
-                      <SelectItem value="gaming">Игры и приставки</SelectItem>
-                      <SelectItem value="appliances">
-                        Бытовая техника
-                      </SelectItem>
+                      {isCreating ? (
+                        <div className="flex justify-center">
+                          <LoaderCircle className="animate-spin" />
+                        </div>
+                      ) : (
+                        categories?.map(({ title, id }) => (
+                          <SelectItem key={id} value={id}>
+                            {title}
+                          </SelectItem>
+                        ))
+                      )}
                     </SelectContent>
                   </Select>
                 )}
               />
-              {errors.category && (
-                <FieldError>{errors.category.message}</FieldError>
+              {errors.categoryId && (
+                <FieldError>{errors.categoryId.message}</FieldError>
               )}
             </Field>
 
@@ -218,37 +289,40 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
               <FieldLabel htmlFor="product-color">Цвет</FieldLabel>
               <Controller
                 control={control}
-                name="color"
+                name="colorId"
                 render={({ field }) => (
                   <Select
                     onValueChange={field.onChange}
                     value={field.value}
                     name="product-color"
-                    disabled={isSubmitting}
+                    disabled={isBusy}
                   >
                     <SelectTrigger id="product-color">
                       <SelectValue placeholder="Выберите цвет" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="black">Чёрный</SelectItem>
-                      <SelectItem value="white">Белый</SelectItem>
-                      <SelectItem value="silver">Серебристый</SelectItem>
-                      <SelectItem value="space-gray">
-                        Космический серый
-                      </SelectItem>
-                      <SelectItem value="gold">Золотой</SelectItem>
-                      <SelectItem value="rose-gold">Розовое золото</SelectItem>
-                      <SelectItem value="blue">Синий</SelectItem>
-                      <SelectItem value="red">Красный</SelectItem>
-                      <SelectItem value="green">Зелёный</SelectItem>
-                      <SelectItem value="purple">Фиолетовый</SelectItem>
-                      <SelectItem value="yellow">Жёлтый</SelectItem>
-                      <SelectItem value="pink">Розовый</SelectItem>
+                      {isUpdating ? (
+                        <div className="flex justify-center">
+                          <LoaderCircle className="animate-spin" />
+                        </div>
+                      ) : (
+                        colors?.map(({ title, value, id }) => (
+                          <SelectItem key={id} value={id}>
+                            <span
+                              style={{ backgroundColor: value }}
+                              className={`aspect-square w-5 h-5 rounded-[50%]`}
+                            ></span>
+                            {title}
+                          </SelectItem>
+                        ))
+                      )}
                     </SelectContent>
                   </Select>
                 )}
               />
-              {errors.color && <FieldError>{errors.color.message}</FieldError>}
+              {errors.colorId && (
+                <FieldError>{errors.colorId.message}</FieldError>
+              )}
             </Field>
           </FieldGroup>
         </FieldSet>
@@ -263,7 +337,7 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
                 onChange={field.onChange}
                 value={field.value}
                 id="product-description"
-                disabled={isSubmitting}
+                disabled={isBusy}
               />
             )}
           />
@@ -278,7 +352,7 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
             register={register}
             name="groupedOptions"
             error={errors.groupedOptions}
-            disabled={isSubmitting}
+            disabled={isBusy}
           />
         </FieldSet>
 
@@ -287,7 +361,7 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
             className={clsx('rich-btn', 'rich-btn--blue')}
             variant="secondary"
             type="submit"
-            disabled={isSubmitting}
+            disabled={isBusy}
           >
             {submitLabel}
           </CustomButton>
@@ -297,7 +371,7 @@ export function CreateNewProductForm({ editData }: ICreateNewProductForm) {
             type="button"
             variant="destructive"
             onClick={() => reset(defaultValues)}
-            disabled={isSubmitting}
+            disabled={isBusy}
           >
             Сбросить
           </CustomButton>

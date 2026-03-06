@@ -25,7 +25,10 @@ export const ROUTES = {
       statistics: '/statistics',
       products: {
         create: '/create',
-        edit: '/edit',
+        edit: {
+          path: '/edit/:productId',
+          to: (productId: string) => `/edit/${productId}`,
+        },
       },
       colors: {
         create: '/create',
