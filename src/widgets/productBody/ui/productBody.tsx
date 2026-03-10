@@ -4,38 +4,24 @@ import { Star } from 'lucide-react'
 
 import { ProductMoreInfoSheet } from '@/widgets/productMoreInfoSheet'
 
+import type { SchemaProductResponseDto } from '@/shared/api/api-endpoints'
 import { ROUTES } from '@/shared/config'
 import { Badge } from '@/shared/ui/components/ui/badge'
 import { ProductTableOption } from '@/shared/ui/productTableOption'
 
 import s from './productBody.module.scss'
 
-const options = [
-  { label: 'Основная камера (млн. пикс.)', value: '48 Мп' },
-  { label: 'Вторая основная камера (млн. пикс.)', value: '48 Мп' },
-  { label: 'Третья основная камера', value: '48 Мп' },
-  { label: 'Фронтальная камера (млн. пикс.)', value: '18 Мп' },
-  {
-    label: 'Особенности объектива',
-    value:
-      'автоматическая стабилизация; функция Smart HDR 5; портреты с контролем фокусировки',
-  },
-  {
-    label: 'Доп. опции камеры',
-    value:
-      'коррекция искажений объектива; 15-кратный цифровой зум; ночная съемка',
-  },
-  { label: 'Встроенная вспышка', value: 'да' },
-]
-
-export const ProductBody = () => {
-  const product: any = {}
+type ProductBodyProps = {
+  product: SchemaProductResponseDto
+}
+export const ProductBody = ({ product }: ProductBodyProps) => {
+  const mainOptionsGroup = product.groupedOptions?.[0].options
 
   return (
     <div className={s['product-body']}>
       <div className={s['product-body__header']}>
         <div className={s['product-body__badges']}>
-          <Link to={`${ROUTES.profile.shops.root}${product.brand}`}>
+          <Link to={`${ROUTES.profile.shops.root}${product.shopId}`}>
             <Badge variant={'secondary'} className={s['product-body__badge']}>
               Бренд
             </Badge>
@@ -58,9 +44,8 @@ export const ProductBody = () => {
       </div>
 
       <div className={s['product-body__option']}>
-        <ProductTableOption arrayOption={options} />
-
-        <ProductMoreInfoSheet />
+        <ProductTableOption mainOptionsGroup={mainOptionsGroup ?? []} />
+        <ProductMoreInfoSheet optionsGroup={product.groupedOptions ?? []} />
       </div>
     </div>
   )

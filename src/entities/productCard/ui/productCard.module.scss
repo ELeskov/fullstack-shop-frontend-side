@@ -28,7 +28,8 @@
 
   &__price-wrap {
     display: flex;
-    column-gap: rem(10);
+    align-items: center;
+    column-gap: rem(5);
   }
 
   &__brand-wrap {

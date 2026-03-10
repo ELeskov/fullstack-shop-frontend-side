@@ -1,20 +1,17 @@
+import type { SchemaProductOptionResponseDto } from '@/shared/api/api-endpoints'
+
 import s from './productTableOption.module.scss'
 
-interface ITableOptionRow {
-  label: string
-  value: string
-}
-
 interface IProductTableOption {
-  arrayOption: ITableOptionRow[]
+  mainOptionsGroup: SchemaProductOptionResponseDto[]
   fullmode?: boolean
 }
 
 export function ProductTableOption({
-  arrayOption,
+  mainOptionsGroup,
   fullmode = false,
 }: IProductTableOption) {
-  if (!arrayOption) {
+  if (!mainOptionsGroup) {
     return null
   }
 
@@ -22,11 +19,11 @@ export function ProductTableOption({
     <div className={s['product-table-option']}>
       <table className={s['product-table-option__table']}>
         <tbody>
-          {arrayOption.map((row, i) => (
+          {mainOptionsGroup.map((row, i) => (
             <tr key={i} className={s['product-table-option__table-row']}>
               <th>
                 <span className={s['product-table-option__label']}>
-                  {row.label}
+                  {row.name}
                 </span>
               </th>
               <td className={fullmode ? s['fullmode'] : ''}>{row.value}</td>

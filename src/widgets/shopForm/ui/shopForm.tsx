@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { type SubmitHandler, useForm } from 'react-hook-form'
+import { Controller, type SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { motion } from 'motion/react'
@@ -22,9 +22,23 @@ import { PhotoUploader } from '@/shared/ui/photoUploader/photoUploader'
 
 import s from './shopForm.module.scss'
 
+const MAX_LOGO_MB = 5
+const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/webp']
+
 const schema = z.object({
   title: z.string().trim().min(1, 'Название обязательно'),
   description: z.string().trim().min(1, 'Описание обязательно'),
+  logo: z
+    .instanceof(File, { message: 'Загрузите логотип' })
+    .refine(
+      (file) => file.size <= MAX_LOGO_MB * 1024 * 1024,
+      `Максимальный размер файла ${MAX_LOGO_MB}MB`,
+    )
+    .refine(
+      (file) => ALLOWED_TYPES.includes(file.type),
+      'Допустимы только изображения PNG, JPG, WebP',
+    )
+    .optional(),
 })
 
 export type ShopSchema = z.infer<typeof schema>
@@ -42,6 +56,7 @@ export function ShopForm({ shopId, editData, pictureUrl }: IShopForm) {
     () => ({
       title: editData?.title ?? '',
       description: editData?.description ?? '',
+      logo: editData?.logo ?? undefined,
     }),
     [editData],
   )
@@ -50,6 +65,8 @@ export function ShopForm({ shopId, editData, pictureUrl }: IShopForm) {
     register,
     handleSubmit,
     reset,
+    control,
+    clearErrors,
     formState: { errors, isSubmitting, isValid, isDirty },
   } = useForm<ShopSchema>({
     resolver: zodResolver(schema),
@@ -130,21 +147,38 @@ export function ShopForm({ shopId, editData, pictureUrl }: IShopForm) {
           <aside className={s['shop-form__aside']}>
             <div className={s['shop-form__section']}>
               <div className={s['shop-form__section-head']}>
-                <h3 className={s['shop-form__section-title']}>
-                  Логотип магазина
-                </h3>
                 <p className={s['shop-form__section-subtitle']}>
                   PNG/JPG/WebP до 5MB, лучше 512×512
                 </p>
               </div>
 
-              <PhotoUploader
-                value={logo}
-                onChange={setLogo}
-                maxSizeMB={5}
-                disabled={isBusy}
-                defaultUrl={pictureUrl ?? null}
-              />
+              <FieldGroup className={s['shop-form__fields']}>
+                <Field className={s['shop-form__field']}>
+                  <FieldLabel htmlFor="shop-logo">Логотип магазина</FieldLabel>
+                  <Controller
+                    control={control}
+                    name="logo"
+                    render={({ field }) => (
+                      <PhotoUploader
+                        onChange={(file) => {
+                          if (!file) {
+                            field.onChange(undefined)
+                            clearErrors('logo')
+                            return
+                          }
+                          field.onChange(file)
+                        }}
+                        maxSizeMB={5}
+                        disabled={isBusy}
+                        defaultUrl={pictureUrl ?? null}
+                      />
+                    )}
+                  />
+                  {errors.logo?.message && (
+                    <FieldError>{errors.logo.message}</FieldError>
+                  )}
+                </Field>
+              </FieldGroup>
 
               <FieldDescription className={s['shop-form__hint']}>
                 Совет: квадратные лого лучше выглядят в карточках и на витрине.

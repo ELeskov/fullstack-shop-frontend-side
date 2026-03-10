@@ -69,7 +69,7 @@ export const router = createBrowserRouter([
         element: <ForgotPasswordPage />,
       },
       {
-        path: ROUTES.product,
+        path: ROUTES.product.path,
         element: <ProductPage />,
       },
     ],

@@ -5,7 +5,10 @@ export const ROUTES = {
   login: '/login',
   signup: '/signup',
   catalog: '/catalog',
-  product: '/product',
+  product: createRoutes('product', {
+    id: (id: string) => `/product/:${id}`,
+    path: '/:id',
+  }),
   verify: '/auth/verify',
   resetPassword: '/auth/reset-password',
   sendResetPasswordEmail: '/send-reset-email',

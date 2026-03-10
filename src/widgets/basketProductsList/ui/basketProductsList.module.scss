@@ -1,0 +1,47 @@
+.basket-list-container {
+  background-color: #1a1b1e; /* Темный фон блока */
+  border: 1px solid #2c2e33;
+  border-radius: 16px;
+  padding: 1.5rem;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #2c2e33;
+    margin-bottom: 1.5rem;
+  }
+
+  &__title-group {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  &__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #e9ecef;
+    margin: 0;
+  }
+
+  &__count {
+    font-size: 0.875rem;
+    color: #868e96;
+  }
+
+  &__select-all {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+    color: #adb5bd;
+    cursor: pointer;
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+  }
+}

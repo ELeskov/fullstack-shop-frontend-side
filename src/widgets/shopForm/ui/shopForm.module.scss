@@ -149,6 +149,7 @@
 
   @include mobile {
     width: 100%;
+    flex-direction: column;
     justify-content: stretch;
 
     > * {

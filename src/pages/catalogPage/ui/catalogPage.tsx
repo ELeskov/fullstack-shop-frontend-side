@@ -2,11 +2,13 @@ import { Breadcrumbs } from '@/widgets/breadcrumbs'
 import { CatalogFilters } from '@/widgets/catalogFilters'
 import { ProductCardList } from '@/widgets/productCardList'
 
+import { useGetAllProduct } from '@/shared/api/product'
 import { TitlePage } from '@/shared/ui/titlePage/titlePage'
 
 import s from './catalogPage.module.scss'
 
 export function CatalogPage() {
+  const { data: products } = useGetAllProduct()
   return (
     <section className={s['catalog-page']}>
       <div className={s['catalog-page__breadcrumbs']}>
@@ -15,7 +17,7 @@ export function CatalogPage() {
       <div className={s['catalog-title-wrap']}>
         <TitlePage text="Каталог" />
         <span className={s['number-product-found']}>
-          {(142536).toLocaleString()} товаров
+          {products?.length.toLocaleString()} товаров
         </span>
       </div>
       <div className={s['catalog-page__filters']}>

@@ -1,9 +1,13 @@
 .product-summary {
   border-radius: rem(16);
   padding: rem(20);
-  box-shadow: rem(0) rem(0) rem(22) rgb(255 255 255 / 16%);
   flex: 0 0 rem(320);
   box-sizing: border-box;
+
+  border-radius: rem(20);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  background: rgba(255, 255, 255, 0.04);
 
   @include laptop {
     display: none;

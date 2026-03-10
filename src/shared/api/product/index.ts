@@ -1,5 +1,6 @@
 export * from './useCreateProductMutation'
 export * from './useDeleteProductMutation'
+export * from './useGetAllProduct'
 export * from './useGetAllProductByShopId'
 export * from './useGetProductById'
 export * from './useUpdateProductMutation'

@@ -28,6 +28,7 @@ export const QUERY_KEY = {
 
   CREATE_PRODUCT: 'create_product',
   UPDATE_PRODUCT: 'update_product',
+  GET_ALL_PRODUCT: 'all_product',
   GET_PRODUCT_BY_ID: 'product',
   DELETE_PRODUCT: 'delete_product',
 } as const
