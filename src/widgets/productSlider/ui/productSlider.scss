@@ -3,7 +3,6 @@
   gap: rem(12);
   aspect-ratio: 6/7;
   height: fluid(700, 350);
-  // width: 100%;
 
   @include laptop {
     aspect-ratio: 6/8;

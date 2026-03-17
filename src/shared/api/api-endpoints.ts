@@ -4,3445 +4,3764 @@
  */
 
 export interface paths {
-  '/api/shops': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Создание магазина */
-    post: operations['ShopController_create']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/shops/logo': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Сохранение или обновление логотипа магазина */
-    post: operations['ShopController_uploadPicture']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/shops/@me': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Мои магазины */
-    get: operations['ShopController_findAllByUserId']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/shops/{id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Поиск магазина по id */
-    get: operations['ShopController_findById']
-    put?: never
-    post?: never
-    /** Удаление магазина */
-    delete: operations['ShopController_delete']
-    options?: never
-    head?: never
-    /** Обновление названия/описания магазина */
-    patch: operations['ShopController_update']
-    trace?: never
-  }
-  '/api/shops/{shopId}/categories': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Получить все категории магазина */
-    get: operations['ShopController_findCategoriesByShopId']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/shops/{shopId}/colors': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Получить все цвета магазина */
-    get: operations['ShopController_findColorsByShopId']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/users': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Получить список всех пользователей */
-    get: operations['UsersController_findAll']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/users/{id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Получить детальную информацию о пользователе */
-    get: operations['UsersController_findById']
-    put?: never
-    post?: never
-    /**
-     * Жесткое удаление пользователя
-     * @description Удаляет пользователя из базы вместе с его магазинами и заказами, а также очищает S3 хранилище.
-     */
-    delete: operations['UsersController_deleteUser']
-    options?: never
-    head?: never
-    /**
-     * Принудительное редактирование профиля пользователя
-     * @description Позволяет админу менять имя, email или сбрасывать аватарку (передав пустую строку).
-     */
-    patch: operations['UsersController_updateProfile']
-    trace?: never
-  }
-  '/api/users/{id}/role': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    /** Изменить роль пользователя (Повысить/Понизить) */
-    patch: operations['UsersController_updateRole']
-    trace?: never
-  }
-  '/api/account/register': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Регистрация пользователя */
-    post: operations['AccountController_register']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/account/login': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Вход */
-    post: operations['AccountController_login']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/account/logout': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Выход (logout) */
-    post: operations['AccountController_logout']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/account/email/verify': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /**
-     * Подтверждение email по токену
-     * @description Подтверждает email пользователя по одноразовому токену из письма. Устанавливает isVerified = true, удаляет токен и создаёт сессию
-     */
-    post: operations['AccountController_confirmEmail']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/account/password/reset': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /**
-     * Сброс пароля по токену
-     * @description Сбрасывает пароль пользователя по токену из письма восстановления. Обновляет пароль и удаляет токен сброса.
-     */
-    post: operations['AccountController_resetPassword']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/account/email/verification/send': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /**
-     * Отправить письмо для подтверждения email
-     * @description Отправляет письмо с одноразовым токеном подтверждения на email текущего пользователя.
-     */
-    post: operations['AccountController_sendVerificationEmail']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/account/password/reset/send': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /**
-     * Отправить письмо для сброса пароля
-     * @description Отправляет письмо с одноразовым токеном сброса пароля на email текущего пользователя.
-     */
-    post: operations['AccountController_sendResetPasswordEmail']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/account/@me': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Получить профиль текущего пользователя */
-    get: operations['AccountController_me']
-    put?: never
-    post?: never
-    /** Удаление аккаунта */
-    delete: operations['AccountController_delete']
-    options?: never
-    head?: never
-    /** Обновление username пользователя */
-    patch: operations['AccountController_updateProfile']
-    trace?: never
-  }
-  '/api/account/@me/avatar': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    /** Обновление фото аватара */
-    patch: operations['AccountController_upload']
-    trace?: never
-  }
-  '/api/category/{shopId}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Создать категорию для магазина */
-    post: operations['CategoryController_create']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/category/{shopId}/{categoryId}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    post?: never
-    /** Удалить категорию магазина */
-    delete: operations['CategoryController_delete']
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/color/{shopId}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /**
-     * Создать цвет для магазина
-     * @description Создает новый цвет, привязанный к указанному магазину. Операция доступна только владельцу магазина.
-     */
-    post: operations['ColorController_create']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/color/{shopId}/{colorId}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    post?: never
-    /**
-     * Удалить цвет магазина
-     * @description Удаляет цвет по его идентификатору. Требует прав владельца магазина.
-     */
-    delete: operations['ColorController_delete']
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/product/{shopId}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Создать продукт с опциями и изображениями */
-    post: operations['ProductController_create']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/product/shop/{shopId}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /**
-     * Получить все товары магазина
-     * @description Возвращает список всех товаров, принадлежащих указанному магазину, включая краткую информацию о категории и цвете.
-     */
-    get: operations['ProductController_findAllByShopId']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/product': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /**
-     * Получить все товары
-     * @description Возвращает список всех товаров
-     */
-    get: operations['ProductController_findAll']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/product/{id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /**
-     * Получить детальную информацию о товаре
-     * @description Возвращает полную информацию о товаре по его ID, включая все характеристики (groupedOptions), категорию, цвет и отзывы.
-     */
-    get: operations['ProductController_findById']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/product/{shopId}/{productId}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    post?: never
-    /** Удалить продукт */
-    delete: operations['ProductController_delete']
-    options?: never
-    head?: never
-    /** Обновить продукт */
-    patch: operations['ProductController_update']
-    trace?: never
-  }
+    "/api/shops": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Получить все магазины */
+        get: operations["ShopController_findAll"];
+        put?: never;
+        /** Создание магазина */
+        post: operations["ShopController_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shops/logo": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Сохранение или обновление логотипа магазина */
+        post: operations["ShopController_uploadPicture"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shops/@me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Мои магазины */
+        get: operations["ShopController_findAllByUserId"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shops/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Поиск магазина по id */
+        get: operations["ShopController_findById"];
+        put?: never;
+        post?: never;
+        /** Удаление магазина */
+        delete: operations["ShopController_delete"];
+        options?: never;
+        head?: never;
+        /** Обновление названия/описания магазина */
+        patch: operations["ShopController_update"];
+        trace?: never;
+    };
+    "/api/shops/{shopId}/categories": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Получить все категории магазина */
+        get: operations["ShopController_findCategoriesByShopId"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shops/{shopId}/colors": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Получить все цвета магазина */
+        get: operations["ShopController_findColorsByShopId"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/users": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Получить список всех пользователей */
+        get: operations["UsersController_findAll"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/users/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Получить детальную информацию о пользователе */
+        get: operations["UsersController_findById"];
+        put?: never;
+        post?: never;
+        /**
+         * Жесткое удаление пользователя
+         * @description Удаляет пользователя из базы вместе с его магазинами и заказами, а также очищает S3 хранилище.
+         */
+        delete: operations["UsersController_deleteUser"];
+        options?: never;
+        head?: never;
+        /**
+         * Принудительное редактирование профиля пользователя
+         * @description Позволяет админу менять имя, email или сбрасывать аватарку (передав пустую строку).
+         */
+        patch: operations["UsersController_updateProfile"];
+        trace?: never;
+    };
+    "/api/users/{id}/role": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Изменить роль пользователя (Повысить/Понизить) */
+        patch: operations["UsersController_updateRole"];
+        trace?: never;
+    };
+    "/api/account/register": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Регистрация пользователя */
+        post: operations["AccountController_register"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/account/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Вход */
+        post: operations["AccountController_login"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/account/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Выход (logout) */
+        post: operations["AccountController_logout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/account/email/verify": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Подтверждение email по токену
+         * @description Подтверждает email пользователя по одноразовому токену из письма. Устанавливает isVerified = true, удаляет токен и создаёт сессию
+         */
+        post: operations["AccountController_confirmEmail"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/account/password/reset": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Сброс пароля по токену
+         * @description Сбрасывает пароль пользователя по токену из письма восстановления. Обновляет пароль и удаляет токен сброса.
+         */
+        post: operations["AccountController_resetPassword"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/account/email/verification/send": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Отправить письмо для подтверждения email
+         * @description Отправляет письмо с одноразовым токеном подтверждения на email текущего пользователя.
+         */
+        post: operations["AccountController_sendVerificationEmail"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/account/password/reset/send": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Отправить письмо для сброса пароля
+         * @description Отправляет письмо с одноразовым токеном сброса пароля на email текущего пользователя.
+         */
+        post: operations["AccountController_sendResetPasswordEmail"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/account/@me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Получить профиль текущего пользователя */
+        get: operations["AccountController_me"];
+        put?: never;
+        post?: never;
+        /** Удаление аккаунта */
+        delete: operations["AccountController_delete"];
+        options?: never;
+        head?: never;
+        /** Обновление username пользователя */
+        patch: operations["AccountController_updateProfile"];
+        trace?: never;
+    };
+    "/api/account/@me/avatar": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Обновление фото аватара */
+        patch: operations["AccountController_upload"];
+        trace?: never;
+    };
+    "/api/category/{shopId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Создать категорию для магазина */
+        post: operations["CategoryController_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/category": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Получение всех категорий */
+        get: operations["CategoryController_findAll"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/category/{shopId}/{categoryId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Удалить категорию магазина */
+        delete: operations["CategoryController_delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/color/{shopId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Создать цвет для магазина
+         * @description Создает новый цвет, привязанный к указанному магазину. Операция доступна только владельцу магазина.
+         */
+        post: operations["ColorController_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/color": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Получение всех цветов */
+        get: operations["ColorController_findAll"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/color/{shopId}/{colorId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Удалить цвет магазина
+         * @description Удаляет цвет по его идентификатору. Требует прав владельца магазина.
+         */
+        delete: operations["ColorController_delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/product/{shopId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Создать продукт с опциями и изображениями */
+        post: operations["ProductController_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/product/shop/{shopId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Получить все товары магазина
+         * @description Возвращает список всех товаров, принадлежащих указанному магазину, включая краткую информацию о категории и цвете.
+         */
+        get: operations["ProductController_findAllByShopId"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/product": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Получить все товары
+         * @description Возвращает список всех товаров
+         */
+        get: operations["ProductController_findAll"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/product/filters": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Получить отфильтрованный список товаров */
+        get: operations["ProductController_getProducts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/product/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Получить детальную информацию о товаре
+         * @description Возвращает полную информацию о товаре по его ID, включая все характеристики (groupedOptions), категорию, цвет и отзывы.
+         */
+        get: operations["ProductController_findById"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/product/{shopId}/{productId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Удалить продукт */
+        delete: operations["ProductController_delete"];
+        options?: never;
+        head?: never;
+        /** Обновить продукт */
+        patch: operations["ProductController_update"];
+        trace?: never;
+    };
 }
-export type webhooks = Record<string, never>
+export type webhooks = Record<string, never>;
 export interface components {
-  schemas: {
-    CreateShopDto: {
-      /**
-       * @description Название магазина
-       * @example TechZone
-       */
-      title: string
-      /**
-       * @description Короткое описание магазина
-       * @example Магазин электроники и аксессуаров с быстрой доставкой.
-       */
-      description: string
-    }
-    ShopResponseDto: {
-      id: string
-      title: string
-      description: string
-      picture?: string
-      userId: string
-      createdAt: string
-      updatedAt: string
-    }
-    ApiErrorResponseDto: {
-      /** @example 400 */
-      statusCode: number
-      /** @example Bad Request */
-      error: string
-      /** @example Неверные учетные данные */
-      message: string
-      /**
-       * @example UNAUTHORIZED
-       * @enum {string}
-       */
-      code:
-        | 'VALIDATION_FAILED'
-        | 'UNAUTHORIZED'
-        | 'FORBIDDEN'
-        | 'NOT_FOUND'
-        | 'CONFLICT'
-        | 'INTERNAL'
-      /**
-       * @description Ошибки по полям (обычно из ValidationPipe)
-       * @example {
-       *       "email": [
-       *         "Invalid email"
-       *       ]
-       *     }
-       */
-      details?: Record<string, never>
-      /**
-       * @description Путь запроса (для отладки)
-       * @example /api/account/login
-       */
-      path: string
-      /**
-       * @description ISO timestamp (для отладки)
-       * @example 2026-02-13T11:32:54.861Z
-       */
-      timestamp: string
-    }
-    UploadLogoShopDto: {
-      /**
-       * @description Id магазина
-       * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
-       */
-      shopId: string
-      /** Format: binary */
-      file: string
-    }
-    UploadLogoShopRequestDto: {
-      path: string
-    }
-    CategoryResponseDto: {
-      /**
-       * @description ID категории
-       * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
-       */
-      id: string
-      /**
-       * @description Название категории
-       * @example Куртки
-       */
-      title: string
-      /**
-       * @description Описание категории
-       * @example Куртки
-       */
-      description: string
-      /**
-       * @description ID магазина к которому привязана категория
-       * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
-       */
-      shopId: string
-      /**
-       * Format: date-time
-       * @description Дата создания магазина
-       */
-      createdAt: string
-    }
-    ColorResponseDto: {
-      /** @example a0d3d0d9-1b4f-4fb8-9c3c-4f0f5d2d8a32 */
-      id: string
-      /** @example Белый */
-      title: string
-      /** @example #FFFFFF */
-      value: string
-      /** @example c8cbd1a7-7d9c-4c6f-8b2c-4db6c7d1a0aa */
-      shopId: string
-      /** @example 2026-02-19T12:00:00.000Z */
-      createdAt: string
-    }
-    UpdateShopDto: {
-      /**
-       * @description Название магазина
-       * @example TechZone
-       */
-      title: string
-      /**
-       * @description Короткое описание магазина
-       * @example Магазин электроники и аксессуаров с быстрой доставкой.
-       */
-      description: string
-    }
-    CreateShopResponseDto: {
-      /**
-       * @description Id магазина
-       * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
-       */
-      shopId: string
-    }
-    DeleteShopDto: {
-      /**
-       * @description Id магазина
-       * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
-       */
-      shopId: string
-    }
-    UpdateRoleDto: {
-      /**
-       * @description Новая роль пользователя
-       * @example ADMIN
-       * @enum {string}
-       */
-      role: 'REGULAR' | 'ADMIN'
-    }
-    AdminUpdateUserDto: {
-      /**
-       * @description Новое имя пользователя
-       * @example Иван
-       */
-      name?: string
-      /**
-       * @description Новый email
-       * @example new@example.com
-       */
-      email?: string
-      /**
-       * @description Ссылка на новую аватарку. Передайте пустую строку, чтобы удалить текущую.
-       * @example
-       */
-      picture?: string
-    }
-    RegisterDto: {
-      /**
-       * @description Имя пользователя, отображаемое в системе.
-       * @example John Doe
-       */
-      name: string
-      /**
-       * @description Уникальный email пользователя. Используется для регистрации и входа.
-       * @example example@example.com
-       */
-      email: string
-      /**
-       * @description Пароль пользователя. Минимальная длина — 6 символов (валидация на бэкенде).
-       * @example password123
-       */
-      password: string
-      /**
-       * @description Captcha verification code
-       * @example 03AFcWeA...
-       */
-      captcha: string
-    }
-    AccountResponseDto: {
-      /**
-       * @description id пользователя
-       * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
-       */
-      userId: string
-    }
-    LoginDto: {
-      /**
-       * @description Email пользователя. Используется как логин при авторизации.
-       * @example example@example.com
-       */
-      email: string
-      /**
-       * @description Пароль пользователя. Минимальная длина — 6 символов
-       * @example password123
-       */
-      password: string
-      /**
-       * @description Код двухфакторной аутентификации. Обязателен только при включённой 2FA.
-       * @example 123456
-       */
-      code?: string
-    }
-    VerificationTokenDto: {
-      /**
-       * @description Токен подтверждения из письма
-       * @example 550e8400-e29b-41d4-a716-446655440001
-       */
-      token: string
-    }
-    ResetPasswordDto: {
-      /**
-       * @description Токен для сброса пароля из письма.
-       * @example 550e8400-e29b-41d4-a716-446655440001
-       */
-      token: string
-      /**
-       * @description Новый пароль. Минимальная длина — 6 символов.
-       * @example newPassword123
-       */
-      password: string
-      /**
-       * @description Подтверждение нового пароля (должно совпадать с паролем).
-       * @example newPassword123
-       */
-      confirmPassword: string
-    }
-    SendEmailDto: {
-      /**
-       * @description Email для отправки токена верификации
-       * @example user@example.com
-       */
-      email: string
-    }
-    /** @enum {string} */
-    UserRole: 'REGULAR' | 'ADMIN'
-    /** @enum {string} */
-    AuthMethod: 'CREDENTIALS' | 'GOOGLE' | 'YANDEX'
-    UserResponseDto: {
-      id: string
-      name: string
-      email: string
-      picture: string
-      /** @example REGULAR */
-      role: components['schemas']['UserRole']
-      isVerified: boolean
-      isTwoFactorEnable: boolean
-      /** @example CREDENTIALS */
-      method: components['schemas']['AuthMethod']
-      createdAt: string
-      updatedAt: string
-    }
-    PatchUserDto: {
-      /**
-       * @description Имя пользователя, отображаемое в системе.
-       * @example John Doe
-       */
-      firstName: string
-    }
-    UpdateUserAvatarResponseDto: {
-      /**
-       * @description Ссылка на автар пользователя
-       * @example https://4f35f4d0-2fb4974b-6046-4608-bcaa-2df25d95c300.s3.timeweb.cloud/avatars/1769796648317-zkv4xtz0vk-eleskov.png
-       */
-      url: string
-    }
-    CreateCategoryDto: {
-      /**
-       * @description Название категории
-       * @example Куртки
-       */
-      title: string
-      /** @example Куртки */
-      description: string
-    }
-    CreateColorDto: {
-      /**
-       * @description Название цвета
-       * @example Белый
-       */
-      title: string
-      /**
-       * @description HEX значение цвета
-       * @example #FFFFFF
-       */
-      value: string
-    }
-    ProductOptionDto: {
-      /**
-       * @description Название опции
-       * @example Размер
-       */
-      name: string
-      /**
-       * @description Значение опции
-       * @example XL
-       */
-      value: string
-    }
-    GroupOptionDto: {
-      /**
-       * @description Название группы
-       * @example Характеристики
-       */
-      groupName: string
-      /** @description Массив опций */
-      options: components['schemas']['ProductOptionDto'][]
-    }
-    CreateProductDto: {
-      /**
-       * @description Название продукта
-       * @example Футболка oversize
-       */
-      title: string
-      /**
-       * @description Описание продукта
-       * @example Хлопок 100%...
-       */
-      description: string
-      /**
-       * @description Цена продукта
-       * @example 1500
-       */
-      price: number
-      /**
-       * @description ID категории
-       * @example uuid...
-       */
-      categoryId: string
-      /**
-       * @description ID цвета
-       * @example uuid...
-       */
-      colorId?: string
-      /**
-       * @description Группы опций. Передавать как JSON-строку
-       * @example [{"groupName":"Размеры","options":[{"name":"Размер","value":"XL"}]}]
-       */
-      groupOptions?: components['schemas']['GroupOptionDto'][]
-      /** @description Изображения товара (до 10 штук) */
-      files?: string[]
-    }
-    ProductCategoryResponseDto: {
-      /** @example uuid-cat */
-      id: string
-      /** @example Электроника */
-      title: string
-    }
-    ProductColorResponseDto: {
-      /** @example uuid-col */
-      id: string
-      /** @example Черный */
-      title: string
-      /** @example #000000 */
-      value: string
-    }
-    ProductOptionResponseDto: {
-      /** @example uuid-1234 */
-      id: string
-      /** @example Размер */
-      name: string
-      /** @example XL */
-      value: string
-      /** Format: date-time */
-      createdAt: string
-    }
-    GroupOptionResponseDto: {
-      /** @example uuid-5678 */
-      id: string
-      /** @example Характеристики */
-      groupName: string
-      options: components['schemas']['ProductOptionResponseDto'][]
-      /** Format: date-time */
-      createdAt: string
-    }
-    ProductResponseDto: {
-      /** @example uuid-product */
-      id: string
-      /** @example iPhone 15 */
-      title: string
-      /** @example Отличный смартфон... */
-      description: string
-      /** @example 89990 */
-      price: number
-      /**
-       * @example [
-       *       "https://s3.../img1.jpg"
-       *     ]
-       */
-      images: string[]
-      /** @example uuid-shop */
-      shopId: string
-      /** @example uuid-category */
-      categoryId: string
-      /** @example uuid-color */
-      colorId?: Record<string, never>
-      /** Format: date-time */
-      createdAt: string
-      /** Format: date-time */
-      updatedAt: string
-      category?: components['schemas']['ProductCategoryResponseDto']
-      color?: components['schemas']['ProductColorResponseDto'] | null
-      groupedOptions?: components['schemas']['GroupOptionResponseDto'][]
-      /** @description Массив отзывов */
-      reviews?: Record<string, never>[]
-    }
-    UpdateProductDto: {
-      /**
-       * @description Название продукта
-       * @example Футболка oversize
-       */
-      title?: string
-      /**
-       * @description Описание продукта
-       * @example Хлопок 100%...
-       */
-      description?: string
-      /**
-       * @description Цена продукта
-       * @example 1500
-       */
-      price?: number
-      /**
-       * @description ID категории
-       * @example uuid...
-       */
-      categoryId?: string
-      /**
-       * @description ID цвета
-       * @example uuid...
-       */
-      colorId?: string
-      /**
-       * @description Группы опций. Передавать как JSON-строку
-       * @example [{"groupName":"Размеры","options":[{"name":"Размер","value":"XL"}]}]
-       */
-      groupOptions?: components['schemas']['GroupOptionDto'][]
-      /** @description Изображения товара (до 10 штук) */
-      files?: string[]
-      /**
-       * @description Массив URL-ов существующих изображений, которые нужно оставить
-       * @example [
-       *       "https://s3.../img1.jpg"
-       *     ]
-       */
-      existingImages?: string[]
-    }
-  }
-  responses: never
-  parameters: never
-  requestBodies: never
-  headers: never
-  pathItems: never
+    schemas: {
+        CreateShopDto: {
+            /**
+             * @description Название магазина
+             * @example TechZone
+             */
+            title: string;
+            /**
+             * @description Короткое описание магазина
+             * @example Магазин электроники и аксессуаров с быстрой доставкой.
+             */
+            description: string;
+        };
+        ShopResponseDto: {
+            id: string;
+            title: string;
+            description: string;
+            picture?: string;
+            userId: string;
+            createdAt: string;
+            updatedAt: string;
+        };
+        ApiErrorResponseDto: {
+            /** @example 400 */
+            statusCode: number;
+            /** @example Bad Request */
+            error: string;
+            /** @example Неверные учетные данные */
+            message: string;
+            /**
+             * @example UNAUTHORIZED
+             * @enum {string}
+             */
+            code: "VALIDATION_FAILED" | "UNAUTHORIZED" | "FORBIDDEN" | "NOT_FOUND" | "CONFLICT" | "INTERNAL";
+            /**
+             * @description Ошибки по полям (обычно из ValidationPipe)
+             * @example {
+             *       "email": [
+             *         "Invalid email"
+             *       ]
+             *     }
+             */
+            details?: Record<string, never>;
+            /**
+             * @description Путь запроса (для отладки)
+             * @example /api/account/login
+             */
+            path: string;
+            /**
+             * @description ISO timestamp (для отладки)
+             * @example 2026-02-13T11:32:54.861Z
+             */
+            timestamp: string;
+        };
+        UploadLogoShopDto: {
+            /**
+             * @description Id магазина
+             * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
+             */
+            shopId: string;
+            /** Format: binary */
+            file: string;
+        };
+        UploadLogoShopRequestDto: {
+            path: string;
+        };
+        CategoryResponseDto: {
+            /**
+             * @description ID категории
+             * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
+             */
+            id: string;
+            /**
+             * @description Название категории
+             * @example Куртки
+             */
+            title: string;
+            /**
+             * @description Описание категории
+             * @example Куртки
+             */
+            description: string;
+            /**
+             * @description ID магазина к которому привязана категория
+             * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
+             */
+            shopId: string;
+            /**
+             * Format: date-time
+             * @description Дата создания магазина
+             */
+            createdAt: string;
+        };
+        ColorResponseDto: {
+            /** @example a0d3d0d9-1b4f-4fb8-9c3c-4f0f5d2d8a32 */
+            id: string;
+            /** @example Белый */
+            title: string;
+            /** @example #FFFFFF */
+            value: string;
+            /** @example c8cbd1a7-7d9c-4c6f-8b2c-4db6c7d1a0aa */
+            shopId: string;
+            /** @example 2026-02-19T12:00:00.000Z */
+            createdAt: string;
+        };
+        UpdateShopDto: {
+            /**
+             * @description Название магазина
+             * @example TechZone
+             */
+            title: string;
+            /**
+             * @description Короткое описание магазина
+             * @example Магазин электроники и аксессуаров с быстрой доставкой.
+             */
+            description: string;
+        };
+        CreateShopResponseDto: {
+            /**
+             * @description Id магазина
+             * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
+             */
+            shopId: string;
+        };
+        DeleteShopDto: {
+            /**
+             * @description Id магазина
+             * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
+             */
+            shopId: string;
+        };
+        UpdateRoleDto: {
+            /**
+             * @description Новая роль пользователя
+             * @example ADMIN
+             * @enum {string}
+             */
+            role: "REGULAR" | "ADMIN";
+        };
+        AdminUpdateUserDto: {
+            /**
+             * @description Новое имя пользователя
+             * @example Иван
+             */
+            name?: string;
+            /**
+             * @description Новый email
+             * @example new@example.com
+             */
+            email?: string;
+            /**
+             * @description Ссылка на новую аватарку. Передайте пустую строку, чтобы удалить текущую.
+             * @example
+             */
+            picture?: string;
+        };
+        RegisterDto: {
+            /**
+             * @description Имя пользователя, отображаемое в системе.
+             * @example John Doe
+             */
+            name: string;
+            /**
+             * @description Уникальный email пользователя. Используется для регистрации и входа.
+             * @example example@example.com
+             */
+            email: string;
+            /**
+             * @description Пароль пользователя. Минимальная длина — 6 символов (валидация на бэкенде).
+             * @example password123
+             */
+            password: string;
+            /**
+             * @description Captcha verification code
+             * @example 03AFcWeA...
+             */
+            captcha: string;
+        };
+        AccountResponseDto: {
+            /**
+             * @description id пользователя
+             * @example 12hv12d121c1-d1351jhk1bh2i1d-dfiygdf6y8dgaf8
+             */
+            userId: string;
+        };
+        LoginDto: {
+            /**
+             * @description Email пользователя. Используется как логин при авторизации.
+             * @example example@example.com
+             */
+            email: string;
+            /**
+             * @description Пароль пользователя. Минимальная длина — 6 символов
+             * @example password123
+             */
+            password: string;
+            /**
+             * @description Код двухфакторной аутентификации. Обязателен только при включённой 2FA.
+             * @example 123456
+             */
+            code?: string;
+        };
+        VerificationTokenDto: {
+            /**
+             * @description Токен подтверждения из письма
+             * @example 550e8400-e29b-41d4-a716-446655440001
+             */
+            token: string;
+        };
+        ResetPasswordDto: {
+            /**
+             * @description Токен для сброса пароля из письма.
+             * @example 550e8400-e29b-41d4-a716-446655440001
+             */
+            token: string;
+            /**
+             * @description Новый пароль. Минимальная длина — 6 символов.
+             * @example newPassword123
+             */
+            password: string;
+            /**
+             * @description Подтверждение нового пароля (должно совпадать с паролем).
+             * @example newPassword123
+             */
+            confirmPassword: string;
+        };
+        SendEmailDto: {
+            /**
+             * @description Email для отправки токена верификации
+             * @example user@example.com
+             */
+            email: string;
+        };
+        /** @enum {string} */
+        UserRole: "REGULAR" | "ADMIN";
+        /** @enum {string} */
+        AuthMethod: "CREDENTIALS" | "GOOGLE" | "YANDEX";
+        UserResponseDto: {
+            id: string;
+            name: string;
+            email: string;
+            picture: string;
+            /** @example REGULAR */
+            role: components["schemas"]["UserRole"];
+            isVerified: boolean;
+            isTwoFactorEnable: boolean;
+            /** @example CREDENTIALS */
+            method: components["schemas"]["AuthMethod"];
+            createdAt: string;
+            updatedAt: string;
+        };
+        PatchUserDto: {
+            /**
+             * @description Имя пользователя, отображаемое в системе.
+             * @example John Doe
+             */
+            firstName: string;
+        };
+        UpdateUserAvatarResponseDto: {
+            /**
+             * @description Ссылка на автар пользователя
+             * @example https://4f35f4d0-2fb4974b-6046-4608-bcaa-2df25d95c300.s3.timeweb.cloud/avatars/1769796648317-zkv4xtz0vk-eleskov.png
+             */
+            url: string;
+        };
+        CreateCategoryDto: {
+            /**
+             * @description Название категории
+             * @example Куртки
+             */
+            title: string;
+            /** @example Куртки */
+            description: string;
+        };
+        CreateColorDto: {
+            /**
+             * @description Название цвета
+             * @example Белый
+             */
+            title: string;
+            /**
+             * @description HEX значение цвета
+             * @example #FFFFFF
+             */
+            value: string;
+        };
+        ProductOptionDto: {
+            /**
+             * @description Название опции
+             * @example Размер
+             */
+            name: string;
+            /**
+             * @description Значение опции
+             * @example XL
+             */
+            value: string;
+        };
+        GroupOptionDto: {
+            /**
+             * @description Название группы
+             * @example Характеристики
+             */
+            groupName: string;
+            /** @description Массив опций */
+            options: components["schemas"]["ProductOptionDto"][];
+        };
+        CreateProductDto: {
+            /**
+             * @description Название продукта
+             * @example Футболка oversize
+             */
+            title: string;
+            /**
+             * @description Описание продукта
+             * @example Хлопок 100%...
+             */
+            description: string;
+            /**
+             * @description Цена продукта
+             * @example 1500
+             */
+            price: number;
+            /**
+             * @description ID категории
+             * @example uuid...
+             */
+            categoryId: string;
+            /**
+             * @description ID цвета
+             * @example uuid...
+             */
+            colorId?: string;
+            /**
+             * @description Группы опций. Передавать как JSON-строку
+             * @example [{"groupName":"Размеры","options":[{"name":"Размер","value":"XL"}]}]
+             */
+            groupOptions?: components["schemas"]["GroupOptionDto"][];
+            /** @description Изображения товара (до 10 штук) */
+            files?: string[];
+        };
+        ProductCategoryResponseDto: {
+            /** @example uuid-cat */
+            id: string;
+            /** @example Электроника */
+            title: string;
+        };
+        ProductColorResponseDto: {
+            /** @example uuid-col */
+            id: string;
+            /** @example Черный */
+            title: string;
+            /** @example #000000 */
+            value: string;
+        };
+        ProductOptionResponseDto: {
+            /** @example uuid-1234 */
+            id: string;
+            /** @example Размер */
+            name: string;
+            /** @example XL */
+            value: string;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        GroupOptionResponseDto: {
+            /** @example uuid-5678 */
+            id: string;
+            /** @example Характеристики */
+            groupName: string;
+            options: components["schemas"]["ProductOptionResponseDto"][];
+            /** Format: date-time */
+            createdAt: string;
+        };
+        ProductResponseDto: {
+            /** @example uuid-product */
+            id: string;
+            /** @example iPhone 15 */
+            title: string;
+            /** @example Отличный смартфон... */
+            description: string;
+            /** @example 89990 */
+            price: number;
+            /**
+             * @example [
+             *       "https://s3.../img1.jpg"
+             *     ]
+             */
+            images: string[];
+            /** @example uuid-shop */
+            shopId: string;
+            /** @example uuid-category */
+            categoryId: string;
+            /** @example uuid-color */
+            colorId?: Record<string, never>;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            category?: components["schemas"]["ProductCategoryResponseDto"];
+            color?: components["schemas"]["ProductColorResponseDto"] | null;
+            groupedOptions?: components["schemas"]["GroupOptionResponseDto"][];
+            /** @description Массив отзывов */
+            reviews?: Record<string, never>[];
+        };
+        UpdateProductDto: {
+            /**
+             * @description Название продукта
+             * @example Футболка oversize
+             */
+            title?: string;
+            /**
+             * @description Описание продукта
+             * @example Хлопок 100%...
+             */
+            description?: string;
+            /**
+             * @description Цена продукта
+             * @example 1500
+             */
+            price?: number;
+            /**
+             * @description ID категории
+             * @example uuid...
+             */
+            categoryId?: string;
+            /**
+             * @description ID цвета
+             * @example uuid...
+             */
+            colorId?: string;
+            /**
+             * @description Группы опций. Передавать как JSON-строку
+             * @example [{"groupName":"Размеры","options":[{"name":"Размер","value":"XL"}]}]
+             */
+            groupOptions?: components["schemas"]["GroupOptionDto"][];
+            /** @description Изображения товара (до 10 штук) */
+            files?: string[];
+            /**
+             * @description Массив URL-ов существующих изображений, которые нужно оставить
+             * @example [
+             *       "https://s3.../img1.jpg"
+             *     ]
+             */
+            existingImages?: string[];
+        };
+    };
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
-export type SchemaCreateShopDto = components['schemas']['CreateShopDto']
-export type SchemaShopResponseDto = components['schemas']['ShopResponseDto']
-export type SchemaApiErrorResponseDto =
-  components['schemas']['ApiErrorResponseDto']
-export type SchemaUploadLogoShopDto = components['schemas']['UploadLogoShopDto']
-export type SchemaUploadLogoShopRequestDto =
-  components['schemas']['UploadLogoShopRequestDto']
-export type SchemaCategoryResponseDto =
-  components['schemas']['CategoryResponseDto']
-export type SchemaColorResponseDto = components['schemas']['ColorResponseDto']
-export type SchemaUpdateShopDto = components['schemas']['UpdateShopDto']
-export type SchemaCreateShopResponseDto =
-  components['schemas']['CreateShopResponseDto']
-export type SchemaDeleteShopDto = components['schemas']['DeleteShopDto']
-export type SchemaUpdateRoleDto = components['schemas']['UpdateRoleDto']
-export type SchemaAdminUpdateUserDto =
-  components['schemas']['AdminUpdateUserDto']
-export type SchemaRegisterDto = components['schemas']['RegisterDto']
-export type SchemaAccountResponseDto =
-  components['schemas']['AccountResponseDto']
-export type SchemaLoginDto = components['schemas']['LoginDto']
-export type SchemaVerificationTokenDto =
-  components['schemas']['VerificationTokenDto']
-export type SchemaResetPasswordDto = components['schemas']['ResetPasswordDto']
-export type SchemaSendEmailDto = components['schemas']['SendEmailDto']
-export type SchemaUserRole = components['schemas']['UserRole']
-export type SchemaAuthMethod = components['schemas']['AuthMethod']
-export type SchemaUserResponseDto = components['schemas']['UserResponseDto']
-export type SchemaPatchUserDto = components['schemas']['PatchUserDto']
-export type SchemaUpdateUserAvatarResponseDto =
-  components['schemas']['UpdateUserAvatarResponseDto']
-export type SchemaCreateCategoryDto = components['schemas']['CreateCategoryDto']
-export type SchemaCreateColorDto = components['schemas']['CreateColorDto']
-export type SchemaProductOptionDto = components['schemas']['ProductOptionDto']
-export type SchemaGroupOptionDto = components['schemas']['GroupOptionDto']
-export type SchemaCreateProductDto = components['schemas']['CreateProductDto']
-export type SchemaProductCategoryResponseDto =
-  components['schemas']['ProductCategoryResponseDto']
-export type SchemaProductColorResponseDto =
-  components['schemas']['ProductColorResponseDto']
-export type SchemaProductOptionResponseDto =
-  components['schemas']['ProductOptionResponseDto']
-export type SchemaGroupOptionResponseDto =
-  components['schemas']['GroupOptionResponseDto']
-export type SchemaProductResponseDto =
-  components['schemas']['ProductResponseDto']
-export type SchemaUpdateProductDto = components['schemas']['UpdateProductDto']
-export type $defs = Record<string, never>
+export type SchemaCreateShopDto = components['schemas']['CreateShopDto'];
+export type SchemaShopResponseDto = components['schemas']['ShopResponseDto'];
+export type SchemaApiErrorResponseDto = components['schemas']['ApiErrorResponseDto'];
+export type SchemaUploadLogoShopDto = components['schemas']['UploadLogoShopDto'];
+export type SchemaUploadLogoShopRequestDto = components['schemas']['UploadLogoShopRequestDto'];
+export type SchemaCategoryResponseDto = components['schemas']['CategoryResponseDto'];
+export type SchemaColorResponseDto = components['schemas']['ColorResponseDto'];
+export type SchemaUpdateShopDto = components['schemas']['UpdateShopDto'];
+export type SchemaCreateShopResponseDto = components['schemas']['CreateShopResponseDto'];
+export type SchemaDeleteShopDto = components['schemas']['DeleteShopDto'];
+export type SchemaUpdateRoleDto = components['schemas']['UpdateRoleDto'];
+export type SchemaAdminUpdateUserDto = components['schemas']['AdminUpdateUserDto'];
+export type SchemaRegisterDto = components['schemas']['RegisterDto'];
+export type SchemaAccountResponseDto = components['schemas']['AccountResponseDto'];
+export type SchemaLoginDto = components['schemas']['LoginDto'];
+export type SchemaVerificationTokenDto = components['schemas']['VerificationTokenDto'];
+export type SchemaResetPasswordDto = components['schemas']['ResetPasswordDto'];
+export type SchemaSendEmailDto = components['schemas']['SendEmailDto'];
+export type SchemaUserRole = components['schemas']['UserRole'];
+export type SchemaAuthMethod = components['schemas']['AuthMethod'];
+export type SchemaUserResponseDto = components['schemas']['UserResponseDto'];
+export type SchemaPatchUserDto = components['schemas']['PatchUserDto'];
+export type SchemaUpdateUserAvatarResponseDto = components['schemas']['UpdateUserAvatarResponseDto'];
+export type SchemaCreateCategoryDto = components['schemas']['CreateCategoryDto'];
+export type SchemaCreateColorDto = components['schemas']['CreateColorDto'];
+export type SchemaProductOptionDto = components['schemas']['ProductOptionDto'];
+export type SchemaGroupOptionDto = components['schemas']['GroupOptionDto'];
+export type SchemaCreateProductDto = components['schemas']['CreateProductDto'];
+export type SchemaProductCategoryResponseDto = components['schemas']['ProductCategoryResponseDto'];
+export type SchemaProductColorResponseDto = components['schemas']['ProductColorResponseDto'];
+export type SchemaProductOptionResponseDto = components['schemas']['ProductOptionResponseDto'];
+export type SchemaGroupOptionResponseDto = components['schemas']['GroupOptionResponseDto'];
+export type SchemaProductResponseDto = components['schemas']['ProductResponseDto'];
+export type SchemaUpdateProductDto = components['schemas']['UpdateProductDto'];
+export type $defs = Record<string, never>;
 export interface operations {
-  ShopController_create: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['CreateShopDto']
-      }
-    }
-    responses: {
-      /** @description Магазин успешно создался */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ShopResponseDto']
-        }
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  ShopController_uploadPicture: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'multipart/form-data': components['schemas']['UploadLogoShopDto']
-      }
-    }
-    responses: {
-      /** @description Логотип успешно сохранен */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['UploadLogoShopRequestDto']
-        }
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  ShopController_findAllByUserId: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ShopResponseDto'][]
-        }
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  ShopController_findById: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Магазин найден */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ShopResponseDto']
-        }
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  ShopController_delete: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['DeleteShopDto']
-      }
-    }
-    responses: {
-      /** @description Магазин успешно удален */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          /** @example true */
-          'application/json': unknown
-        }
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  ShopController_update: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['UpdateShopDto']
-      }
-    }
-    responses: {
-      /** @description Данные магазин успешно обновлен */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['CreateShopResponseDto']
-        }
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  ShopController_findCategoriesByShopId: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        shopId: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['CategoryResponseDto'][]
-        }
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  ShopController_findColorsByShopId: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        shopId: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ColorResponseDto'][]
-        }
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  UsersController_findAll: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Список пользователей */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  UsersController_findById: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        /** @description ID пользователя */
-        id: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Пользователь найден со всеми связями */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  UsersController_deleteUser: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        /** @description ID пользователя */
-        id: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Пользователь успешно удален */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          /** @example true */
-          'application/json': unknown
-        }
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  UsersController_updateProfile: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        /** @description ID пользователя */
-        id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['AdminUpdateUserDto']
-      }
-    }
-    responses: {
-      /** @description Профиль пользователя обновлен */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  UsersController_updateRole: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        /** @description ID пользователя */
-        id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['UpdateRoleDto']
-      }
-    }
-    responses: {
-      /** @description Роль успешно изменена */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  AccountController_register: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['RegisterDto']
-      }
-    }
-    responses: {
-      /** @description Успешная регистрация. */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['AccountResponseDto']
-        }
-      }
-      /** @description Пользователь зарегистрирован */
-      201: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  AccountController_login: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['LoginDto']
-      }
-    }
-    responses: {
-      /** @description Успешный вход. Может вернуть accessToken в body и/или установить cookie */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['AccountResponseDto']
-        }
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  AccountController_logout: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Сессия завершена. Очистка cookie и инвалидация сессии. */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['AccountResponseDto']
-        }
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  AccountController_confirmEmail: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['VerificationTokenDto']
-      }
-    }
-    responses: {
-      /** @description Email успешно подтверждён. Создана сессия авторизации */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  AccountController_resetPassword: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** @description Токен из письма + новый пароль */
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['ResetPasswordDto']
-      }
-    }
-    responses: {
-      /** @description Пароль успешно сброшен */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': boolean
-        }
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  AccountController_sendVerificationEmail: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['SendEmailDto']
-      }
-    }
-    responses: {
-      /** @description Письмо отправлено (или переотправлено) */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  AccountController_sendResetPasswordEmail: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['SendEmailDto']
-      }
-    }
-    responses: {
-      /** @description Письмо отправлено */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  AccountController_me: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Профиль текущего пользователя. */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['UserResponseDto']
-        }
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  AccountController_delete: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Пользователь успешно удален */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          /** @example true */
-          'application/json': unknown
-        }
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  AccountController_updateProfile: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['PatchUserDto']
-      }
-    }
-    responses: {
-      /** @description Данные успешно обновлены */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['UserResponseDto']
-        }
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  AccountController_upload: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Фото успешно обновлено */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['UpdateUserAvatarResponseDto']
-        }
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  CategoryController_create: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        /** @description Уникальный идентификатор магазина */
-        shopId: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['CreateCategoryDto']
-      }
-    }
-    responses: {
-      /** @description Категория успешно создана */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['CategoryResponseDto']
-        }
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  CategoryController_delete: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        /** @description Уникальный идентификатор магазина */
-        shopId: string
-        /** @description ID удаляемой категории */
-        categoryId: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Категория удалена */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': boolean
-        }
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  ColorController_create: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        /** @description Уникальный идентификатор магазина */
-        shopId: string
-      }
-      cookie?: never
-    }
-    /** @description Данные цвета: название (например, "Красный") и значение (например, "#FF0000") */
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['CreateColorDto']
-      }
-    }
-    responses: {
-      /** @description Цвет успешно создан */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ColorResponseDto']
-        }
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  ColorController_delete: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        /** @description Уникальный идентификатор магазина */
-        shopId: string
-        /** @description Уникальный идентификатор удаляемого цвета */
-        colorId: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Цвет успешно удалён */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': boolean
-        }
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  ProductController_create: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        /** @description ID магазина */
-        shopId: string
-      }
-      cookie?: never
-    }
-    /** @description Данные продукта. Для загрузки картинок используйте поле files. Опции передавайте как JSON-строку в groupOptions. */
-    requestBody: {
-      content: {
-        'multipart/form-data': components['schemas']['CreateProductDto']
-      }
-    }
-    responses: {
-      /** @description Продукт успешно создан */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  ProductController_findAllByShopId: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        /** @description ID магазина */
-        shopId: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Список товаров магазина успешно получен */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ProductResponseDto'][]
-        }
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  ProductController_findAll: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Список товаров успешно получен */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ProductResponseDto'][]
-        }
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  ProductController_findById: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        /** @description Уникальный ID товара */
-        id: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Детальная информация о товаре успешно получена */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ProductResponseDto']
-        }
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  ProductController_delete: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        /** @description ID магазина */
-        shopId: string
-        /** @description ID удаляемого продукта */
-        productId: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Продукт успешно удален */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': boolean
-        }
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
-  ProductController_update: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        /** @description ID магазина */
-        shopId: string
-        /** @description ID редактируемого продукта */
-        productId: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'multipart/form-data': components['schemas']['UpdateProductDto']
-      }
-    }
-    responses: {
-      /** @description Продукт успешно обновлен */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ProductResponseDto']
-        }
-      }
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiErrorResponseDto']
-        }
-      }
-    }
-  }
+    ShopController_findAll: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ShopResponseDto"][];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ShopController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateShopDto"];
+            };
+        };
+        responses: {
+            /** @description Магазин успешно создался */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ShopResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ShopController_uploadPicture: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["UploadLogoShopDto"];
+            };
+        };
+        responses: {
+            /** @description Логотип успешно сохранен */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UploadLogoShopRequestDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ShopController_findAllByUserId: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ShopResponseDto"][];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ShopController_findById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Магазин найден */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ShopResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ShopController_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeleteShopDto"];
+            };
+        };
+        responses: {
+            /** @description Магазин успешно удален */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /** @example true */
+                    "application/json": unknown;
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ShopController_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateShopDto"];
+            };
+        };
+        responses: {
+            /** @description Данные магазин успешно обновлен */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CreateShopResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ShopController_findCategoriesByShopId: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                shopId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CategoryResponseDto"][];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ShopController_findColorsByShopId: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                shopId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ColorResponseDto"][];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    UsersController_findAll: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Список пользователей */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    UsersController_findById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID пользователя */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Пользователь найден со всеми связями */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    UsersController_deleteUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID пользователя */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Пользователь успешно удален */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /** @example true */
+                    "application/json": unknown;
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    UsersController_updateProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID пользователя */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminUpdateUserDto"];
+            };
+        };
+        responses: {
+            /** @description Профиль пользователя обновлен */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    UsersController_updateRole: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID пользователя */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateRoleDto"];
+            };
+        };
+        responses: {
+            /** @description Роль успешно изменена */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    AccountController_register: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegisterDto"];
+            };
+        };
+        responses: {
+            /** @description Успешная регистрация. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AccountResponseDto"];
+                };
+            };
+            /** @description Пользователь зарегистрирован */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    AccountController_login: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LoginDto"];
+            };
+        };
+        responses: {
+            /** @description Успешный вход. Может вернуть accessToken в body и/или установить cookie */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AccountResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    AccountController_logout: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Сессия завершена. Очистка cookie и инвалидация сессии. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AccountResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    AccountController_confirmEmail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VerificationTokenDto"];
+            };
+        };
+        responses: {
+            /** @description Email успешно подтверждён. Создана сессия авторизации */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    AccountController_resetPassword: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Токен из письма + новый пароль */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ResetPasswordDto"];
+            };
+        };
+        responses: {
+            /** @description Пароль успешно сброшен */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    AccountController_sendVerificationEmail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SendEmailDto"];
+            };
+        };
+        responses: {
+            /** @description Письмо отправлено (или переотправлено) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    AccountController_sendResetPasswordEmail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SendEmailDto"];
+            };
+        };
+        responses: {
+            /** @description Письмо отправлено */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    AccountController_me: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Профиль текущего пользователя. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    AccountController_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Пользователь успешно удален */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /** @example true */
+                    "application/json": unknown;
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    AccountController_updateProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PatchUserDto"];
+            };
+        };
+        responses: {
+            /** @description Данные успешно обновлены */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    AccountController_upload: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Фото успешно обновлено */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UpdateUserAvatarResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    CategoryController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Уникальный идентификатор магазина */
+                shopId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateCategoryDto"];
+            };
+        };
+        responses: {
+            /** @description Категория успешно создана */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CategoryResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    CategoryController_findAll: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Категории успешно получены */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CategoryResponseDto"][];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    CategoryController_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Уникальный идентификатор магазина */
+                shopId: string;
+                /** @description ID удаляемой категории */
+                categoryId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Категория удалена */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ColorController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Уникальный идентификатор магазина */
+                shopId: string;
+            };
+            cookie?: never;
+        };
+        /** @description Данные цвета: название (например, "Красный") и значение (например, "#FF0000") */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateColorDto"];
+            };
+        };
+        responses: {
+            /** @description Цвет успешно создан */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ColorResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ColorController_findAll: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Цвета успешно получены */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ColorResponseDto"][];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ColorController_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Уникальный идентификатор магазина */
+                shopId: string;
+                /** @description Уникальный идентификатор удаляемого цвета */
+                colorId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Цвет успешно удалён */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ProductController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID магазина */
+                shopId: string;
+            };
+            cookie?: never;
+        };
+        /** @description Данные продукта. Для загрузки картинок используйте поле files. Опции передавайте как JSON-строку в groupOptions. */
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["CreateProductDto"];
+            };
+        };
+        responses: {
+            /** @description Продукт успешно создан */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ProductController_findAllByShopId: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID магазина */
+                shopId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Список товаров магазина успешно получен */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductResponseDto"][];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ProductController_findAll: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Список товаров успешно получен */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductResponseDto"][];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ProductController_getProducts: {
+        parameters: {
+            query?: {
+                /** @description Список id категорий */
+                categoryIds?: string[];
+                /** @description Минимальная цена */
+                minPrice?: number;
+                /** @description Максимальная цена */
+                maxPrice?: number;
+                /** @description Список id цветов */
+                colorIds?: string[];
+                /** @description Поиск по названию товара */
+                search?: string;
+                /** @description Фильтр по бренду */
+                brandIds?: string[];
+                /** @description Сортировка */
+                sort?: "rating" | "price_desc" | "price_asc" | "newest";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Список товаров успешно получен */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductResponseDto"][];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ProductController_findById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Уникальный ID товара */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Детальная информация о товаре успешно получена */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ProductController_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID магазина */
+                shopId: string;
+                /** @description ID удаляемого продукта */
+                productId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Продукт успешно удален */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ProductController_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID магазина */
+                shopId: string;
+                /** @description ID редактируемого продукта */
+                productId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["UpdateProductDto"];
+            };
+        };
+        responses: {
+            /** @description Продукт успешно обновлен */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
 }

@@ -14,6 +14,7 @@ export const QUERY_KEY = {
   PATCH_SHOP: 'patch_shop',
   ME_SELECTED_SHOP_ID: 'me_selected_shop_id',
   SHOP_UPLOAD_LOGO: 'shop_upload_logo',
+  GET_ALL_SHOPS: 'get_all_shops',
   ME_SHOPS: 'me_shops',
   GET_SHOP_BY_ID: 'shop',
   SHOP_CATEGORIES: 'shop_categories',
@@ -21,14 +22,17 @@ export const QUERY_KEY = {
   SHOP_PRODUCTS: 'shop_products',
 
   CREATE_CATEGORY: 'create_category',
+  GET_ALL_CATEGORY: 'get_all_category',
   DELETE_CATEGORY: 'delete_category',
 
   CREATE_COLOR: 'create_color',
+  GET_ALL_COLORS: 'get_all_colors',
   DELETE_COLOR: 'delete_color',
 
   CREATE_PRODUCT: 'create_product',
   UPDATE_PRODUCT: 'update_product',
-  GET_ALL_PRODUCT: 'all_product',
+  GET_ALL_PRODUCTS: 'all_products',
+  GET_ALL_PRODUCT_WITH_FILTERS: 'all_product_with_filters',
   GET_PRODUCT_BY_ID: 'product',
   DELETE_PRODUCT: 'delete_product',
 } as const

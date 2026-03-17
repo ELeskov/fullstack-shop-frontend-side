@@ -1,4 +1,5 @@
 export * from './useCreateMutation'
+export * from './useGetAllShops'
 export * from './useGetMeAllCategories'
 export * from './useGetMeAllColors'
 export * from './useGetMeShops'

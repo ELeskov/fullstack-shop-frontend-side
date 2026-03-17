@@ -66,6 +66,7 @@ export default tseslint.config([
 
       'import/order': 'off',
       'import/no-unresolved': 'off',
+      '@typescript-eslint/no-unused-expressions': 'off',
 
       // Удаление неиспользуемых импортов
       'no-unused-vars': 'warn',

@@ -9,6 +9,7 @@ import s from './catalogPage.module.scss'
 
 export function CatalogPage() {
   const { data: products } = useGetAllProduct()
+
   return (
     <section className={s['catalog-page']}>
       <div className={s['catalog-page__breadcrumbs']}>
