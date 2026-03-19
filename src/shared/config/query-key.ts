@@ -35,4 +35,11 @@ export const QUERY_KEY = {
   GET_ALL_PRODUCT_WITH_FILTERS: 'all_product_with_filters',
   GET_PRODUCT_BY_ID: 'product',
   DELETE_PRODUCT: 'delete_product',
+
+  ADD_PRODUCT_TO_BASKET: 'add_product_to_basket',
+  DECREMENT_PRODUCT_QUANTITY_FROM_BASKET:
+    'decrement_product_quantity_from_basket',
+  DELETE_PRODUCT_FROM_BASKET: 'delete_product_from_basket',
+  GET_BASKET_BY_USER_ID: 'get_basket_by_user_id',
+  GET_QUANTITY_BY_PRODUCT_ID: 'get_quantity_by_product_id',
 } as const

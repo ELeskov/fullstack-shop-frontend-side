@@ -8,21 +8,34 @@ import s from './BasketProductsList.module.scss'
 
 const DUMMY_PRODUCTS = [
   {
-    id: '1',
-    title: 'Стеллаж -система хранения Бали',
-    price: 3298,
-    oldPrice: 10307,
-    image: 'https://via.placeholder.com/80x104',
-    properties: 'белый • 38 см',
-    deliveryDate: 'Послезавтра',
-    quantity: 1,
-  },
-  {
     id: '2',
     title: 'Стакан подставка держатель для зубных щеток',
     price: 1046,
     oldPrice: 2468,
-    image: 'https://via.placeholder.com/80x104',
+    image:
+      'https://4f35f4d0-2fb4974b-6046-4608-bcaa-2df25d95c300.s3.timeweb.cloud/product/1772824137730-ia352jxnj9-1.webp',
+    properties: 'белый, молочный',
+    deliveryDate: 'Послезавтра',
+    quantity: 2,
+  },
+  {
+    id: '3',
+    title: 'Стакан держатель для зубных щеток',
+    price: 1046,
+    oldPrice: 2468,
+    image:
+      'https://4f35f4d0-2fb4974b-6046-4608-bcaa-2df25d95c300.s3.timeweb.cloud/product/1772824137730-ia352jxnj9-1.webp',
+    properties: 'белый, молочный',
+    deliveryDate: 'Послезавтра',
+    quantity: 2,
+  },
+  {
+    id: '4',
+    title: 'Стакан подставка для зубных щеток',
+    price: 1046,
+    oldPrice: 2468,
+    image:
+      'https://4f35f4d0-2fb4974b-6046-4608-bcaa-2df25d95c300.s3.timeweb.cloud/product/1772824137730-ia352jxnj9-1.webp',
     properties: 'белый, молочный',
     deliveryDate: 'Послезавтра',
     quantity: 2,
@@ -30,53 +43,26 @@ const DUMMY_PRODUCTS = [
 ]
 
 export function BasketProductsList() {
-  const [selectedIds, setSelectedIds] = useState<string[]>(['1', '2'])
-
-  const isAllSelected = selectedIds.length === DUMMY_PRODUCTS.length
-
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedIds(DUMMY_PRODUCTS.map((p) => p.id))
-    } else {
-      setSelectedIds([])
-    }
-  }
-
-  const handleToggleSelect = (id: string, checked: boolean) => {
-    if (checked) {
-      setSelectedIds((prev) => [...prev, id])
-    } else {
-      setSelectedIds((prev) => prev.filter((item) => item !== id))
-    }
-  }
-
   return (
     <div className={s['basket-list-container']}>
       <div className={s['basket-list-container__header']}>
+        <label className={s['basket-list-container__select-all']}>
+          <Checkbox checked={true} onCheckedChange={() => {}} />
+          <span className="select-none">Выбрать все</span>
+        </label>
         <div className={s['basket-list-container__title-group']}>
-          <h2 className={s['basket-list-container__title']}>Магазин</h2>
+          <span className={s['basket-list-container__count-select']}>
+            Выбрано: {DUMMY_PRODUCTS.length}
+          </span>
           <span className={s['basket-list-container__count']}>
-            {DUMMY_PRODUCTS.length} товаров
+            Товаров: {}
           </span>
         </div>
-
-        <label className={s['basket-list-container__select-all']}>
-          <Checkbox checked={isAllSelected} onCheckedChange={handleSelectAll} />
-          <span>Выбрать все</span>
-        </label>
       </div>
 
       <div className={s['basket-list-container__items']}>
-        {DUMMY_PRODUCTS.map((product) => (
-          <BasketProductCard
-            key={product.id}
-            {...product}
-            isSelected={selectedIds.includes(product.id)}
-            onToggleSelect={handleToggleSelect}
-            onIncrease={() => {}}
-            onDecrease={() => {}}
-            onRemove={() => {}}
-          />
+        {DUMMY_PRODUCTS.map(product => (
+          <BasketProductCard key={product.id} {...product} />
         ))}
       </div>
     </div>

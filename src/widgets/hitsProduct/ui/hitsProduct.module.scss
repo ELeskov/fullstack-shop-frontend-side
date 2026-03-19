@@ -2,9 +2,11 @@
   display: flex;
   flex-direction: column;
   row-gap: rem(10);
-  margin-block: rem(100);
 
   &__product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(rem(250), 1fr));
+    gap: clamp(20px, 5vw, 40px);
   }
 
   &__description {

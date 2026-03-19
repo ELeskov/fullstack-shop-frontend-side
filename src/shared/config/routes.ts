@@ -5,8 +5,8 @@ export const ROUTES = {
   login: '/login',
   signup: '/signup',
   catalog: '/catalog',
-  product: createRoutes('product', {
-    id: (id: string) => `/product/:${id}`,
+  product: createRoutes('/product', {
+    id: (id: string) => `${id}`,
     path: '/:id',
   }),
   verify: '/auth/verify',

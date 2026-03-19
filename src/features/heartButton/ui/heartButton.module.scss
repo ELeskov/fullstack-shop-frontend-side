@@ -4,10 +4,11 @@
   top: rem(10);
 
   &__icon {
-    color: black;
+    color: rgb(212, 212, 212);
+    stroke-width: 1.5px;
 
     &--is-like {
-      fill: black;
+      fill: oklch(0.64 0.21 25);
     }
   }
 }

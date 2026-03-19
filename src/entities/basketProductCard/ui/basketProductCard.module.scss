@@ -3,36 +3,51 @@
   grid-template-columns: auto 1fr auto;
   gap: 1rem;
   padding: 1.5rem 0;
-  border-bottom: 1px solid #2c2e33; /* Тонкий темный разделитель */
+  border-bottom: rem(1) solid #2c2e33;
 
   &:last-child {
     border-bottom: none;
     padding-bottom: 0;
   }
 
-  /* Левая колонка: Чекбокс и картинка */
   &__left {
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
-  }
-
-  &__checkbox-wrapper {
-    padding-top: 0.5rem;
-  }
-
-  &__image-wrapper {
-    width: 80px;
-    height: 104px; /* Немного вытянутая картинка в стиле WB */
-    border-radius: 8px;
-    overflow: hidden;
-    background-color: #2c2e33;
+    position: relative;
+    aspect-ratio: 3 / 4;
+    height: rem(125);
     flex-shrink: 0;
   }
 
-  &__image {
+  &__checkbox {
+    position: absolute;
+    top: rem(8);
+    left: rem(8);
+    z-index: 10;
+    width: rem(20);
+    height: rem(20);
+    border: rem(1) solid var(--color-gray);
+    background-color: white;
+    transition: all 0.2s ease;
+    border-radius: rem(6);
+
+    svg {
+      stroke-width: rem(3);
+      stroke-color: blue;
+    }
+
+    &:active {
+      scale: 0.94;
+    }
+  }
+
+  &__image-wrapper {
     width: 100%;
     height: 100%;
+    border-radius: rem(8);
+    overflow: hidden;
+    background-color: #2c2e33;
+  }
+
+  &__image {
     object-fit: cover;
   }
 
@@ -60,20 +75,6 @@
   &__props {
     font-size: 0.875rem;
     color: #868e96;
-  }
-
-  &__delivery {
-    font-size: 0.875rem;
-    color: #adb5bd;
-    margin-top: 0.25rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  &__delivery-badge {
-    color: #20c997; /* Зеленый "Бесплатный отказ" */
-    font-size: 0.75rem;
   }
 
   &__actions {
@@ -114,20 +115,20 @@
     display: flex;
     align-items: center;
     background-color: #25262b;
-    border-radius: 8px;
+    border-radius: rem(8);
     padding: 0.25rem;
-    height: 36px;
+    height: rem(36);
   }
 
   &__qty-btn {
-    width: 32px;
+    width: rem(32);
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     background: transparent;
     border: none;
-    border-radius: 6px;
+    border-radius: rem(6);
     cursor: pointer;
     color: #c1c2c5;
     transition:
@@ -146,7 +147,7 @@
   }
 
   &__qty-value {
-    width: 36px;
+    width: rem(36);
     text-align: center;
     font-weight: 500;
     font-size: 0.875rem;
@@ -158,24 +159,15 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    min-width: 100px;
+    min-width: rem(100);
   }
 
   &__price {
     font-size: 1.125rem;
     font-weight: 700;
-    color: #c084fc; /* Фиолетовый акцент цены как на макете */
   }
 
-  &__price-old {
-    font-size: 0.875rem;
-    color: #868e96;
-    text-decoration: line-through;
-    margin-top: 2px;
-  }
-
-  /* Адаптив */
-  @media (max-width: 768px) {
+  @media (max-width: rem(768)) {
     grid-template-columns: auto 1fr;
 
     &__right {

@@ -1,12 +1,10 @@
 .basket-page {
-  padding-bottom: 4rem;
-
   &__content {
     display: grid;
-    grid-template-columns: 1fr 340px;
+    grid-template-columns: 1fr rem(380);
     gap: 2rem;
     align-items: flex-start;
-    margin-top: 2rem;
+    margin-top: 1rem;
   }
 
   @media (max-width: 992px) {

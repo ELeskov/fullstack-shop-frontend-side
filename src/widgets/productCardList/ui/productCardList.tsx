@@ -1,12 +1,10 @@
-import clsx from 'clsx'
 import { LoaderCircle } from 'lucide-react'
+import { AnimatePresence } from 'motion/react'
 
 import { ProductCard } from '@/entities/productCard'
 
 import { useGetAllProductWithFilters } from '@/shared/api/product'
 import { useCatalogFilters } from '@/shared/hooks'
-
-import s from './productCardList.module.scss'
 
 export function ProductCardList() {
   const { filters } = useCatalogFilters()
@@ -28,10 +26,12 @@ export function ProductCardList() {
   }
 
   return (
-    <section className={clsx(s['product-card-list'], 'product-card-list')}>
-      {products.map((product, i) => (
-        <ProductCard key={i} product={product} />
-      ))}
-    </section>
+    <AnimatePresence mode="popLayout">
+      <section className={'product-card-list'}>
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </section>
+    </AnimatePresence>
   )
 }

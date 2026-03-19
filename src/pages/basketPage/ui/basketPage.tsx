@@ -7,17 +7,6 @@ import { TitlePage } from '@/shared/ui/titlePage/titlePage'
 import s from './basketPage.module.scss'
 
 export function BasketPage() {
-  const dummyCartData = {
-    totalItems: 3,
-    totalPrice: 169997,
-    discount: 10000,
-  }
-
-  const handleCheckout = () => {
-    console.log('Переход к оплате...')
-    // navigate('/checkout')
-  }
-
   return (
     <div className={s['basket-page']}>
       <Breadcrumbs />
@@ -28,12 +17,7 @@ export function BasketPage() {
           <BasketProductsList />
         </div>
 
-        <BasketSummary
-          totalItems={dummyCartData.totalItems}
-          totalPrice={dummyCartData.totalPrice}
-          discount={dummyCartData.discount}
-          onCheckout={handleCheckout}
-        />
+        <BasketSummary />
       </section>
     </div>
   )

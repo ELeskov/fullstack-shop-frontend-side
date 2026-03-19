@@ -1,9 +1,9 @@
 .product-card {
+  height: 100%;
+  display: flex;
   position: relative;
   box-sizing: border-box;
-  display: flex;
   flex-direction: column;
-  height: 100%;
 
   &__wrapper {
     display: flex;
@@ -20,11 +20,9 @@
 
   &__img {
     width: 100%;
-    height: auto;
-    min-height: rem(352);
     border-radius: rem(10);
     object-fit: cover;
-    aspect-ratio: auto;
+    aspect-ratio: 3 / 4;
   }
 
   &__price-wrap {

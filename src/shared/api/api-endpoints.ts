@@ -555,6 +555,43 @@ export interface paths {
         patch: operations["ProductController_update"];
         trace?: never;
     };
+    "/api/baskets/products/{productId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Получить количестов товара, добавленного в корзину по ID товара */
+        get: operations["BasketController_getQuantityByProductId"];
+        put?: never;
+        /** Добавить товар в корзину */
+        post: operations["BasketController_addProductToBasket"];
+        /** Удалить товар из корзины */
+        delete: operations["BasketController_deleteProductFromBasket"];
+        options?: never;
+        head?: never;
+        /** Убрать 1 еденицу товара из корзины */
+        patch: operations["BasketController_decrementProductFromBasket"];
+        trace?: never;
+    };
+    "/api/baskets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Получить корзину пользователя */
+        get: operations["BasketController_getBasketByUserId"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -960,8 +997,6 @@ export interface components {
             category?: components["schemas"]["ProductCategoryResponseDto"];
             color?: components["schemas"]["ProductColorResponseDto"] | null;
             groupedOptions?: components["schemas"]["GroupOptionResponseDto"][];
-            /** @description Массив отзывов */
-            reviews?: Record<string, never>[];
         };
         UpdateProductDto: {
             /**
@@ -1004,6 +1039,74 @@ export interface components {
              */
             existingImages?: string[];
         };
+        CategoryDto: {
+            /** @example Техника */
+            title: string;
+        };
+        ColorDto: {
+            /** @example Белый */
+            title: string;
+            /** @example #FFFFFF */
+            value: string;
+        };
+        ProductDto: {
+            /** @example 1fb77501-652d-4f10-90a1-4d64fbadd5ab */
+            id: string;
+            /** @example Смартфон 15 pro */
+            title: string;
+            /** @example Телефон топ */
+            description: string;
+            /** @example 130000 */
+            price: number;
+            /**
+             * @example [
+             *       "https://4f35f4d0-..."
+             *     ]
+             */
+            images: string[];
+            /** @example f35baab7-8b32-40ac-8e8f-b3cda275f189 */
+            shopId: string;
+            /** @example 1c258488-bd7b-40a2-b2c6-2a31fea4c84d */
+            categoryId: string;
+            category: components["schemas"]["CategoryDto"];
+            /** @example 5669044e-7f7e-4384-bb96-bb66de49de80 */
+            colorId: string;
+            color: components["schemas"]["ColorDto"];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        BasketItemDto: {
+            /** @example 3173bf36-6659-4199-bee1-82dd86433561 */
+            id: string;
+            /** @example 5 */
+            quantity: number;
+            /** @example 1f0e1a3f-e588-4127-a249-e711819c778e */
+            basketId: string;
+            /** @example 1fb77501-652d-4f10-90a1-4d64fbadd5ab */
+            productId: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            product: components["schemas"]["ProductDto"];
+        };
+        GetBasketResponseDto: {
+            /** @example 1f0e1a3f-e588-4127-a249-e711819c778e */
+            id: string;
+            /** @example 9425fbe0-d274-4155-858e-696ee68273a4 */
+            userId: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            basketItems: components["schemas"]["BasketItemDto"][];
+        };
+        GetQuantityByProductIdResponseDto: {
+            /** @example 4 */
+            quantity: number;
+        };
     };
     responses: never;
     parameters: never;
@@ -1045,6 +1148,12 @@ export type SchemaProductOptionResponseDto = components['schemas']['ProductOptio
 export type SchemaGroupOptionResponseDto = components['schemas']['GroupOptionResponseDto'];
 export type SchemaProductResponseDto = components['schemas']['ProductResponseDto'];
 export type SchemaUpdateProductDto = components['schemas']['UpdateProductDto'];
+export type SchemaCategoryDto = components['schemas']['CategoryDto'];
+export type SchemaColorDto = components['schemas']['ColorDto'];
+export type SchemaProductDto = components['schemas']['ProductDto'];
+export type SchemaBasketItemDto = components['schemas']['BasketItemDto'];
+export type SchemaGetBasketResponseDto = components['schemas']['GetBasketResponseDto'];
+export type SchemaGetQuantityByProductIdResponseDto = components['schemas']['GetQuantityByProductIdResponseDto'];
 export type $defs = Record<string, never>;
 export interface operations {
     ShopController_findAll: {
@@ -3476,7 +3585,7 @@ export interface operations {
                 /** @description Фильтр по бренду */
                 brandIds?: string[];
                 /** @description Сортировка */
-                sort?: "rating" | "price_desc" | "price_asc" | "newest";
+                sort?: "price_desc" | "price_asc" | "newest";
             };
             header?: never;
             path?: never;
@@ -3712,6 +3821,352 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ProductResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    BasketController_getQuantityByProductId: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Уникальный идентификатор товара */
+                productId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Количестов товара получено */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetQuantityByProductIdResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    BasketController_addProductToBasket: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Уникальный идентификатор товара */
+                productId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Товар добавлен */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    BasketController_deleteProductFromBasket: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Уникальный идентификатор товара */
+                productId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Товар удален */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    BasketController_decrementProductFromBasket: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Уникальный идентификатор товара */
+                productId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Удалена 1 еденица товара */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    BasketController_getBasketByUserId: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Корзина с товарами получена */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetBasketResponseDto"];
                 };
             };
             400: {

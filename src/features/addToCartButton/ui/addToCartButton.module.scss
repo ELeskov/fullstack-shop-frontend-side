@@ -1,0 +1,54 @@
+.add-to-cart-button {
+  width: 100%;
+
+  &:active {
+    scale: 0.98;
+  }
+
+  &__wrap {
+    cursor: default;
+  }
+
+  &__basket-mode {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: rem(1) solid rgba(255, 255, 255, 0.2);
+    padding: rem(5) rem(16);
+    border-radius: rem(8);
+    transition: all 0.2s ease;
+    background-color: rgba(255, 255, 255, 0);
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
+.counter-button--minus {
+  &::after {
+    content: '-';
+  }
+}
+
+.counter-button--plus {
+  &::after {
+    content: '+';
+  }
+}
+
+.counter-button--minus,
+.counter-button--plus {
+  position: relative;
+  font-size: rem(20);
+  width: rem(20);
+  height: rem(20);
+
+  &::after {
+    @include abs-center();
+  }
+  &:active {
+    scale: 0.9;
+  }
+}

@@ -6,7 +6,7 @@ import s from './BasketSummary.module.scss'
 
 export function BasketSummary() {
   const totalItems = 2
-  const totalPrice = 4344 // Уже со скидкой, как на скрине
+  const totalPrice = 4344
 
   const formatPrice = (val: number) =>
     new Intl.NumberFormat('ru-RU', {
@@ -17,7 +17,6 @@ export function BasketSummary() {
 
   return (
     <aside className={s['basket-summary']}>
-      {/* Доставка */}
       <div className={s['basket-summary__block']}>
         <div className={s['basket-summary__block-header']}>
           <span className={s['basket-summary__block-title']}>
@@ -55,15 +54,16 @@ export function BasketSummary() {
           </span>
         </div>
 
-        <CustomButton className={s['basket-summary__submit-btn']}>
+        <CustomButton
+          variant={'default'}
+          className={s['basket-summary__submit-btn']}
+        >
           Заказать
         </CustomButton>
 
         <div className={s['basket-summary__agreement']}>
-          <CheckCircle2 size={14} className="text-purple-500 shrink-0 mt-0.5" />
-          <span>
-            Соглашаюсь с правилами пользования торговой площадкой и возврата
-          </span>
+          <CheckCircle2 size={16} className="text-blue-500 shrink-0 mt-0.5" />
+          <span>Соглашаюсь с правилами пользования торговой площадкой</span>
         </div>
       </div>
     </aside>

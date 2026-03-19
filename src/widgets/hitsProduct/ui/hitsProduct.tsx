@@ -24,15 +24,15 @@ export function HitsProduct() {
       <p className={s['hits-product__description']}>
         Самые популярные товары нашего магазина.
       </p>
-      <div className={s['hits-product__product-list']}>
+      <div>
         <Carousel
           opts={{
             align: 'start',
           }}
         >
-          <CarouselContent>
-            {products.map((product, i) => (
-              <CarouselItem key={i} className="basis-1/2 lg:basis-1/5 md:">
+          <CarouselContent className={s['hits-product__product-list']}>
+            {products.map(product => (
+              <CarouselItem key={product.id}>
                 <ProductCard
                   product={product}
                   className={s['hits-product__item']}

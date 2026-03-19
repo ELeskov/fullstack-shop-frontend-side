@@ -33,6 +33,7 @@ export default tseslint.config([
     },
     rules: {
       ...prettierPlugin.configs.recommended.rules,
+      arrowParens: 'avoid',
       'padding-line-between-statements': [
         'error',
         { blankLine: 'always', prev: 'import', next: '*' },

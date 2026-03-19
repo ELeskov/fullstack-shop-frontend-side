@@ -1,7 +1,7 @@
 .basket-summary {
   background-color: #1a1b1e;
-  border: 1px solid #2c2e33;
-  border-radius: 16px;
+  border: rem(1) solid #2c2e33;
+  border-radius: rem(16);
   padding: 1.5rem;
   position: sticky;
   top: 2rem;
@@ -9,7 +9,7 @@
   &__block {
     margin-bottom: 1.5rem;
     padding-bottom: 1.5rem;
-    border-bottom: 1px solid #2c2e33;
+    border-bottom: rem(1) solid #2c2e33;
 
     &:last-child {
       border-bottom: none;
@@ -76,14 +76,8 @@
     height: 3.5rem;
     font-size: 1rem;
     font-weight: 600;
-    border-radius: 12px;
-    background-color: #a855f7; /* WB Фиолетовый */
-    color: #fff;
+    border-radius: rem(12);
     border: none;
-
-    &:hover {
-      background-color: #9333ea;
-    }
 
     &:disabled {
       background-color: #373a40;
