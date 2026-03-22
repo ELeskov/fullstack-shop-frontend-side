@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 import { CustomButton } from '@/shared/ui/customButton'
 
 import s from './addToCartButton.module.scss'

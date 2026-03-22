@@ -2,18 +2,22 @@ import { CheckCircle2, Pencil } from 'lucide-react'
 
 import { CustomButton } from '@/shared/ui/customButton'
 
+import NumberFlow from '@number-flow/react'
 import s from './BasketSummary.module.scss'
+import { useGetBasket } from '@/shared/api/basket'
+import { calculateBasketStats } from '@/shared/helpers'
 
 export function BasketSummary() {
-  const totalItems = 2
-  const totalPrice = 4344
+  const { data: basket, isLoading } = useGetBasket()
+  const { totalQuantity, totalPrice } = calculateBasketStats(basket)
 
-  const formatPrice = (val: number) =>
-    new Intl.NumberFormat('ru-RU', {
-      style: 'currency',
-      currency: 'RUB',
-      maximumFractionDigits: 0,
-    }).format(val)
+  if (isLoading) {
+    return 'Загрузка'
+  }
+
+  if (!basket) {
+    return 'Не удалось загрузить данные'
+  }
 
   return (
     <aside className={s['basket-summary']}>
@@ -31,7 +35,6 @@ export function BasketSummary() {
         </p>
       </div>
 
-      {/* Оплата */}
       <div className={s['basket-summary__block']}>
         <div className={s['basket-summary__block-header']}>
           <span className={s['basket-summary__block-title']}>
@@ -44,13 +47,16 @@ export function BasketSummary() {
 
       <div className={s['basket-summary__block']}>
         <div className={s['basket-summary__total-header']}>
-          Товары, {totalItems} шт.
+          Товары, {totalQuantity} шт.
         </div>
 
         <div className={s['basket-summary__total-row']}>
           <span className={s['basket-summary__total-label']}>Итого</span>
           <span className={s['basket-summary__total-value']}>
-            {formatPrice(totalPrice)}
+            <NumberFlow
+              value={totalPrice}
+              format={{ currency: 'RUB', style: 'currency' }}
+            />
           </span>
         </div>
 

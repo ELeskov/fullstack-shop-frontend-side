@@ -14,7 +14,7 @@ const navbarPaths = {
   home: ROUTES.home,
   catalog: ROUTES.catalog,
   basket: ROUTES.profile.basket,
-  like: ROUTES.profile.like,
+  like: ROUTES.profile.favorites,
   profile: ROUTES.profile.root,
 }
 
@@ -48,7 +48,7 @@ const arrayLinks = [
   },
   {
     id: 3,
-    path: ROUTES.profile.like,
+    path: ROUTES.profile.favorites,
     icon: <Heart fill="#fff" size={24} className={s['mobile-navbar__icon']} />,
   },
   {

@@ -14,7 +14,7 @@ export const ROUTES = {
   sendResetPasswordEmail: '/send-reset-email',
 
   profile: createRoutes('/profile', {
-    like: '/likes',
+    favorites: '/favorites',
     basket: '/basket',
 
     shops: {

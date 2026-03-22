@@ -50,7 +50,7 @@ export function DropdownMenuProfile() {
               Профиль
             </DropdownMenuItem>
           </Link>
-          <Link to={ROUTES.profile.like}>
+          <Link to={ROUTES.profile.favorites}>
             <DropdownMenuItem className="hover:text-pink-400!">
               <Heart />
               Избранные

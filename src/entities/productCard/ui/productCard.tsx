@@ -22,8 +22,12 @@ export function ProductCard({ product, className }: ProductCardProps) {
   const formattedPrice = product?.price.toLocaleString('ru-RU')
   const brand = product?.category?.title ?? 'Без категории'
 
+  if (!product) {
+    return <span>Загрузка1</span>
+  }
+
   return (
-    <motion.div
+    <motion.article
       key={product.id}
       layout
       initial={{ opacity: 0, scale: 0.8 }}
@@ -34,42 +38,41 @@ export function ProductCard({ product, className }: ProductCardProps) {
         ease: 'easeInOut',
         layout: { duration: 0.4 },
       }}
+      className={clsx(s['product-card'], className)}
     >
-      <article className={clsx(s['product-card'], className)}>
-        <HeartButton />
-        <Link to={ROUTES.product.id(product.id)}>
-          <div className={s['product-card__wrapper']}>
-            <div className={s['product-card__top']}>
-              <img
-                src={mainImage}
-                loading="lazy"
-                alt={product?.title}
-                className={s['product-card__img']}
-              />
-            </div>
-
-            <div className={s['product-card__middle']}>
-              <div className={s['product-card__price']}>
-                <span className={s['product-card__price-wrap']}>
-                  <Wallet size={16} />
-                  <ins>{formattedPrice} ₽</ins>
-                </span>
-              </div>
-
-              <h2 className={s['product-card__brand-wrap']}>
-                <span className={s['product-card__brand']}>{brand}</span>
-                <span className={s['product-card__name']}>
-                  &nbsp;/&nbsp;{product?.title}
-                </span>
-              </h2>
-            </div>
-
-            <div className={s['product-card__bottom']}>
-              <AddToCartButton productId={product.id} />
-            </div>
+      <HeartButton />
+      <Link to={ROUTES.product.id(product.id)}>
+        <div className={s['product-card__wrapper']}>
+          <div className={s['product-card__top']}>
+            <img
+              src={mainImage}
+              loading="lazy"
+              alt={product?.title}
+              className={s['product-card__img']}
+            />
           </div>
-        </Link>
-      </article>
-    </motion.div>
+
+          <div className={s['product-card__middle']}>
+            <div className={s['product-card__price']}>
+              <span className={s['product-card__price-wrap']}>
+                <Wallet size={16} />
+                <ins>{formattedPrice} ₽</ins>
+              </span>
+            </div>
+
+            <h2 className={s['product-card__brand-wrap']}>
+              <span className={s['product-card__brand']}>{brand}</span>
+              <span className={s['product-card__name']}>
+                &nbsp;/&nbsp;{product?.title}
+              </span>
+            </h2>
+          </div>
+
+          <div className={s['product-card__bottom']}>
+            <AddToCartButton productId={product.id} />
+          </div>
+        </div>
+      </Link>
+    </motion.article>
   )
 }

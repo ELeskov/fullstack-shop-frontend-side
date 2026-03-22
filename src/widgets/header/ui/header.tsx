@@ -90,7 +90,7 @@ export function Header() {
                 <Link
                   className={s['header__actions-link']}
                   aria-label="Избранные товары"
-                  to={ROUTES.profile.like}
+                  to={ROUTES.profile.favorites}
                 >
                   <Heart className={s['header__actions-icon']} size={24} />
                 </Link>

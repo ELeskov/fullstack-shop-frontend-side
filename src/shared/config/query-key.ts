@@ -42,4 +42,6 @@ export const QUERY_KEY = {
   DELETE_PRODUCT_FROM_BASKET: 'delete_product_from_basket',
   GET_BASKET_BY_USER_ID: 'get_basket_by_user_id',
   GET_QUANTITY_BY_PRODUCT_ID: 'get_quantity_by_product_id',
+  CHANGE_PRODUCT_SELECT: 'change_product_select',
+  CHANGE_ALL_PRODUCT_SELECT: 'change_all_product_select',
 } as const

@@ -14,7 +14,7 @@ import { EditProductPage } from '@/pages/editProductPage'
 import { EditShopPage } from '@/pages/editShopPage'
 import { ForgotPasswordPage } from '@/pages/forgotPasswordPage'
 import { HomePage } from '@/pages/homePage'
-import { LikePage } from '@/pages/likePage'
+import { FavoritesPage } from '@/pages/favoritesPage'
 import { LoginPage } from '@/pages/loginPage'
 import { MyProductPage } from '@/pages/myProductPage'
 import { MyShopsPage } from '@/pages/myShopsPage'
@@ -83,8 +83,8 @@ export const router = createBrowserRouter([
     errorElement: <FallBack />,
     children: [
       {
-        path: ROUTES.profile.like,
-        element: <LikePage />,
+        path: ROUTES.profile.favorites,
+        element: <FavoritesPage />,
       },
     ],
   },

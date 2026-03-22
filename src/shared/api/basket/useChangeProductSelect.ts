@@ -4,15 +4,23 @@ import { toast } from 'sonner'
 import { apiClient } from '@/shared/config'
 import { QUERY_KEY } from '@/shared/config/query-key'
 
-export const useDecrementProductFromBasket = () => {
+interface ChangeProductSelectParams {
+  productId: string
+  newStatus: boolean
+}
+
+export const useChangeProductSelect = () => {
   const qc = useQueryClient()
 
   return useMutation({
-    mutationKey: ['basket', QUERY_KEY.DECREMENT_PRODUCT_QUANTITY_FROM_BASKET],
-    mutationFn: async (productId: string) => {
+    mutationKey: ['basket', QUERY_KEY.CHANGE_PRODUCT_SELECT],
+    mutationFn: async ({ newStatus, productId }: ChangeProductSelectParams) => {
       const { data, error } = await apiClient.PATCH(
-        '/api/baskets/products/{productId}',
+        '/api/baskets/products/{productId}/selection',
         {
+          body: {
+            isSelected: newStatus,
+          },
           params: {
             path: { productId },
           },
@@ -21,20 +29,19 @@ export const useDecrementProductFromBasket = () => {
 
       if (error) {
         throw new Error(
-          error.message ?? 'Ошибка удаление еденицы товара из корзины',
+          error.message ?? 'Ошибка при изменении состояния выбора товара',
         )
       }
 
       return data
     },
-    onSuccess: (_, productId) => {
+
+    onSuccess: () => {
       qc.invalidateQueries({
-        queryKey: ['basket', QUERY_KEY.GET_QUANTITY_BY_PRODUCT_ID, productId],
-      })
-      qc.invalidateQueries({
-        queryKey: ['basket', QUERY_KEY.GET_BASKET_BY_USER_ID],
+        queryKey: ['basket'],
       })
     },
+
     onError: error => {
       toast.error(error.message)
     },

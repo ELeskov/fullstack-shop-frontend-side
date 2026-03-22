@@ -4,12 +4,13 @@ import { toast } from 'sonner'
 import { apiClient } from '@/shared/config'
 import { QUERY_KEY } from '@/shared/config/query-key'
 
-export const useAddProductToBasket = () => {
+export const useDeleteProductFromBasket = () => {
   const qc = useQueryClient()
+
   return useMutation({
-    mutationKey: ['basket', QUERY_KEY.ADD_PRODUCT_TO_BASKET],
+    mutationKey: ['basket', QUERY_KEY.DELETE_PRODUCT_FROM_BASKET],
     mutationFn: async (productId: string) => {
-      const { data, error } = await apiClient.POST(
+      const { data, error } = await apiClient.DELETE(
         '/api/baskets/products/{productId}',
         {
           params: {
@@ -19,19 +20,18 @@ export const useAddProductToBasket = () => {
       )
 
       if (error) {
-        throw new Error(error.message ?? 'Ошибка добавления товара в корзину')
+        throw new Error(error.message ?? 'Ошибка удаления товара из корзины')
       }
 
       return data
     },
-    onSuccess: (_, productId) => {
+
+    onSuccess: () => {
       qc.invalidateQueries({
-        queryKey: ['basket', QUERY_KEY.GET_QUANTITY_BY_PRODUCT_ID, productId],
-      })
-      qc.invalidateQueries({
-        queryKey: ['basket', QUERY_KEY.GET_BASKET_BY_USER_ID],
+        queryKey: ['basket'],
       })
     },
+
     onError: error => {
       toast.error(error.message)
     },

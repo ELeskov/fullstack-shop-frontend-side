@@ -1,2 +1,7 @@
 export * from './useAddProductToBasket'
 export * from './useDecrementProductFromBasket'
+export * from './useGetQuantityByProductId'
+export * from './useGetBasket'
+export * from './useChangeProductSelect'
+export * from './useChangeAllProductSelect'
+export * from './useDeleteProductFromBasket'
