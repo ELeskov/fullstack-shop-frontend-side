@@ -23,6 +23,8 @@ import { CustomButton } from '@/shared/ui/customButton'
 import { UserAvatarUpload } from '@/shared/ui/userAvatarUpload'
 
 import s from './userSettings.module.scss'
+import { LoadingData } from '@/shared/ui/loadingData'
+import { EmptyData } from '@/shared/ui/emptyData'
 
 const firstNameSchema = z.object({
   firstName: z
@@ -36,6 +38,14 @@ type FirstNameForm = z.infer<typeof firstNameSchema>
 export function UserSettings() {
   const { data: user, isLoading } = useGetMe()
   const { mutateAsync, isPending } = usePatchUser()
+
+  if (isLoading) {
+    return <LoadingData />
+  }
+
+  if (!user) {
+    return <EmptyData title="Не удалось загрузить данные" />
+  }
 
   const firstNameForm = useForm<FirstNameForm>({
     resolver: zodResolver(firstNameSchema),
@@ -62,10 +72,6 @@ export function UserSettings() {
     await mutateAsync({ firstName: values.firstName })
 
     firstNameForm.reset(values)
-  }
-
-  if (isLoading || !user) {
-    return <div>Загрузка...</div>
   }
 
   return (

@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { ExternalLink, Heart, Minus, Plus, Share2, Trash2 } from 'lucide-react'
+import { ExternalLink, Heart, Minus, Plus, Trash2 } from 'lucide-react'
 import type { SchemaBasketItemDto } from '@/shared/api/api-endpoints'
 import NumberFlow from '@number-flow/react'
 import { Checkbox } from '@/shared/ui/components/ui/checkbox'

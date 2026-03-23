@@ -6,21 +6,31 @@ import NumberFlow from '@number-flow/react'
 import s from './BasketSummary.module.scss'
 import { useGetBasket } from '@/shared/api/basket'
 import { calculateBasketStats } from '@/shared/helpers'
-
+import { LoadingData } from '@/shared/ui/loadingData'
+import { EmptyData } from '@/shared/ui/emptyData'
+import { motion } from 'motion/react'
 export function BasketSummary() {
   const { data: basket, isLoading } = useGetBasket()
   const { totalQuantity, totalPrice } = calculateBasketStats(basket)
 
   if (isLoading) {
-    return 'Загрузка'
+    return <LoadingData />
   }
 
   if (!basket) {
-    return 'Не удалось загрузить данные'
+    return <EmptyData title="Корзина пустая" />
   }
 
   return (
-    <aside className={s['basket-summary']}>
+    <motion.aside
+      className={s['basket-summary']}
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{
+        duration: 0.35,
+        ease: 'easeOut',
+      }}
+    >
       <div className={s['basket-summary__block']}>
         <div className={s['basket-summary__block-header']}>
           <span className={s['basket-summary__block-title']}>
@@ -63,6 +73,7 @@ export function BasketSummary() {
         <CustomButton
           variant={'default'}
           className={s['basket-summary__submit-btn']}
+          disabled={totalPrice === 0}
         >
           Заказать
         </CustomButton>
@@ -72,6 +83,6 @@ export function BasketSummary() {
           <span>Соглашаюсь с правилами пользования торговой площадкой</span>
         </div>
       </div>
-    </aside>
+    </motion.aside>
   )
 }

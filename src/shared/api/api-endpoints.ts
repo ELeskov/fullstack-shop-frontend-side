@@ -592,23 +592,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/baskets/products/{productId}/selection": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Изменить статус выбора товара в корзине */
-        patch: operations["BasketController_changeSelectedStatus"];
-        trace?: never;
-    };
     "/api/baskets/products/selection": {
         parameters: {
             query?: never;
@@ -624,6 +607,23 @@ export interface paths {
         head?: never;
         /** Переключить выбор всех товаров в корзине */
         patch: operations["BasketController_toggleSelectAllItems"];
+        trace?: never;
+    };
+    "/api/baskets/products/{productId}/selection": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Изменить статус выбора товара в корзине */
+        patch: operations["BasketController_changeSelectedStatus"];
         trace?: never;
     };
 }
@@ -4223,31 +4223,23 @@ export interface operations {
             };
         };
     };
-    BasketController_changeSelectedStatus: {
+    BasketController_toggleSelectAllItems: {
         parameters: {
             query?: never;
             header?: never;
-            path: {
-                /** @description Уникальный идентификатор товара */
-                productId: string;
-            };
+            path?: never;
             cookie?: never;
         };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @example true */
-                    isSelected?: boolean;
-                };
-            };
-        };
+        requestBody?: never;
         responses: {
-            /** @description Статус выбора изменён */
+            /** @description Статус выбора всех товаров изменён */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["GetBasketResponseDto"];
+                };
             };
             400: {
                 headers: {
@@ -4299,23 +4291,31 @@ export interface operations {
             };
         };
     };
-    BasketController_toggleSelectAllItems: {
+    BasketController_changeSelectedStatus: {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                /** @description Уникальный идентификатор товара */
+                productId: string;
+            };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @example true */
+                    isSelected?: boolean;
+                };
+            };
+        };
         responses: {
-            /** @description Статус выбора всех товаров изменён */
+            /** @description Статус выбора изменён */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    "application/json": components["schemas"]["GetBasketResponseDto"];
-                };
+                content?: never;
             };
             400: {
                 headers: {

@@ -21,8 +21,6 @@ type ProductMoreInfoSheetProps = {
 export function ProductMoreInfoSheet({
   optionsGroup,
 }: ProductMoreInfoSheetProps) {
-  console.log(optionsGroup)
-
   return (
     <div className={s['product-more-info-sheet']}>
       <Sheet>

@@ -5,6 +5,10 @@ import { useChangeAllProductSelect, useGetBasket } from '@/shared/api/basket'
 
 import s from './BasketProductsList.module.scss'
 import { calculateBasketStats } from '@/shared/helpers'
+import { LoadingData } from '@/shared/ui/loadingData'
+import { EmptyData } from '@/shared/ui/emptyData'
+import { ROUTES } from '@/shared/config'
+import { motion } from 'motion/react'
 
 export function BasketProductsList() {
   const { data: basket, isLoading } = useGetBasket()
@@ -14,17 +18,32 @@ export function BasketProductsList() {
     calculateBasketStats(basket)
 
   if (isLoading) {
-    return 'Загрузка...'
+    return <LoadingData />
   }
 
-  if (!basket) {
-    return 'В корзине ничего нет'
+  if (!basket || !basket.basketItems.length) {
+    return (
+      <EmptyData
+        title="Корзина пустая"
+        description="Сорее добавляйте товары в корзину и переходите к их оформлению"
+        linkText="К покупкам"
+        linkTo={ROUTES.catalog}
+      />
+    )
   }
 
   const { basketItems } = basket
 
   return (
-    <div className={s['basket-list-container']}>
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{
+        duration: 0.35,
+        ease: 'easeOut',
+      }}
+      className={s['basket-list-container']}
+    >
       <div className={s['basket-list-container__header']}>
         <label
           onClick={() => changeAllSelectStatus()}
@@ -56,6 +75,6 @@ export function BasketProductsList() {
           <BasketProductCard key={product.id} {...product} />
         ))}
       </div>
-    </div>
+    </motion.div>
   )
 }

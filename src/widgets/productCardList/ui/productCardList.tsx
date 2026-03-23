@@ -5,6 +5,8 @@ import { ProductCard } from '@/entities/productCard'
 
 import { useGetAllProductWithFilters } from '@/shared/api/product'
 import { useCatalogFilters } from '@/shared/hooks'
+import { LoadingData } from '@/shared/ui/loadingData'
+import { EmptyData } from '@/shared/ui/emptyData'
 
 export function ProductCardList() {
   const { filters } = useCatalogFilters()
@@ -21,6 +23,14 @@ export function ProductCardList() {
 
   const { data: products, isLoading } = useGetAllProductWithFilters(query)
 
+  if (isLoading) {
+    return <LoadingData />
+  }
+
+  if (!products || !products.length) {
+    return <EmptyData title="Не удалось загрузить товары" />
+  }
+
   if (!products || isLoading) {
     return <LoaderCircle size={40} className="animate-spin" />
   }
@@ -28,7 +38,7 @@ export function ProductCardList() {
   return (
     <AnimatePresence mode="popLayout">
       <section className={'product-card-list'}>
-        {products.map((product) => (
+        {products.map(product => (
           <ProductCard key={product.id} product={product} />
         ))}
       </section>

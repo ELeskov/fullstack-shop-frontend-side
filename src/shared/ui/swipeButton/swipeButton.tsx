@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router'
 import { ChevronRight } from 'lucide-react'
 import { motion, useMotionValue, useTransform } from 'motion/react'
 
+import { ROUTES } from '@/shared/config'
 import { Button } from '@/shared/ui/components/ui/button'
 
 import s from './swipeButton.module.scss'
@@ -32,7 +33,7 @@ export function SwipeButton() {
         className={s['swipe-button__drag-container']}
         onDragEnd={(_, info) => {
           if (info.offset.x > 150) {
-            navigate('/catalog')
+            navigate(ROUTES.catalog)
           }
         }}
       >

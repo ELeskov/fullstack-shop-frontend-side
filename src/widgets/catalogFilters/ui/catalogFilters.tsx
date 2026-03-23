@@ -8,6 +8,7 @@ import { useCatalogFilters } from '@/shared/hooks'
 import { Input } from '@/shared/ui/components/ui/input'
 
 import s from './catalogFilters.module.scss'
+import { CatalogFiltersSkeleton } from '@/widgets/catalogFilters/skeleton/catalogFiltersSekeleton'
 
 export function CatalogFilters() {
   const { data: allCategories } = useGetAllCategories()
@@ -20,7 +21,7 @@ export function CatalogFilters() {
     filters
 
   if (!allCategories || !allColors || !allBrands) {
-    return 'Загрузка'
+    return <CatalogFiltersSkeleton />
   }
 
   return (
@@ -28,14 +29,14 @@ export function CatalogFilters() {
       <div className={s['filters-block__container']}>
         <CatalogSortSelect
           value={sort}
-          onChange={(value) => setParam('sort', value)}
+          onChange={value => setParam('sort', value)}
         />
 
         <CatalogPriceFilter
           minPrice={minPrice}
           maxPrice={maxPrice}
           onChange={(min, max) => {
-            setSearchParams((prev) => {
+            setSearchParams(prev => {
               const next = new URLSearchParams(prev)
               min ? next.set('minPrice', min) : next.delete('minPrice')
               max ? next.set('maxPrice', max) : next.delete('maxPrice')
@@ -48,7 +49,7 @@ export function CatalogFilters() {
           title="Категория"
           options={allCategories}
           selectedIds={categoryIds}
-          onChange={(value) => setArrayParam('categoryIds', value)}
+          onChange={value => setArrayParam('categoryIds', value)}
           showSearch={true}
         />
 
@@ -56,7 +57,7 @@ export function CatalogFilters() {
           title="Бренд"
           options={allBrands}
           selectedIds={brandIds}
-          onChange={(value) => setArrayParam('brandIds', value)}
+          onChange={value => setArrayParam('brandIds', value)}
           showSearch={true}
         />
 
@@ -64,15 +65,17 @@ export function CatalogFilters() {
           title="Цвет"
           options={allColors}
           selectedIds={colorIds}
-          onChange={(value) => setArrayParam('colorIds', value)}
+          onChange={value => setArrayParam('colorIds', value)}
           showSearch={true}
         />
 
         <Input
           type="text"
+          name="search"
           placeholder="Найти"
           value={search}
-          onChange={(e) => setParam('search', e.target.value)}
+          className="min-w-56"
+          onChange={e => setParam('search', e.target.value)}
         />
       </div>
     </div>

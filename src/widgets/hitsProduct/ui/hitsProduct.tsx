@@ -1,5 +1,3 @@
-import { LoaderCircle } from 'lucide-react'
-
 import { ProductCard } from '@/entities/productCard'
 
 import { useGetAllProduct } from '@/shared/api/product'
@@ -10,12 +8,18 @@ import {
 } from '@/shared/ui/components/ui/carousel'
 
 import s from './hitsProduct.module.scss'
+import { LoadingData } from '@/shared/ui/loadingData'
+import { EmptyData } from '@/shared/ui/emptyData'
 
 export function HitsProduct() {
   const { data: products, isLoading } = useGetAllProduct()
 
-  if (!products || isLoading) {
-    return <LoaderCircle size={40} className="animate-spin" />
+  if (isLoading) {
+    return <LoadingData />
+  }
+
+  if (!products || !products.length) {
+    return <EmptyData title="Не удалось загрузить популярные товары" />
   }
 
   return (

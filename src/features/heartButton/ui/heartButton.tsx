@@ -11,7 +11,7 @@ export function HeartButton({ className }: { className?: string }) {
     <button
       aria-label="Добавить в корзину"
       className={clsx(s['heart-button'], className)}
-      onClick={() => setIsLike((isLike) => !isLike)}
+      onClick={() => setIsLike(isLike => !isLike)}
     >
       <Heart
         size={24}

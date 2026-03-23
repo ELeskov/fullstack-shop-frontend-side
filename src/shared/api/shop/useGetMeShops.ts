@@ -22,15 +22,15 @@ export const useGetMeShops = () => {
         throw new Error(error.message ?? 'Ошибка загрузки магазинов')
       }
 
-      if (!shops.length) {
+      if (!shops || !shops.length) {
         qc.setQueryData([QUERY_KEY.ME_SELECTED_SHOP_ID], null)
         clearSelectedShopId()
-        return
+        return []
       }
 
       const saved = loadSelectedShopId()
       const selectedId =
-        saved && shops.some((s) => s.id === saved) ? saved : shops[0].id
+        saved && shops.some(s => s.id === saved) ? saved : shops[0].id
 
       qc.setQueryData([QUERY_KEY.ME_SELECTED_SHOP_ID], selectedId)
       saveSelectedShopId(selectedId)
