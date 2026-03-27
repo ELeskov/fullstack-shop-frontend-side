@@ -6,10 +6,10 @@ import {
   CarouselContent,
   CarouselItem,
 } from '@/shared/ui/components/ui/carousel'
+import { EmptyData } from '@/shared/ui/emptyData'
+import { LoadingData } from '@/shared/ui/loadingData'
 
 import s from './hitsProduct.module.scss'
-import { LoadingData } from '@/shared/ui/loadingData'
-import { EmptyData } from '@/shared/ui/emptyData'
 
 export function HitsProduct() {
   const { data: products, isLoading } = useGetAllProduct()

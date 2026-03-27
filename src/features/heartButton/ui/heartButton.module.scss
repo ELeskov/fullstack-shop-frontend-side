@@ -3,12 +3,21 @@
   right: rem(10);
   top: rem(10);
 
+  &::after{
+    content: '';
+    @include abs-center;
+    width: rem(40);
+    height: rem(40);
+  }
+
+
   &__icon {
     color: rgb(212, 212, 212);
+    fill: rgba(255, 255, 255, 0.4);
     stroke-width: 1.5px;
-
+  
     &--is-like {
-      fill: oklch(0.64 0.21 25);
+      fill: oklch(46.915% 0.16918 33.879);
     }
   }
 }

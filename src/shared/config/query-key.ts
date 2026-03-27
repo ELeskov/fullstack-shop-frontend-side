@@ -44,4 +44,8 @@ export const QUERY_KEY = {
   GET_QUANTITY_BY_PRODUCT_ID: 'get_quantity_by_product_id',
   CHANGE_PRODUCT_SELECT: 'change_product_select',
   CHANGE_ALL_PRODUCT_SELECT: 'change_all_product_select',
+
+  ADD_TO_FAVORITES: 'add_to_favorites',
+  DELETE_FROM_FAVORITES: 'delete_from_favorites',
+  GET_USER_FAVOTITES: 'get_user_favorites',
 } as const

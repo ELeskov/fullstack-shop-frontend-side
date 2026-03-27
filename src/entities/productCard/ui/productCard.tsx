@@ -7,20 +7,22 @@ import { motion } from 'motion/react'
 import { AddToCartButton } from '@/features/addToCartButton'
 import { HeartButton } from '@/features/heartButton'
 
-import type { SchemaProductResponseDto } from '@/shared/api/api-endpoints'
+import type { SchemaCatalogProductDto } from '@/shared/api/api-endpoints'
 import { ROUTES } from '@/shared/config'
+import { Badge } from '@/shared/ui/components/ui/badge'
 
 import s from './productCard.module.scss'
 
 interface ProductCardProps {
-  product: SchemaProductResponseDto
+  product: SchemaCatalogProductDto
   className?: string
 }
 
 export function ProductCard({ product, className }: ProductCardProps) {
   const mainImage = product?.images[0] ?? ''
   const formattedPrice = product?.price.toLocaleString('ru-RU')
-  const brand = product?.category?.title ?? 'Без категории'
+  const brand = product?.shop?.title ?? 'Без категории'
+  const { isFavorite } = product
 
   if (!product) {
     return <span>Загрузка1</span>
@@ -40,7 +42,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
       }}
       className={clsx(s['product-card'], className)}
     >
-      <HeartButton />
+      <HeartButton isFavorite={isFavorite} productId={product.id} />
       <Link to={ROUTES.product.id(product.id)}>
         <div className={s['product-card__wrapper']}>
           <div className={s['product-card__top']}>
@@ -61,7 +63,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
             </div>
 
             <h2 className={s['product-card__brand-wrap']}>
-              <span className={s['product-card__brand']}>{brand}</span>
+              <Badge variant={'outline'}>{brand}</Badge>
               <span className={s['product-card__name']}>
                 &nbsp;/&nbsp;{product?.title}
               </span>

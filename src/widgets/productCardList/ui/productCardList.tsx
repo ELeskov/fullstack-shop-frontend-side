@@ -5,8 +5,8 @@ import { ProductCard } from '@/entities/productCard'
 
 import { useGetAllProductWithFilters } from '@/shared/api/product'
 import { useCatalogFilters } from '@/shared/hooks'
-import { LoadingData } from '@/shared/ui/loadingData'
 import { EmptyData } from '@/shared/ui/emptyData'
+import { LoadingData } from '@/shared/ui/loadingData'
 
 export function ProductCardList() {
   const { filters } = useCatalogFilters()

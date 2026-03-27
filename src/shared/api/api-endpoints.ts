@@ -626,6 +626,50 @@ export interface paths {
         patch: operations["BasketController_changeSelectedStatus"];
         trace?: never;
     };
+    "/api/favorites": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Получить избранное пользователя
+         * @description Возвращает все товары в избранном текущего пользователя
+         */
+        get: operations["FavoritesController_findByUser"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/favorites/{productId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Добавить товар в избранное
+         * @description Добавляет указанный товар в избранное текущего пользователя
+         */
+        post: operations["FavoritesController_addToFavorites"];
+        /**
+         * Удалить товар из избранных
+         * @description Удаляет указанный товар из избранного текущего пользователя
+         */
+        delete: operations["FavoritesController_removeFromFavorites"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1032,6 +1076,21 @@ export interface components {
             color?: components["schemas"]["ProductColorResponseDto"] | null;
             groupedOptions?: components["schemas"]["GroupOptionResponseDto"][];
         };
+        ShopDto: {
+            title: string;
+        };
+        ColorDto: {
+            title: string;
+        };
+        CatalogProductDto: {
+            id: string;
+            title: string;
+            price: number;
+            images: string[];
+            shop: components["schemas"]["ShopDto"];
+            color: components["schemas"]["ColorDto"];
+            isFavorite: boolean;
+        };
         UpdateProductDto: {
             /**
              * @description Название продукта
@@ -1073,12 +1132,6 @@ export interface components {
              */
             existingImages?: string[];
         };
-        ColorDto: {
-            /** @example Белый */
-            title: string;
-            /** @example #FFFFFF */
-            value: string;
-        };
         ProductDto: {
             /** @example 1fb77501-652d-4f10-90a1-4d64fbadd5ab */
             id: string;
@@ -1111,6 +1164,39 @@ export interface components {
         GetQuantityByProductIdResponseDto: {
             /** @example 4 */
             quantity: number;
+        };
+        FavoriteItemShopDto: {
+            title: string;
+        };
+        FavoriteItemColorDto: {
+            title: string;
+        };
+        FavoriteItemProductDto: {
+            id: string;
+            title: string;
+            price: number;
+            images: string[];
+            shop: components["schemas"]["FavoriteItemShopDto"];
+            color: components["schemas"]["FavoriteItemColorDto"];
+        };
+        FavoriteItemDto: {
+            id: string;
+            favoritesId: string;
+            productId: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            product: components["schemas"]["FavoriteItemProductDto"];
+        };
+        UserFavoritesResponseDto: {
+            id: string;
+            userId: string;
+            favoritesItems: components["schemas"]["FavoriteItemDto"][];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
         };
     };
     responses: never;
@@ -1152,12 +1238,19 @@ export type SchemaProductColorResponseDto = components['schemas']['ProductColorR
 export type SchemaProductOptionResponseDto = components['schemas']['ProductOptionResponseDto'];
 export type SchemaGroupOptionResponseDto = components['schemas']['GroupOptionResponseDto'];
 export type SchemaProductResponseDto = components['schemas']['ProductResponseDto'];
-export type SchemaUpdateProductDto = components['schemas']['UpdateProductDto'];
+export type SchemaShopDto = components['schemas']['ShopDto'];
 export type SchemaColorDto = components['schemas']['ColorDto'];
+export type SchemaCatalogProductDto = components['schemas']['CatalogProductDto'];
+export type SchemaUpdateProductDto = components['schemas']['UpdateProductDto'];
 export type SchemaProductDto = components['schemas']['ProductDto'];
 export type SchemaBasketItemDto = components['schemas']['BasketItemDto'];
 export type SchemaGetBasketResponseDto = components['schemas']['GetBasketResponseDto'];
 export type SchemaGetQuantityByProductIdResponseDto = components['schemas']['GetQuantityByProductIdResponseDto'];
+export type SchemaFavoriteItemShopDto = components['schemas']['FavoriteItemShopDto'];
+export type SchemaFavoriteItemColorDto = components['schemas']['FavoriteItemColorDto'];
+export type SchemaFavoriteItemProductDto = components['schemas']['FavoriteItemProductDto'];
+export type SchemaFavoriteItemDto = components['schemas']['FavoriteItemDto'];
+export type SchemaUserFavoritesResponseDto = components['schemas']['UserFavoritesResponseDto'];
 export type $defs = Record<string, never>;
 export interface operations {
     ShopController_findAll: {
@@ -3603,7 +3696,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ProductResponseDto"][];
+                    "application/json": components["schemas"]["CatalogProductDto"][];
                 };
             };
             400: {
@@ -4316,6 +4409,216 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    FavoritesController_findByUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Избранное пользователя */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserFavoritesResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    FavoritesController_addToFavorites: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description UUID товара */
+                productId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Товар успешно добавлен в избранное */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    FavoritesController_removeFromFavorites: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description UUID товара */
+                productId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Товар успешно добавлен в избранное */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
             };
             400: {
                 headers: {
