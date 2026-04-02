@@ -27,7 +27,7 @@ export const useDeleteProductFromFavorites = () => {
 
     onSuccess: () => {
       qc.invalidateQueries({
-        queryKey: ['favorites', QUERY_KEY.GET_USER_FAVOTITES],
+        queryKey: ['favorites', QUERY_KEY.GET_USER_FAVORITES],
       })
       qc.invalidateQueries({
         queryKey: [QUERY_KEY.GET_ALL_PRODUCT_WITH_FILTERS],

@@ -5,7 +5,7 @@ import { QUERY_KEY } from '@/shared/config/query-key'
 
 export const useGetFavorites = () => {
   return useQuery({
-    queryKey: ['favorites', QUERY_KEY.GET_USER_FAVOTITES],
+    queryKey: ['favorites', QUERY_KEY.GET_USER_FAVORITES],
     queryFn: async () => {
       const { data, error } = await apiClient.GET('/api/favorites')
 

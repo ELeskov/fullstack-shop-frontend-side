@@ -48,5 +48,5 @@ export const QUERY_KEY = {
 
   ADD_TO_FAVORITES: 'add_to_favorites',
   DELETE_FROM_FAVORITES: 'delete_from_favorites',
-  GET_USER_FAVOTITES: 'get_user_favorites',
+  GET_USER_FAVORITES: 'get_user_favorites',
 } as const

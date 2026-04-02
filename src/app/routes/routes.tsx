@@ -21,6 +21,7 @@ import { MyShopsPage } from '@/pages/myShopsPage'
 import { ProductPage } from '@/pages/productPage'
 import { PurchasePage } from '@/pages/purchasePage'
 import { ResetPasswordPage } from '@/pages/resetPasswordPage'
+import { ReviewsPage } from '@/pages/reviewsPage'
 import { ShopSettingsPage } from '@/pages/shopSettingsPage'
 import { SignupPage } from '@/pages/signupPage'
 import { StatisticsPage } from '@/pages/statisticsPage'
@@ -156,7 +157,7 @@ export const router = createBrowserRouter([
       },
       {
         path: ROUTES.profile.shops.reviews,
-        element: <div>Отзывы</div>,
+        element: <ReviewsPage />,
       },
     ],
   },

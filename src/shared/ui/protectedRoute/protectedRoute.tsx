@@ -11,17 +11,23 @@ import { FullScreenLoader } from '@/shared/ui/fullScreenLoader'
 interface ProtectedRouteProps {
   allowedRoles?: EnumUserRole[]
   children: ReactNode
+  loaderMode?: 'auth' | 'permissions'
 }
 
 export function ProtectedRoute({
   allowedRoles,
   children,
+  loaderMode = 'auth',
 }: ProtectedRouteProps) {
   const { data: user, isLoading, isError } = useGetMe()
   const location = useLocation()
+  const loadingText =
+    loaderMode === 'permissions'
+      ? 'Проверка прав доступа...'
+      : 'Проверка авторизации...'
 
   if (isLoading) {
-    return <FullScreenLoader text="Проверка прав доступа..." />
+    return <FullScreenLoader text={loadingText} />
   }
   if (isError || !user) {
     setTimeout(() => toast.error('Необходимо авторизоваться'), 0)

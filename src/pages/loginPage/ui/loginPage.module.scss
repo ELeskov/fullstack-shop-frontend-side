@@ -1,0 +1,47 @@
+.login-page {
+  @include fluid-text(16, 14);
+}
+
+.login-page__muted {
+  font-size: rem(14);
+}
+
+.login-page__input {
+  @include fluid-text(16, 14);
+
+  &::placeholder {
+    @include fluid-text(16, 14);
+  }
+}
+
+.login-page__password-wrap {
+  position: relative;
+}
+
+.login-page__password-input {
+  padding-right: rem(42);
+}
+
+.login-page__password-toggle {
+  position: absolute;
+  top: 50%;
+  right: rem(12);
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(161 161 170);
+  background: transparent;
+  border: none;
+  padding: 0;
+  transition: color 0.2s ease;
+
+  svg {
+    width: rem(18);
+    height: rem(18);
+  }
+
+  &:hover {
+    color: rgb(244 244 245);
+  }
+}

@@ -21,6 +21,39 @@ import { Logo } from '@/shared/ui/logo'
 
 import s from './header.module.scss'
 
+const CATALOG_SECTIONS = [
+  {
+    title: 'Рабочее место',
+    href: `${ROUTES.catalog}?category=workspace`,
+    description: 'Лампы, держатели, органайзеры и аксессуары для стола.',
+  },
+  {
+    title: 'Гаджеты',
+    href: `${ROUTES.catalog}?category=gadgets`,
+    description: 'Смарт-устройства и полезная электроника на каждый день.',
+  },
+  {
+    title: 'Для дома',
+    href: `${ROUTES.catalog}?category=home`,
+    description: 'Практичные товары для уюта, порядка и хранения.',
+  },
+  {
+    title: 'Подарки',
+    href: `${ROUTES.catalog}?category=gifts`,
+    description: 'Идеи подарков для коллег, друзей и близких.',
+  },
+  {
+    title: 'Новинки',
+    href: `${ROUTES.catalog}?sort=new`,
+    description: 'Свежие позиции, которые только появились в магазине.',
+  },
+  {
+    title: 'Популярное',
+    href: `${ROUTES.catalog}?sort=popular`,
+    description: 'Самые востребованные товары по выбору покупателей.',
+  },
+]
+
 export function Header() {
   const { data } = useGetMe()
   const isAuthorization = Boolean(data)
@@ -39,39 +72,46 @@ export function Header() {
             <NavigationMenuItem>
               <NavigationMenuTrigger>Каталог</NavigationMenuTrigger>
               <NavigationMenuContent className="border-white/10 z-50">
-                <ul
-                  className="grid gap-2 md:w-100 lg:w-150
-            lg:grid-cols-[1fr_1fr_1fr]"
-                >
-                  <li className="row-span-4">
+                <div className={s['header__catalog-menu']}>
+                  <div className={s['header__catalog-lead']}>
                     <NavigationMenuLink asChild>
                       <Link
-                        to="/catalog"
-                        className="from-muted/50 to-muted flex h-full w-full flex-col justify-end rounded-md bg-linear-to-b p-6 no-underline outline-hidden select-none focus:shadow-md"
+                        to={ROUTES.catalog}
+                        className={s['header__catalog-lead-link']}
                       >
-                        <div className="mt-4 mb-2 text-lg font-medium">
+                        <p className={s['header__catalog-overline']}>
+                          Подборка недели
+                        </p>
+                        <div className={s['header__catalog-title']}>
                           Каталог
                         </div>
-                        <p className="text-muted-foreground text-sm leading-tight">
-                          Lorem ipsum dolor sit amet consectetur adipisicing
-                          elit.
+                        <p className={s['header__catalog-description']}>
+                          Смотрите новинки, популярные товары и тематические
+                          подборки для дома, работы и подарков.
                         </p>
+                        <div className={s['header__catalog-chips']}>
+                          <span className={s['header__catalog-chip']}>
+                            Новинки
+                          </span>
+                          <span className={s['header__catalog-chip']}>
+                            Хиты продаж
+                          </span>
+                          <span className={s['header__catalog-chip']}>
+                            Скидки
+                          </span>
+                        </div>
                       </Link>
                     </NavigationMenuLink>
-                  </li>
-                  <ListItem href="/catalog/laptop" title="Laptop">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </ListItem>
-                  <ListItem href="/catalog/watch" title="Watch">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </ListItem>
-                  <ListItem href="/catalog/phone" title="Phone">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </ListItem>
-                  <ListItem href="/catalog/Tablet" title="Tablet">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </ListItem>
-                </ul>
+                  </div>
+
+                  <ul className={s['header__catalog-list']}>
+                    {CATALOG_SECTIONS.map(section => (
+                      <ListItem key={section.title} href={section.href} title={section.title}>
+                        {section.description}
+                      </ListItem>
+                    ))}
+                  </ul>
+                </div>
               </NavigationMenuContent>
             </NavigationMenuItem>
           </NavigationMenuList>

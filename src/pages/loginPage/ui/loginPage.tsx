@@ -1,14 +1,15 @@
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { FaYandex } from 'react-icons/fa'
-import { FcGoogle } from 'react-icons/fc'
 import { Link } from 'react-router'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Eye, EyeOff } from 'lucide-react'
 import { toast } from 'sonner'
 import z from 'zod'
 
 import { useLoginMutation } from '@/shared/api/account'
 import { ROUTES } from '@/shared/config'
+import { AuthProvidersButtons } from '@/shared/ui/authProvidersButtons'
 import { Captcha } from '@/shared/ui/captcha'
 import { Button } from '@/shared/ui/components/ui/button'
 import { FieldLabel } from '@/shared/ui/components/ui/field'
@@ -21,6 +22,8 @@ import {
   FormMessage,
 } from '@/shared/ui/components/ui/form'
 import { Input } from '@/shared/ui/components/ui/input'
+
+import s from './loginPage.module.scss'
 
 const loginSchema = z.object({
   email: z
@@ -36,6 +39,8 @@ const loginSchema = z.object({
 type Login = z.infer<typeof loginSchema>
 
 export function LoginPage() {
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+
   const form = useForm<Login>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -58,30 +63,26 @@ export function LoginPage() {
       return
     }
 
-    await mutateLogin(values)
+    try {
+      await mutateLogin(values)
+    } catch {
+      // Ошибка обрабатывается в onError мутации.
+    }
   }
 
   return (
-    <div datatype="auth-page" className="flex flex-col gap-3.5 w-112.5">
+    <div
+      datatype="auth-page"
+      className={`flex flex-col gap-3.5 w-112.5 ${s['login-page']}`}
+    >
       <div>
         <h1 className="text-3xl!">Войти в аккаунт</h1>
-        <p className="mb-6! text-neutral-400/80">
+        <p className={`mb-6! text-neutral-400/80 ${s['login-page__muted']}`}>
           Для входа на сайт используйте ваш email и пароль, которые были указаны
           при регистрации на сайте
         </p>
       </div>
-      <div className="flex gap-4 mb-5 justify-around">
-        <Button
-          variant="outline"
-          type="button"
-          className="hover:text-red-400 grow"
-        >
-          <FaYandex size={50} color="red" />
-        </Button>
-        <Button variant="outline" type="button" className="grow">
-          <FcGoogle />
-        </Button>
-      </div>
+      <AuthProvidersButtons className="mb-5" />
       <Form {...form}>
         <form
           className="flex flex-col gap-6"
@@ -96,6 +97,7 @@ export function LoginPage() {
                 <FormControl>
                   <Input
                     placeholder="email@gmail.com"
+                    className={s['login-page__input']}
                     disabled={isPending}
                     autoComplete="email"
                     {...field}
@@ -114,20 +116,34 @@ export function LoginPage() {
                   <FieldLabel htmlFor="password">Пароль</FieldLabel>
                   <Link
                     to={ROUTES.sendResetPasswordEmail}
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                    className="ml-auto inline-block underline-offset-4 hover:underline"
                   >
                     Забыли пароль?
                   </Link>
                 </div>
                 <FormControl>
-                  <Input
-                    id="password"
-                    type="password"
-                    placeholder="••••••••"
-                    autoComplete="current-password"
-                    disabled={isPending}
-                    {...field}
-                  />
+                  <div className={s['login-page__password-wrap']}>
+                    <Input
+                      id="password"
+                      type={isPasswordVisible ? 'text' : 'password'}
+                      placeholder="••••••••"
+                      className={`${s['login-page__input']} ${s['login-page__password-input']}`}
+                      autoComplete="current-password"
+                      disabled={isPending}
+                      {...field}
+                    />
+                    <button
+                      type="button"
+                      className={s['login-page__password-toggle']}
+                      onClick={() => setIsPasswordVisible(prev => !prev)}
+                      aria-label={
+                        isPasswordVisible ? 'Скрыть пароль' : 'Показать пароль'
+                      }
+                      disabled={isPending}
+                    >
+                      {isPasswordVisible ? <EyeOff /> : <Eye />}
+                    </button>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -141,7 +157,7 @@ export function LoginPage() {
               <FormItem className="flex flex-col items-center justify-center">
                 <FormControl>
                   <Captcha
-                    onVerify={(token) => form.setValue('captcha', token)}
+                    onVerify={token => form.setValue('captcha', token)}
                     {...field}
                   />
                 </FormControl>
@@ -151,7 +167,9 @@ export function LoginPage() {
           <Button type="submit" disabled={isPending}>
             Войти
           </Button>
-          <div className="text-center text-sm text-neutral-400/80">
+          <div
+            className={`text-center text-neutral-400/80 ${s['login-page__muted']}`}
+          >
             У вас еще нет аккаунта?{' '}
             <Link to={ROUTES.signup} className="text-white">
               Зарегистрироваться

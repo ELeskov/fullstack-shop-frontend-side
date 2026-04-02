@@ -1,0 +1,13 @@
+.purchase-product-list {
+  width: 100%;
+}
+
+.purchase-product-list__grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: rem(12);
+}
+
+.purchase-product-list__item {
+  min-width: 0;
+}

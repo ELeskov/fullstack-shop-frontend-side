@@ -10,7 +10,6 @@ import {
 } from '@/shared/api/product'
 import { ROUTES } from '@/shared/config'
 import { Button } from '@/shared/ui/components/ui/button'
-import { Checkbox } from '@/shared/ui/components/ui/checkbox'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -36,29 +35,6 @@ export function ProductsDataTable() {
   const { mutateAsync } = useDeleteProductMutation()
 
   const defaultColumns = [
-    columnHelper.display({
-      id: 'select',
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && 'indeterminate')
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    }),
-
     columnHelper.accessor('title', {
       cell: (info) => info.getValue(),
       header: ({ column }) => (

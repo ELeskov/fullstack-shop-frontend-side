@@ -1,14 +1,15 @@
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { FaYandex } from 'react-icons/fa'
-import { FcGoogle } from 'react-icons/fc'
 import { Link } from 'react-router'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Eye, EyeOff } from 'lucide-react'
 import { toast } from 'sonner'
 import z from 'zod'
 
 import { useRegisterMutation } from '@/shared/api/account'
 import { ROUTES } from '@/shared/config'
+import { AuthProvidersButtons } from '@/shared/ui/authProvidersButtons'
 import { Captcha } from '@/shared/ui/captcha'
 import { Button } from '@/shared/ui/components/ui/button'
 import {
@@ -20,6 +21,8 @@ import {
   FormMessage,
 } from '@/shared/ui/components/ui/form'
 import { Input } from '@/shared/ui/components/ui/input'
+
+import s from './signupPage.module.scss'
 
 const registerSchema = z.object({
   name: z.string().min(1, { message: 'Имя обязательно' }),
@@ -36,6 +39,8 @@ const registerSchema = z.object({
 type Register = z.infer<typeof registerSchema>
 
 export function SignupPage() {
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+
   const form = useForm<Register>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -54,29 +59,25 @@ export function SignupPage() {
       return
     }
 
-    await mutateAsync(values)
+    try {
+      await mutateAsync(values)
+    } catch {
+      // Ошибка обрабатывается в onError мутации.
+    }
   }
 
   return (
-    <div datatype="auth-page" className="flex flex-col gap-3.5 w-112.5">
+    <div
+      datatype="auth-page"
+      className={`flex flex-col gap-3.5 w-112.5 ${s['signup-page']}`}
+    >
       <div>
         <h1 className="text-3xl! ">Создать аккаунт</h1>
-        <p className="mb-6! text-neutral-400/80">
+        <p className={`mb-6! text-neutral-400/80 ${s['signup-page__muted']}`}>
           Создай аккаунт, чтобы открыть больше возможностей платформы
         </p>
       </div>
-      <div className="flex gap-4 mb-5 justify-around">
-        <Button
-          variant="outline"
-          type="button"
-          className="hover:text-red-400 grow"
-        >
-          <FaYandex size={50} color="red" />
-        </Button>
-        <Button variant="outline" type="button" className="grow">
-          <FcGoogle />
-        </Button>
-      </div>
+      <AuthProvidersButtons className="mb-5" />
       <Form {...form}>
         <form
           className="flex flex-col gap-6"
@@ -92,6 +93,7 @@ export function SignupPage() {
                   <Input
                     autoComplete="given-name"
                     placeholder="Иван Иванов"
+                    className={s['signup-page__input']}
                     disabled={isPending}
                     {...field}
                   />
@@ -109,6 +111,7 @@ export function SignupPage() {
                 <FormControl>
                   <Input
                     placeholder="email@gmail.com"
+                    className={s['signup-page__input']}
                     disabled={isPending}
                     {...field}
                   />
@@ -124,12 +127,26 @@ export function SignupPage() {
               <FormItem>
                 <FormLabel>Пароль</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="*******"
-                    type="password"
-                    disabled={isPending}
-                    {...field}
-                  />
+                  <div className={s['signup-page__password-wrap']}>
+                    <Input
+                      placeholder="*******"
+                      type={isPasswordVisible ? 'text' : 'password'}
+                      className={`${s['signup-page__input']} ${s['signup-page__password-input']}`}
+                      disabled={isPending}
+                      {...field}
+                    />
+                    <button
+                      type="button"
+                      className={s['signup-page__password-toggle']}
+                      onClick={() => setIsPasswordVisible(prev => !prev)}
+                      aria-label={
+                        isPasswordVisible ? 'Скрыть пароль' : 'Показать пароль'
+                      }
+                      disabled={isPending}
+                    >
+                      {isPasswordVisible ? <EyeOff /> : <Eye />}
+                    </button>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -153,7 +170,7 @@ export function SignupPage() {
           <Button type="submit" disabled={isPending}>
             Зарегистрироваться
           </Button>
-          <div className="text-center text-sm text-neutral-400/80">
+          <div className={`text-center text-neutral-400/80 ${s['signup-page__muted']}`}>
             У вас уже есть аккаунт?{' '}
             <Link to={ROUTES.login} className="text-white">
               Войти

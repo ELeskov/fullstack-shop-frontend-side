@@ -1,0 +1,26 @@
+.purchase-page {
+  display: flex;
+  flex-direction: column;
+  gap: rem(16);
+}
+
+.purchase-page__header {
+  display: flex;
+  flex-direction: column;
+  gap: rem(6);
+}
+
+.purchase-page__title {
+  color: rgb(250 250 250);
+  @include fluid-text(20, 18);
+  font-weight: 700;
+}
+
+.purchase-page__subtitle {
+  color: rgb(161 161 170);
+  @include fluid-text(14, 12);
+}
+
+.purchase-page__body {
+  width: 100%;
+}

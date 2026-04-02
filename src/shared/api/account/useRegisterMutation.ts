@@ -21,14 +21,12 @@ export const useRegisterMutation = () => {
       return data
     },
     onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: [QUERY_KEY.ME] })
       toast.success('Вы успешно зарегистрировались')
       navigate(ROUTES.home, { replace: true })
     },
-    onError: (err) => {
+    onError: err => {
       toast.error(err.message)
-    },
-    onSettled: async () => {
-      await queryClient.invalidateQueries({ queryKey: [QUERY_KEY.ME] })
     },
   })
 }
