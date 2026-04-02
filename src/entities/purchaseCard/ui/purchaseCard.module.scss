@@ -1,0 +1,80 @@
+.purchase-card {
+  height: 100%;
+  display: flex;
+  position: relative;
+  box-sizing: border-box;
+  flex-direction: column;
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    row-gap: rem(10);
+  }
+
+  &__top {
+    position: relative;
+    flex-grow: 1;
+  }
+
+  &__img {
+    width: 100%;
+    border-radius: rem(10);
+    object-fit: cover;
+    aspect-ratio: 3 / 4;
+  }
+
+  &__rating {
+    position: absolute;
+    bottom: rem(5);
+    left: rem(5);
+    /* Стили для Rating из Kibo UI — при необходимости доработаем */
+  }
+
+  &__middle {
+    flex-grow: 1;
+    padding: rem(10);
+  }
+
+  &__price-wrap {
+    display: flex;
+    align-items: center;
+    column-gap: rem(5);
+  }
+
+  &__brand-wrap {
+    display: flex;
+    font-size: rem(14);
+    font-weight: 400;
+    margin-bottom: rem(5);
+  }
+
+  &__name {
+    color: var(--color-gray);
+    display: -webkit-box;
+    line-clamp: 1;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__delivery-info {
+    display: flex;
+    align-items: center;
+    gap: rem(5);
+    font-size: rem(12);
+    color: var(--color-gray-light);
+  }
+
+  &__delivery-label {
+    font-weight: 500;
+  }
+
+  &__bottom {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

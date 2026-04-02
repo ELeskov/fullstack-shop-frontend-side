@@ -24,7 +24,7 @@ export const profileNavData = {
         },
         {
           title: 'Покупки',
-          url: ROUTES.profile.orders,
+          url: ROUTES.profile.purchase,
           icon: <ShoppingBag />,
         },
       ],

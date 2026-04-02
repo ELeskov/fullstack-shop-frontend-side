@@ -16,6 +16,8 @@ export const ROUTES = {
   profile: createRoutes('/profile', {
     favorites: '/favorites',
     basket: '/basket',
+    purchase: '/purchase',
+    orders: '/orders',
 
     shops: {
       edit: {
@@ -41,6 +43,6 @@ export const ROUTES = {
       },
     },
 
-    orders: '/orders',
+    settings: '/settings',
   }),
 } as const
