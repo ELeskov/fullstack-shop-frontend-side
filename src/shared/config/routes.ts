@@ -42,6 +42,5 @@ export const ROUTES = {
     },
 
     orders: '/orders',
-    settings: '/settings',
   }),
 } as const

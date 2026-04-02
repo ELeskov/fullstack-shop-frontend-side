@@ -1,0 +1,153 @@
+.account-settings-page {
+  display: flex;
+  flex-direction: column;
+  gap: rem(16);
+}
+
+.account-settings-page__subtitle {
+  color: rgb(161 161 170);
+  @include fluid-text(16, 14);
+}
+
+.account-settings-page__section {
+  display: flex;
+  flex-direction: column;
+  gap: rem(12);
+}
+
+.account-settings-page__section-title {
+  color: rgb(244 244 245);
+  @include fluid-text(20, 18);
+  font-weight: 700;
+  margin-left: rem(4);
+}
+
+.account-settings-page__box {
+  border: rem(1) solid rgb(255 255 255 / 10%);
+  border-radius: rem(12);
+  padding: rem(20);
+  display: flex;
+  flex-direction: column;
+  gap: rem(18);
+}
+
+
+.account-settings-page__profile-row {
+  display: flex;
+  align-items: center;
+  gap: rem(16);
+}
+
+.account-settings-page__profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: rem(6);
+}
+
+.account-settings-page__row-title {
+  color: rgb(250 250 250);
+  @include fluid-text(16, 14);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.account-settings-page__row-description {
+  color: rgb(161 161 170);
+  @include fluid-text(14, 12);
+  line-height: 1.5;
+}
+
+.account-settings-page__field {
+  display: flex;
+  flex-direction: column;
+  gap: rem(8);
+}
+
+.account-settings-page__label {
+  color: rgb(228 228 231);
+  @include fluid-text(16, 14);
+  font-weight: 600;
+}
+
+.account-settings-page__input-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: rem(10);
+  align-items: center;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.account-settings-page__input {
+  width: 100%;
+  border: rem(1) solid rgb(255 255 255 / 10%);
+  border-radius: rem(10);
+  background: rgb(18 18 22 / 75%);
+  color: rgb(250 250 250);
+  padding: rem(12) rem(14);
+  @include fluid-text(16, 14);
+  outline: none;
+  transition: border-color 0.2s ease;
+
+  &:focus {
+    border-color: rgb(37 99 235 / 70%);
+  }
+}
+
+.account-settings-page__error {
+  color: rgb(248 113 113);
+  @include fluid-text(14, 12);
+}
+
+.account-settings-page__hint {
+  color: rgb(161 161 170);
+  @include fluid-text(14, 12);
+}
+
+.account-settings-page__action-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: rem(14);
+
+  @include mobile {
+    grid-template-columns: 1fr;
+    align-items: flex-start;
+  }
+}
+
+.account-settings-page__action-icon {
+  width: rem(42);
+  height: rem(42);
+  border-radius: 50%;
+  border: rem(1) solid var(--color-gray);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.account-settings-page__action-content {
+  display: flex;
+  flex-direction: column;
+  gap: rem(6);
+}
+
+.account-settings-page__action-head {
+  display: flex;
+  gap: rem(10);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.account-settings-page__divider {
+  width: 100%;
+  height: rem(1);
+  background: rgb(255 255 255 / 10%);
+}
+
+.account-settings-page__logout-button {
+  justify-self: end;
+}

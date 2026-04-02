@@ -10,30 +10,15 @@ import {
   UserStar,
 } from 'lucide-react'
 
-import shopImage from '@/shared/assets/icons/favicon-bg-white.svg'
 import { ROUTES } from '@/shared/config'
 
 export const profileNavData = {
-  shops: [
-    {
-      shopImage: shopImage,
-      title: 'VK',
-    },
-    {
-      shopImage: shopImage,
-      title: 'yandex',
-    },
-    {
-      shopImage: shopImage,
-      title: 'google',
-    },
-  ],
   navMain: [
     {
       title: 'Аккаунт',
       items: [
         {
-          title: 'Профиль',
+          title: 'Аккаунт',
           url: ROUTES.profile.root,
           icon: <CircleUserRound />,
         },
@@ -41,11 +26,6 @@ export const profileNavData = {
           title: 'Покупки',
           url: ROUTES.profile.orders,
           icon: <ShoppingBag />,
-        },
-        {
-          title: 'Настройки',
-          url: ROUTES.profile.settings,
-          icon: <Settings />,
         },
       ],
     },

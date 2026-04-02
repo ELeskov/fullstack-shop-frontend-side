@@ -12,17 +12,18 @@ import { CreateProductPage } from '@/pages/createProductPage'
 import { CreateShopPage } from '@/pages/createShopPage'
 import { EditProductPage } from '@/pages/editProductPage'
 import { EditShopPage } from '@/pages/editShopPage'
+import { FavoritesPage } from '@/pages/favoritesPage'
 import { ForgotPasswordPage } from '@/pages/forgotPasswordPage'
 import { HomePage } from '@/pages/homePage'
-import { FavoritesPage } from '@/pages/favoritesPage'
 import { LoginPage } from '@/pages/loginPage'
 import { MyProductPage } from '@/pages/myProductPage'
 import { MyShopsPage } from '@/pages/myShopsPage'
 import { ProductPage } from '@/pages/productPage'
-import { ProfilePage } from '@/pages/profilePage'
 import { ResetPasswordPage } from '@/pages/resetPasswordPage'
+import { ShopSettingsPage } from '@/pages/shopSettingsPage'
 import { SignupPage } from '@/pages/signupPage'
 import { StatisticsPage } from '@/pages/statisticsPage'
+import { UserSettingsPage } from '@/pages/userSettingsPage'
 import { VerifyPage } from '@/pages/verifyPage'
 
 import { ROUTES } from '@/shared/config'
@@ -98,7 +99,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: ROUTES.profile.root,
-        element: <ProfilePage />,
+        element: <UserSettingsPage />,
       },
       {
         path: ROUTES.profile.shops.root,
@@ -115,6 +116,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.profile.shops.statistics,
         element: <StatisticsPage />,
+      },
+      {
+        path: ROUTES.profile.shops.settings,
+        element: <ShopSettingsPage />,
       },
       {
         path: ROUTES.profile.shops.colors.root,

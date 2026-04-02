@@ -12,6 +12,7 @@ export const QUERY_KEY = {
 
   CREATE_SHOP: 'create_shop',
   PATCH_SHOP: 'patch_shop',
+  DELETE_SHOP: 'delete_shop',
   ME_SELECTED_SHOP_ID: 'me_selected_shop_id',
   SHOP_UPLOAD_LOGO: 'shop_upload_logo',
   GET_ALL_SHOPS: 'get_all_shops',

@@ -31,11 +31,11 @@ const schema = z.object({
   logo: z
     .instanceof(File, { message: 'Загрузите логотип' })
     .refine(
-      (file) => file.size <= MAX_LOGO_MB * 1024 * 1024,
+      file => file.size <= MAX_LOGO_MB * 1024 * 1024,
       `Максимальный размер файла ${MAX_LOGO_MB}MB`,
     )
     .refine(
-      (file) => ALLOWED_TYPES.includes(file.type),
+      file => ALLOWED_TYPES.includes(file.type),
       'Допустимы только изображения PNG, JPG, WebP',
     )
     .optional(),
@@ -67,7 +67,7 @@ export function ShopForm({ shopId, editData, pictureUrl }: IShopForm) {
     reset,
     control,
     clearErrors,
-    formState: { errors, isSubmitting, isValid, isDirty },
+    formState: { errors, isSubmitting, isValid, isDirty, dirtyFields },
   } = useForm<ShopSchema>({
     resolver: zodResolver(schema),
     defaultValues,
@@ -91,25 +91,30 @@ export function ShopForm({ shopId, editData, pictureUrl }: IShopForm) {
 
   const isBusy = isSubmitting || isCreating || isUpdating || isUploadingLogo
 
-  const onSubmit: SubmitHandler<ShopSchema> = async (values) => {
+  const onSubmit: SubmitHandler<ShopSchema> = async values => {
     const hasNewLogo = Boolean(logo)
+    const hasShopInfoChanges = Boolean(
+      dirtyFields.title || dirtyFields.description,
+    )
+    const payload = {
+      title: values.title.trim(),
+      description: values.description.trim(),
+    }
 
-    if (isEditMode && !isDirty && !hasNewLogo) {
+    if (isEditMode && !hasShopInfoChanges && !hasNewLogo) {
       return
     }
 
     let resolvedShopId = shopId
 
     if (!resolvedShopId) {
-      const created = await createShopMutation(values)
+      const created = await createShopMutation(payload)
       resolvedShopId = created.id
-    } else {
-      if (isDirty) {
-        await updateShopMutation({
-          body: { ...values },
-          shopId: resolvedShopId,
-        })
-      }
+    } else if (hasShopInfoChanges) {
+      await updateShopMutation({
+        body: payload,
+        shopId: resolvedShopId,
+      })
     }
 
     if (hasNewLogo && resolvedShopId) {
@@ -122,9 +127,9 @@ export function ShopForm({ shopId, editData, pictureUrl }: IShopForm) {
     }
 
     if (!isEditMode) {
-      reset({ title: '', description: '' })
+      reset({ title: '', description: '', logo: undefined })
     } else {
-      reset(values)
+      reset({ ...payload, logo: undefined })
     }
   }
 
@@ -160,12 +165,14 @@ export function ShopForm({ shopId, editData, pictureUrl }: IShopForm) {
                     name="logo"
                     render={({ field }) => (
                       <PhotoUploader
-                        onChange={(file) => {
+                        onChange={file => {
                           if (!file) {
+                            setLogo(null)
                             field.onChange(undefined)
                             clearErrors('logo')
                             return
                           }
+                          setLogo(file)
                           field.onChange(file)
                         }}
                         maxSizeMB={5}

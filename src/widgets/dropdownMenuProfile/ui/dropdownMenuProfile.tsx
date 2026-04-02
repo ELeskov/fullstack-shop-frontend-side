@@ -47,7 +47,7 @@ export function DropdownMenuProfile() {
           <Link to={ROUTES.profile.root}>
             <DropdownMenuItem className="hover:text-blue-400!">
               <User />
-              Профиль
+              Аккаунт
             </DropdownMenuItem>
           </Link>
           <Link to={ROUTES.profile.favorites}>
@@ -118,14 +118,6 @@ export function DropdownMenuProfile() {
           </DropdownMenuSub>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <Link to={ROUTES.profile.settings}>
-          <DropdownMenuItem>
-            Настройки
-            <DropdownMenuShortcut>
-              <Settings />
-            </DropdownMenuShortcut>
-          </DropdownMenuItem>
-        </Link>
         <DropdownMenuItem
           className="hover:text-red-400!"
           onClick={() => mutateAsync()}

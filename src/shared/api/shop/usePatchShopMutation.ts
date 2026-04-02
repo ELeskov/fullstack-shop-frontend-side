@@ -39,7 +39,7 @@ export const usePatchShopMutation = () => {
       navigate(ROUTES.profile.shops.root)
     },
 
-    onError: (error) => {
+    onError: error => {
       toast.error(error.message)
     },
 

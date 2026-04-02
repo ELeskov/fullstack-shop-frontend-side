@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 
 import {
   BadgePlus,
@@ -8,12 +7,16 @@ import {
   Ellipsis,
   LogOut,
   Plus,
-  Sparkles,
+  Settings,
   UserRoundX,
 } from 'lucide-react'
 
-import { useGetMe } from '@/shared/api'
-import userAvatar from '@/shared/assets/icons/favicon-bg-white.svg'
+import {
+  useGetMe,
+  useGetMeShops,
+  useLogoutMutation,
+  useSelectedShopId,
+} from '@/shared/api'
 import { ROUTES } from '@/shared/config'
 import {
   Avatar,
@@ -23,7 +26,6 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -50,10 +52,19 @@ import { profileNavData } from '../lib'
 
 export function SidebarProfile() {
   const { data: user } = useGetMe()
-  const [selectedVersion, setSelectedVersion] = useState(
-    profileNavData.shops[0],
-  )
+  const { data: shops } = useGetMeShops()
+  const { selectedShopId, setSelectedShopId } = useSelectedShopId()
+  const { mutateAsync: logout, isPending: isLogoutPending } =
+    useLogoutMutation()
   const { isMobile } = useSidebar()
+  const navigate = useNavigate()
+
+  const selectedShop =
+    shops?.find(shop => shop.id === selectedShopId) ?? shops?.[0] ?? null
+
+  const handleLogout = async () => {
+    await logout()
+  }
 
   return (
     <Sidebar className="absolute h-[calc(100dvh-80px)]" collapsible="icon">
@@ -64,9 +75,9 @@ export function SidebarProfile() {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground flex items-center gap-3"
             >
-              <UserAvatar imagePath={selectedVersion.shopImage} />
-              <span className="font-medium line-clamp-1">
-                {selectedVersion.title}
+              <UserAvatar imagePath={selectedShop?.picture ?? ''} />
+              <span className="line-clamp-1 font-medium">
+                {selectedShop?.title ?? 'Магазин не выбран'}
               </span>
               <ChevronsUpDown className="ml-auto" />
             </SidebarMenuButton>
@@ -76,43 +87,53 @@ export function SidebarProfile() {
             align="start"
             side={isMobile ? 'bottom' : 'right'}
           >
-            {profileNavData.shops.map((shop) => (
-              <DropdownMenuItem
-                key={shop.title}
-                onSelect={() => setSelectedVersion(shop)}
-              >
-                <div className="flex items-center gap-5 line-clamp-1">
-                  <UserAvatar imagePath={shop.shopImage} />
-                  <span className="text-base ">{shop.title}</span>
-                </div>
+            {shops?.length ? (
+              shops.map(shop => (
+                <DropdownMenuItem
+                  key={shop.id}
+                  onSelect={() => setSelectedShopId(shop.id)}
+                >
+                  <div className="flex items-center gap-5 line-clamp-1">
+                    <UserAvatar imagePath={shop.picture ?? ''} />
+                    <span className="text-base">{shop.title}</span>
+                  </div>
 
-                {shop.title === selectedVersion.title && (
-                  <Check className="ml-auto" />
-                )}
+                  {shop.id === selectedShop?.id && (
+                    <Check className="ml-auto" />
+                  )}
+                </DropdownMenuItem>
+              ))
+            ) : (
+              <DropdownMenuItem disabled>
+                У вас пока нет магазинов
               </DropdownMenuItem>
-            ))}
+            )}
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="gap-5">
-              <Plus className="size-5 " />
-              <Link to={ROUTES.profile.shops.create}>Создать магазин</Link>
+            <DropdownMenuItem
+              className="gap-5"
+              onSelect={() => navigate(ROUTES.profile.shops.create)}
+            >
+              <Plus className="size-5" />
+              <span>Создать магазин</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarHeader>
+
       <SidebarContent>
-        {profileNavData.navMain.map((item) => (
-          <SidebarGroup key={item.title}>
-            <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
+        {profileNavData.navMain.map(group => (
+          <SidebarGroup key={group.title}>
+            <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {item.items.map((item) => (
+                {group.items.map(item => (
                   <Link key={item.title} to={item.url} tabIndex={-1}>
                     <SidebarMenuItem>
                       <SidebarMenuButton tooltip={item.title}>
                         {item.icon}
                         <span>{item.title}</span>
                       </SidebarMenuButton>
-                      {item.isCreated && (
+                      {item.isCreated && item.createPath && (
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <SidebarMenuAction
@@ -145,6 +166,7 @@ export function SidebarProfile() {
           </SidebarGroup>
         ))}
       </SidebarContent>
+
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -154,10 +176,14 @@ export function SidebarProfile() {
                   size="lg"
                   className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                 >
-                  <UserAvatar imagePath={user?.picture ? user.picture : ''} />
+                  <UserAvatar imagePath={user?.picture ?? ''} />
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-medium">{user?.name}</span>
-                    <span className="truncate text-xs">{user?.email}</span>
+                    <span className="truncate font-medium">
+                      {user?.name ?? 'Пользователь'}
+                    </span>
+                    <span className="truncate text-xs">
+                      {user?.email ?? 'Нет почты'}
+                    </span>
                   </div>
                   <ChevronsUpDown className="ml-auto size-4" />
                 </SidebarMenuButton>
@@ -171,30 +197,36 @@ export function SidebarProfile() {
                 <DropdownMenuLabel className="p-0 font-normal">
                   <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                     <Avatar className="h-8 w-8 rounded-lg">
-                      <AvatarImage src={userAvatar} />
+                      <AvatarImage src={user?.picture ?? ''} />
                       <AvatarFallback className="rounded-lg">
                         <UserRoundX size={20} />
                       </AvatarFallback>
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-medium">Egor</span>
+                      <span className="truncate font-medium">
+                        {user?.name ?? 'Пользователь'}
+                      </span>
                       <span className="truncate text-xs">
-                        leskovegor490@gmail.com
+                        {user?.email ?? 'Нет почты'}
                       </span>
                     </div>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  <DropdownMenuItem>
-                    <Sparkles />
-                    Обновить до Pro
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem
+                  onSelect={() => navigate(ROUTES.profile.root)}
+                  className="gap-2"
+                >
+                  <Settings size={16} />
+                  <span>Настройки аккаунта</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onSelect={handleLogout}
+                  disabled={isLogoutPending}
+                  className="gap-2"
+                >
                   <LogOut />
-                  Выйти
+                  <span>{isLogoutPending ? 'Выход...' : 'Выйти'}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
