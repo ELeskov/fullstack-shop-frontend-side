@@ -8,6 +8,7 @@ import {
   LogOut,
   Plus,
   Settings,
+  ShieldCheck,
   UserRoundX,
 } from 'lucide-react'
 
@@ -61,13 +62,17 @@ export function SidebarProfile() {
 
   const selectedShop =
     shops?.find(shop => shop.id === selectedShopId) ?? shops?.[0] ?? null
+  const isAdmin = user?.role === 'ADMIN'
 
   const handleLogout = async () => {
     await logout()
   }
 
   return (
-    <Sidebar className="absolute h-[calc(100dvh-80px)]" collapsible="icon">
+    <Sidebar
+      className="relative h-[calc(100dvh-80px)] max-h-[calc(100dvh-80px)] overflow-hidden"
+      collapsible="icon"
+    >
       <SidebarHeader>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -121,6 +126,24 @@ export function SidebarProfile() {
       </SidebarHeader>
 
       <SidebarContent>
+        {isAdmin ? (
+          <SidebarGroup>
+            <SidebarGroupLabel>Платформа</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <Link to={ROUTES.admin.root} tabIndex={-1}>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton tooltip="Админ-панель">
+                      <ShieldCheck />
+                      <span>Админ-панель</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </Link>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        ) : null}
+
         {profileNavData.navMain.map(group => (
           <SidebarGroup key={group.title}>
             <SidebarGroupLabel>{group.title}</SidebarGroupLabel>

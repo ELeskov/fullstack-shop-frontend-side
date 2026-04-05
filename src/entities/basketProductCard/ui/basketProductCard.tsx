@@ -1,16 +1,20 @@
+import { Link } from 'react-router'
+
+import NumberFlow from '@number-flow/react'
 import clsx from 'clsx'
 import { ExternalLink, Heart, Minus, Plus, Trash2 } from 'lucide-react'
-import type { SchemaBasketItemDto } from '@/shared/api/api-endpoints'
-import NumberFlow from '@number-flow/react'
-import { Checkbox } from '@/shared/ui/components/ui/checkbox'
 
-import s from './BasketProductCard.module.scss'
+import type { SchemaBasketItemDto } from '@/shared/api/api-endpoints'
 import {
   useAddProductToBasket,
   useChangeProductSelect,
   useDecrementProductFromBasket,
 } from '@/shared/api/basket'
 import { useDeleteProductFromBasket } from '@/shared/api/basket'
+import { ROUTES } from '@/shared/config'
+import { Checkbox } from '@/shared/ui/components/ui/checkbox'
+
+import s from './BasketProductCard.module.scss'
 
 type BasketProductCardProps = SchemaBasketItemDto
 
@@ -58,7 +62,10 @@ export function BasketProductCard({
 
       <div className={s['basket-item__middle']}>
         <div className={s['basket-item__info']}>
-          <h3 className={s['basket-item__title']}>{title}</h3>
+          <Link to={ROUTES.product.id(productId)}>
+            <span className={s['basket-item__title']}>{title}</span>
+          </Link>
+
           {color && (
             <div className={s['basket-item__props']}>
               <span>{color.title}</span>

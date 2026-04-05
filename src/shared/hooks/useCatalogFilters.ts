@@ -17,7 +17,7 @@ export function useCatalogFilters() {
   type filtersKey = keyof typeof filters
 
   const setParam = (key: filtersKey, value: string) => {
-    setSearchParams((prev) => {
+    setSearchParams(prev => {
       const next = new URLSearchParams(prev)
       value ? next.set(key, value) : next.delete(key)
       return next
@@ -25,10 +25,10 @@ export function useCatalogFilters() {
   }
 
   const setArrayParam = (key: filtersKey, values: string[]) => {
-    setSearchParams((prev) => {
+    setSearchParams(prev => {
       const next = new URLSearchParams(prev)
       next.delete(key)
-      values.forEach((v) => next.append(key, v))
+      values.forEach(v => next.append(key, v))
       return next
     })
   }

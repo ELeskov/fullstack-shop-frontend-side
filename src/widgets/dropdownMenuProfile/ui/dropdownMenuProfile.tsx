@@ -10,11 +10,12 @@ import {
   Settings,
   ShoppingBag,
   ShoppingBasket,
+  ShieldCheck,
   User,
   UserStar,
 } from 'lucide-react'
 
-import { useLogoutMutation } from '@/shared/api/account'
+import { useGetMe, useLogoutMutation } from '@/shared/api'
 import { ROUTES } from '@/shared/config'
 import {
   DropdownMenu,
@@ -32,7 +33,9 @@ import {
 import { Separator } from '@/shared/ui/components/ui/separator'
 
 export function DropdownMenuProfile() {
+  const { data: user } = useGetMe()
   const { mutateAsync } = useLogoutMutation()
+  const isAdmin = user?.role === 'ADMIN'
 
   return (
     <DropdownMenu>
@@ -44,6 +47,14 @@ export function DropdownMenuProfile() {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56 mx-2.5" align="start">
         <DropdownMenuGroup>
+          {isAdmin ? (
+            <Link to={ROUTES.admin.root}>
+              <DropdownMenuItem className="hover:text-amber-300!">
+                <ShieldCheck />
+                Админ-панель
+              </DropdownMenuItem>
+            </Link>
+          ) : null}
           <Link to={ROUTES.profile.root}>
             <DropdownMenuItem className="hover:text-blue-400!">
               <User />

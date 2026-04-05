@@ -2,35 +2,42 @@
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  gap: rem(30);
+  gap: rem(22);
   overflow: hidden;
 
   &__header {
     display: flex;
     flex-direction: column;
-    gap: rem(15);
+    gap: rem(12);
+    width: 100%;
   }
 
   &__badge {
     transition: all 0.2s ease;
 
     &:hover {
-      transition: all 0.2s ease;
       background-color: rgb(77 77 77);
     }
   }
 
   &__title {
-    @include fluid-text(22, 18);
+    @include fluid-text(26, 20);
 
-    font-weight: 600;
+    font-weight: 700;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     line-clamp: 2;
     overflow: hidden;
     text-overflow: ellipsis;
-    word-spacing: 0;
+  }
+
+  &__description {
+    @include fluid-text(15, 14);
+
+    color: rgb(161 161 170);
+    line-height: 1.55;
+    max-width: 95%;
   }
 
   &__review,
@@ -39,6 +46,14 @@
     align-items: center;
     gap: rem(10);
     font-size: rem(14);
+  }
+
+  &__common-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: rem(12);
   }
 
   &__review-link {
@@ -50,9 +65,13 @@
   &__option {
     display: flex;
     flex-direction: column;
-    gap: rem(25);
+    gap: rem(16);
     width: 100%;
-    padding: rem(10);
-    border-radius: rem(15);
+  }
+
+  &__empty-option {
+    @include fluid-text(14, 13);
+
+    color: rgb(161 161 170);
   }
 }

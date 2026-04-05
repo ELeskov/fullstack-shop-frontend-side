@@ -1014,6 +1014,12 @@ export interface components {
             /** @description Изображения товара (до 10 штук) */
             files?: string[];
         };
+        ProductShopResponseDto: {
+            /** @example uuid-col */
+            id: string;
+            /** @example Shop */
+            title: string;
+        };
         ProductCategoryResponseDto: {
             /** @example uuid-cat */
             id: string;
@@ -1062,8 +1068,7 @@ export interface components {
              *     ]
              */
             images: string[];
-            /** @example uuid-shop */
-            shopId: string;
+            shop?: components["schemas"]["ProductShopResponseDto"];
             /** @example uuid-category */
             categoryId: string;
             /** @example uuid-color */
@@ -1233,6 +1238,7 @@ export type SchemaCreateColorDto = components['schemas']['CreateColorDto'];
 export type SchemaProductOptionDto = components['schemas']['ProductOptionDto'];
 export type SchemaGroupOptionDto = components['schemas']['GroupOptionDto'];
 export type SchemaCreateProductDto = components['schemas']['CreateProductDto'];
+export type SchemaProductShopResponseDto = components['schemas']['ProductShopResponseDto'];
 export type SchemaProductCategoryResponseDto = components['schemas']['ProductCategoryResponseDto'];
 export type SchemaProductColorResponseDto = components['schemas']['ProductColorResponseDto'];
 export type SchemaProductOptionResponseDto = components['schemas']['ProductOptionResponseDto'];

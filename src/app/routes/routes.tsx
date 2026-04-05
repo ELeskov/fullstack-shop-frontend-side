@@ -1,7 +1,11 @@
-import { createBrowserRouter } from 'react-router'
+import { createBrowserRouter, Navigate } from 'react-router'
 
+import { AdminLayout } from '@/app/layout/adminLayout'
 import { MainLayout } from '@/app/layout/mainLayout'
 
+import { AdminProductsPage } from '@/pages/adminProductsPage'
+import { AdminShopsPage } from '@/pages/adminShopsPage'
+import { AdminUsersPage } from '@/pages/adminUsersPage'
 import { BasketPage } from '@/pages/basketPage'
 import { CatalogPage } from '@/pages/catalogPage'
 import { CategoryPage } from '@/pages/categoryPage'
@@ -74,6 +78,32 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.product.path,
         element: <ProductPage />,
+      },
+    ],
+  },
+  {
+    element: (
+      <ProtectedRoute allowedRoles={['ADMIN']} loaderMode="permissions">
+        <AdminLayout />
+      </ProtectedRoute>
+    ),
+    errorElement: <FallBack />,
+    children: [
+      {
+        path: ROUTES.admin.root,
+        element: <Navigate to={ROUTES.admin.users} replace />,
+      },
+      {
+        path: ROUTES.admin.users,
+        element: <AdminUsersPage />,
+      },
+      {
+        path: ROUTES.admin.shops,
+        element: <AdminShopsPage />,
+      },
+      {
+        path: ROUTES.admin.products,
+        element: <AdminProductsPage />,
       },
     ],
   },

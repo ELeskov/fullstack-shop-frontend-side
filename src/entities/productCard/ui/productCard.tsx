@@ -25,7 +25,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
   const { isFavorite } = product
 
   if (!product) {
-    return <span>Загрузка1</span>
+    return <span>Загрузка</span>
   }
 
   return (

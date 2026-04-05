@@ -1,14 +1,16 @@
+import { motion } from 'motion/react'
+
 import { BasketProductCard } from '@/entities/basketProductCard'
-import { Checkbox } from '@/shared/ui/components/ui/checkbox'
-import { Badge } from '@/shared/ui/components/ui/badge'
+
 import { useChangeAllProductSelect, useGetBasket } from '@/shared/api/basket'
+import { ROUTES } from '@/shared/config'
+import { calculateBasketStats } from '@/shared/helpers'
+import { Badge } from '@/shared/ui/components/ui/badge'
+import { Checkbox } from '@/shared/ui/components/ui/checkbox'
+import { EmptyData } from '@/shared/ui/emptyData'
+import { LoadingData } from '@/shared/ui/loadingData'
 
 import s from './BasketProductsList.module.scss'
-import { calculateBasketStats } from '@/shared/helpers'
-import { LoadingData } from '@/shared/ui/loadingData'
-import { EmptyData } from '@/shared/ui/emptyData'
-import { ROUTES } from '@/shared/config'
-import { motion } from 'motion/react'
 
 export function BasketProductsList() {
   const { data: basket, isLoading } = useGetBasket()
@@ -25,7 +27,7 @@ export function BasketProductsList() {
     return (
       <EmptyData
         title="Корзина пустая"
-        description="Сорее добавляйте товары в корзину и переходите к их оформлению"
+        description="Скорее добавляйте товары в корзину и переходите к их оформлению"
         linkText="К покупкам"
         linkTo={ROUTES.catalog}
       />

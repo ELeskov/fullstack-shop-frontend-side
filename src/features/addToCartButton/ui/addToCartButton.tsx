@@ -1,11 +1,11 @@
-import { CustomButton } from '@/shared/ui/customButton'
-
-import s from './addToCartButton.module.scss'
 import {
   useAddProductToBasket,
   useDecrementProductFromBasket,
 } from '@/shared/api/basket'
 import { useGetQuantityByProductId } from '@/shared/api/basket/useGetQuantityByProductId'
+import { CustomButton } from '@/shared/ui/customButton'
+
+import s from './addToCartButton.module.scss'
 
 export function AddToCartButton({ productId }: { productId: string }) {
   const { data: product } = useGetQuantityByProductId(productId)

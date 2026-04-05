@@ -1,4 +1,4 @@
-import { ProductSummaryButtons } from '@/features/productSummaryButtons'
+import { AddToCartButton } from '@/features/addToCartButton'
 
 import type { SchemaGroupOptionResponseDto } from '@/shared/api/api-endpoints'
 import { Badge } from '@/shared/ui/components/ui/badge'
@@ -17,17 +17,22 @@ import s from './productMoreInfoSheet.module.scss'
 
 type ProductMoreInfoSheetProps = {
   optionsGroup: SchemaGroupOptionResponseDto[]
+  productId: string
 }
+
 export function ProductMoreInfoSheet({
   optionsGroup,
+  productId,
 }: ProductMoreInfoSheetProps) {
+  const normalizedOptionsGroup = Array.isArray(optionsGroup) ? optionsGroup : []
+
   return (
     <div className={s['product-more-info-sheet']}>
       <Sheet>
         <SheetTrigger asChild>
           <Badge
             variant={'secondary'}
-            className="cursor-pointer hover:bg-white/15 transition-all"
+            className={s['product-more-info-sheet__trigger']}
           >
             Характеристики и описание
           </Badge>
@@ -35,24 +40,42 @@ export function ProductMoreInfoSheet({
 
         <SheetContent
           side="right"
-          className="px-4 min-w-145 max-lg:min-w-100 flex flex-col"
+          className={s['product-more-info-sheet__content']}
         >
-          <ScrollArea className="h-full px-6 pb-6 max-lg:px-0">
-            <SheetHeader className="px-0">
-              <SheetTitle className="text-2xl!">
-                Характеристики и описание
-              </SheetTitle>
-            </SheetHeader>
-            {optionsGroup.map(({ options, groupName }, i) => (
-              <section key={i}>
-                <h3 className="py-2 pt-4">{groupName}</h3>
-                <ProductTableOption mainOptionsGroup={options} />
-              </section>
-            ))}
-            <SheetFooter className="px-0 sticky bottom-0 z-50 bg-black mt-3">
-              <ProductSummaryButtons />
-            </SheetFooter>
+          <SheetHeader className={s['product-more-info-sheet__header']}>
+            <SheetTitle className={s['product-more-info-sheet__title']}>
+              Характеристики и описание
+            </SheetTitle>
+          </SheetHeader>
+
+          <ScrollArea className={s['product-more-info-sheet__scroll']}>
+            {normalizedOptionsGroup.length > 0 ? (
+              normalizedOptionsGroup.map(
+                ({ options, groupName, id }, index) => (
+                  <section
+                    key={id ?? `${groupName}-${index}`}
+                    className={s['product-more-info-sheet__section']}
+                  >
+                    <h3 className={s['product-more-info-sheet__section-title']}>
+                      {groupName || 'Характеристики'}
+                    </h3>
+                    <ProductTableOption
+                      mainOptionsGroup={options ?? []}
+                      fullmode
+                    />
+                  </section>
+                ),
+              )
+            ) : (
+              <p className={s['product-more-info-sheet__empty']}>
+                Дополнительные характеристики отсутствуют.
+              </p>
+            )}
           </ScrollArea>
+
+          <SheetFooter className={s['product-more-info-sheet__footer']}>
+            <AddToCartButton productId={productId} />
+          </SheetFooter>
         </SheetContent>
       </Sheet>
     </div>

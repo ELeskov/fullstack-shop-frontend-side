@@ -1,6 +1,7 @@
 export * from './account'
+export * from './admin'
 export type { paths as apiEndpoints } from './api-endpoints'
 export * from './category'
 export * from './color'
 export * from './shop'
-export * from './user'
+export * from './users'

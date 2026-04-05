@@ -1,0 +1,22 @@
+.admin-coming-soon {
+  padding-inline: rem(8);
+
+  &__card {
+    border: 1px solid rgb(255 255 255 / 8%);
+    border-radius: rem(12);
+    background: rgb(24 24 27 / 60%);
+    padding: rem(18);
+    display: grid;
+    gap: rem(8);
+  }
+
+  &__title {
+    font-size: rem(20);
+    font-weight: 600;
+  }
+
+  &__description {
+    color: rgb(212 212 216);
+    line-height: 1.35;
+  }
+}

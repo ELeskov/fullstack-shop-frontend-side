@@ -5,6 +5,11 @@ export const ROUTES = {
   login: '/login',
   signup: '/signup',
   catalog: '/catalog',
+  admin: createRoutes('/admin', {
+    users: '/users',
+    shops: '/shops',
+    products: '/products',
+  }),
   product: createRoutes('/product', {
     id: (id: string) => `${id}`,
     path: '/:id',

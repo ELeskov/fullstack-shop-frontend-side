@@ -1,20 +1,31 @@
 import clsx from 'clsx'
 
-import { ProductSummaryButtons } from '@/features/productSummaryButtons'
+import { AddToCartButton } from '@/features/addToCartButton'
+
+import type { SchemaProductResponseDto } from '@/shared/api/api-endpoints'
 
 import s from './productMobileSummary.module.scss'
 
-export const ProductMobileSummary = () => {
+type ProductMobileSummaryProps = {
+  product: SchemaProductResponseDto
+}
+
+export const ProductMobileSummary = ({
+  product,
+}: ProductMobileSummaryProps) => {
+  const formattedPrice = new Intl.NumberFormat('ru-RU').format(
+    product.price ?? 0,
+  )
+
   return (
     <div className={clsx(s['product-mobile-summary'], 'visible-laptop')}>
       <div className={s['product-mobile-summary__price']}>
         <span className={s['product-mobile-summary__price-current']}>
-          3 920 ₽
+          {formattedPrice} ₽
         </span>
-        <span className={s['product-mobile-summary__price-old']}>4 512 ₽</span>
       </div>
 
-      <ProductSummaryButtons />
+      <AddToCartButton productId={product.id} />
     </div>
   )
 }
