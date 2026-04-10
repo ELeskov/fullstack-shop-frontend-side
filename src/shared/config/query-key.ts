@@ -57,4 +57,13 @@ export const QUERY_KEY = {
   ADD_TO_FAVORITES: 'add_to_favorites',
   DELETE_FROM_FAVORITES: 'delete_from_favorites',
   GET_USER_FAVORITES: 'get_user_favorites',
+
+  CREATE_ORDER_FROM_BASKET: 'create_order_from_basket',
+  GET_ORDERS: 'get_orders',
+  GET_ORDER_BY_ID: 'get_order_by_id',
+  PAY_ORDER: 'pay_order',
+
+  CREATE_REVIEW: 'create_review',
+  GET_PRODUCT_REVIEWS: 'GET_PRODUCT_REVIEWS',
+  GET_SHOP_REVIEWS: 'GET_SHOP_REVIEWS',
 } as const

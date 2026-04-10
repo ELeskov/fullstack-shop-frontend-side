@@ -15,11 +15,12 @@ export const useLogoutMutation = () => {
     mutationFn: async () => {
       return await apiClient.POST('/api/account/logout')
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.success('Вы успешно вышли')
       navigate(ROUTES.login, { replace: true })
+      await queryClient.invalidateQueries({ queryKey: [QUERY_KEY.ME] })
     },
-    onError: (err) => {
+    onError: err => {
       toast.error(err.message)
     },
     onSettled: async () => {

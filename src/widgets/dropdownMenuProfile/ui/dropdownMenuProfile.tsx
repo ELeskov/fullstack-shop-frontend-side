@@ -7,6 +7,7 @@ import {
   GalleryHorizontalEnd,
   Heart,
   LogOut,
+  ReceiptText,
   Settings,
   ShoppingBag,
   ShoppingBasket,
@@ -67,10 +68,16 @@ export function DropdownMenuProfile() {
               Избранные
             </DropdownMenuItem>
           </Link>
-          <Link to={ROUTES.profile.orders}>
+          <Link to={ROUTES.profile.purchase}>
             <DropdownMenuItem className="hover:text-green-400!">
               <ShoppingBag />
               Покупки
+            </DropdownMenuItem>
+          </Link>
+          <Link to={ROUTES.profile.orders}>
+            <DropdownMenuItem className="hover:text-cyan-400!">
+              <ReceiptText />
+              Заказы
             </DropdownMenuItem>
           </Link>
           <Link to={ROUTES.profile.basket}>

@@ -57,7 +57,7 @@ function ProductDeleteDialog({
 
   const handleDelete = async () => {
     await deleteProduct({
-      shopId: product.shop!.id,
+      shopId: product.shop?.id,
       productId: product.id,
     })
     onOpenChange(false)

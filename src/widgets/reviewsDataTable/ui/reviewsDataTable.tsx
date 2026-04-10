@@ -3,6 +3,8 @@ import { useMemo, useState } from 'react'
 import { createColumnHelper } from '@tanstack/react-table'
 import { ArrowUpDown } from 'lucide-react'
 
+import { useGetShopReviews } from '@/shared/api'
+import { loadSelectedShopId } from '@/shared/helpers'
 import { Button } from '@/shared/ui/components/ui/button'
 import {
   Dialog,
@@ -20,6 +22,8 @@ import {
   SelectValue,
 } from '@/shared/ui/components/ui/select'
 import { DataTable } from '@/shared/ui/dataTable'
+import { EmptyData } from '@/shared/ui/emptyData'
+import { LoadingData } from '@/shared/ui/loadingData'
 
 import s from './reviewsDataTable.module.scss'
 
@@ -32,55 +36,38 @@ type ReviewTableRow = {
   createdAt: string
 }
 
-const mockReviews: ReviewTableRow[] = [
-  {
-    id: 'review-1',
-    productTitle: 'Крючок под стол для сумок',
-    authorName: 'Иван Петров',
-    rating: 3,
-    text: 'Удобный крючок, держится хорошо. Для тяжелого рюкзака хотелось бы более толстый металл.',
-    createdAt: '2026-03-24T12:10:00.000Z',
-  },
-  {
-    id: 'review-2',
-    productTitle: 'Настольная лампа LED',
-    authorName: 'Мария Соколова',
-    rating: 5,
-    text: 'Очень понравилась, особенно регулировка яркости и цветовой температуры.',
-    createdAt: '2026-03-26T14:20:00.000Z',
-  },
-  {
-    id: 'review-3',
-    productTitle: 'Настольная лампа LED',
-    authorName: 'Алексей Волков',
-    rating: 4,
-    text: '',
-    createdAt: '2026-03-27T09:00:00.000Z',
-  },
-  {
-    id: 'review-4',
-    productTitle: 'Подставка для ноутбука',
-    authorName: 'Екатерина Белова',
-    rating: 2,
-    text: 'Материал неплохой, но угол наклона мне не подошел.',
-    createdAt: '2026-03-29T17:40:00.000Z',
-  },
-]
-
 const columnHelper = createColumnHelper<ReviewTableRow>()
 
 export function ReviewsDataTable() {
   const [selectedProduct, setSelectedProduct] = useState('all')
   const [selectedRating, setSelectedRating] = useState('all')
   const [openedReview, setOpenedReview] = useState<ReviewTableRow | null>(null)
+  const shopId = loadSelectedShopId()
+
+  const { data, isLoading, isError } = useGetShopReviews(shopId ?? '')
+
+  const rows = useMemo<ReviewTableRow[]>(() => {
+    if (!data) {
+      return []
+    }
+
+    return data.map(review => ({
+      id: review.id,
+      productTitle: review.product.title,
+      authorName: review.author.name,
+      rating: review.rating,
+      text: review.text,
+      createdAt: review.createdAt,
+    }))
+  }, [data])
 
   const productOptions = useMemo(
-    () => [...new Set(mockReviews.map(review => review.productTitle))],
-    [],
+    () => [...new Set(rows.map(review => review.productTitle))],
+    [rows],
   )
 
   const filteredReviews = useMemo(() => {
-    return mockReviews.filter(review => {
+    return rows.filter(review => {
       const matchProduct =
         selectedProduct === 'all' || review.productTitle === selectedProduct
 
@@ -89,7 +76,7 @@ export function ReviewsDataTable() {
 
       return matchProduct && matchRating
     })
-  }, [selectedProduct, selectedRating])
+  }, [rows, selectedProduct, selectedRating])
 
   const defaultColumns = [
     columnHelper.accessor('authorName', {
@@ -195,6 +182,28 @@ export function ReviewsDataTable() {
     }),
   ]
 
+  if (isLoading) {
+    return <LoadingData />
+  }
+
+  if (isError) {
+    return (
+      <EmptyData
+        title="Не удалось загрузить отзывы"
+        description="Попробуйте обновить страницу."
+      />
+    )
+  }
+
+  if (!rows.length) {
+    return (
+      <EmptyData
+        title="Отзывов пока нет"
+        description="Когда покупатели оставят отзывы, они появятся здесь."
+      />
+    )
+  }
+
   return (
     <>
       <section className={s['reviews-data-table']}>
@@ -250,7 +259,11 @@ export function ReviewsDataTable() {
           </DialogHeader>
 
           <div className="mb-2">
-            <Rating value={openedReview?.rating ?? 0} readOnly className="text-yellow-300">
+            <Rating
+              value={openedReview?.rating ?? 0}
+              readOnly
+              className="text-yellow-300"
+            >
               {Array.from({ length: 5 }).map((_, index) => (
                 <RatingButton key={index} />
               ))}
@@ -258,7 +271,7 @@ export function ReviewsDataTable() {
           </div>
 
           <p className={s['reviews-data-table__dialog-text']}>
-            {openedReview?.text}
+            {openedReview?.text || 'Без текста'}
           </p>
         </DialogContent>
       </Dialog>

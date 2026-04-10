@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Link } from 'react-router'
 
 import clsx from 'clsx'
@@ -8,12 +8,9 @@ import { toast } from 'sonner'
 
 import { AddToCartButton } from '@/features/addToCartButton'
 
+import { useCreateReviewMutation, useGetProductReviews } from '@/shared/api'
+import type { SchemaOrderResponseDto } from '@/shared/api/api-endpoints'
 import { ROUTES } from '@/shared/config'
-import type {
-  PurchaseItemReview,
-  PurchaseOrder,
-  PurchaseOrderItem,
-} from '@/shared/types/order.interface'
 import { Button } from '@/shared/ui/components/ui/button'
 import {
   Dialog,
@@ -28,6 +25,9 @@ import { Textarea } from '@/shared/ui/components/ui/textarea'
 
 import s from './purchaseCard.module.scss'
 
+type PurchaseOrder = SchemaOrderResponseDto
+type PurchaseOrderItem = SchemaOrderResponseDto['products'][number]
+
 interface PurchaseCardProps {
   order: PurchaseOrder
   item: PurchaseOrderItem
@@ -37,20 +37,37 @@ interface PurchaseCardProps {
 export function PurchaseCard({ order, item, className }: PurchaseCardProps) {
   const product = item.product
   const image = product?.images?.[0] ?? ''
-  const price = item.price.toLocaleString('ru-RU')
-  const productTitle = product?.title ?? 'Товар удалён'
+  const price = (product?.price ?? 0).toLocaleString('ru-RU')
+  const productTitle = product?.title ?? 'Товар удален'
   const description = product?.description ?? 'Описание недоступно'
   const canOpenProduct = Boolean(product?.id)
 
   const [isReviewDialogOpen, setIsReviewDialogOpen] = useState(false)
   const [reviewRating, setReviewRating] = useState(0)
   const [reviewText, setReviewText] = useState('')
-  const [isSendingReview, setIsSendingReview] = useState(false)
-  const [savedReview, setSavedReview] = useState<PurchaseItemReview | null>(
-    item.review ?? null,
+
+  const { data: productReviews } = useGetProductReviews(product?.id)
+
+  const savedReview = useMemo(() => {
+    if (!productReviews || !product?.id) {
+      return null
+    }
+
+    return (
+      productReviews.find(review => review.productId === product.id) ?? null
+    )
+  }, [productReviews, product?.id])
+
+  const { mutateAsync: createReview, isPending: isSendingReview } =
+    useCreateReviewMutation()
+
+  const canLeaveReview = Boolean(
+    order.orderStatus === 'PAYED' &&
+      product?.id &&
+      product?.shopId &&
+      !savedReview,
   )
 
-  const canLeaveReview = Boolean(product?.id && item.shopId && !savedReview)
   const currentRating = savedReview?.rating ?? 0
 
   const handleReviewDialogOpenChange = (open: boolean) => {
@@ -64,7 +81,9 @@ export function PurchaseCard({ order, item, className }: PurchaseCardProps) {
   const handleCardRatingChange = (value: number) => {
     if (!canLeaveReview) {
       if (savedReview) {
-        toast.info('Редактирование отзыва недоступно')
+        toast.info('Отзыв уже оставлен')
+      } else {
+        toast.info('Оставить отзыв пока нельзя')
       }
       return
     }
@@ -74,7 +93,7 @@ export function PurchaseCard({ order, item, className }: PurchaseCardProps) {
   }
 
   const handleSendReview = async () => {
-    if (!product?.id || !item.shopId) {
+    if (!product?.id || !product.shopId) {
       toast.error('Невозможно отправить отзыв: отсутствует товар или магазин')
       return
     }
@@ -86,29 +105,22 @@ export function PurchaseCard({ order, item, className }: PurchaseCardProps) {
       return
     }
 
-    setIsSendingReview(true)
-
     try {
-      // NOTE: API отзывов пока не подключен в frontend OpenAPI.
-      // Готовим payload под вашу модель Review.
-      const payload = {
+      await createReview({
         rating: reviewRating,
         text: text || '',
         productId: product.id,
-        shopId: item.shopId,
-      }
-
-      void payload
-
-      setSavedReview({
-        rating: reviewRating,
-        text: text || '',
+        shopId: product.shopId,
       })
+
       setReviewText('')
+      setReviewRating(0)
       setIsReviewDialogOpen(false)
       toast.success('Отзыв отправлен')
-    } finally {
-      setIsSendingReview(false)
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : 'Не удалось отправить отзыв',
+      )
     }
   }
 
@@ -181,10 +193,11 @@ export function PurchaseCard({ order, item, className }: PurchaseCardProps) {
                     <RatingButton key={index} />
                   ))}
                 </Rating>
+
                 <span className={s['purchase-card__review-caption']}>
                   {savedReview
-                    ? 'Отзыв оставлен, изменение недоступно'
-                    : 'Нажмите на звёзды, чтобы оставить отзыв'}
+                    ? 'Отзыв уже оставлен'
+                    : 'Нажмите на звезды, чтобы оставить отзыв'}
                 </span>
               </div>
 
@@ -225,6 +238,7 @@ export function PurchaseCard({ order, item, className }: PurchaseCardProps) {
                   {productTitle}
                 </span>
               </div>
+
               <Rating
                 value={reviewRating}
                 onValueChange={setReviewRating}
@@ -235,6 +249,7 @@ export function PurchaseCard({ order, item, className }: PurchaseCardProps) {
                 ))}
               </Rating>
             </DialogTitle>
+
             <DialogDescription className="text-zinc-400">
               Оцените товар и напишите короткий отзыв
             </DialogDescription>
@@ -259,6 +274,7 @@ export function PurchaseCard({ order, item, className }: PurchaseCardProps) {
             >
               Отмена
             </Button>
+
             <Button
               type="button"
               className="bg-blue-600 text-white hover:bg-blue-500"

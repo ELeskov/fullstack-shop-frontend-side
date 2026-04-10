@@ -102,13 +102,13 @@ export function DataTable<TData>({
           <DropdownMenuContent align="start">
             {table
               .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => (
+              .filter(column => column.getCanHide())
+              .map(column => (
                 <DropdownMenuCheckboxItem
                   key={column.id}
                   className="capitalize"
                   checked={column.getIsVisible()}
-                  onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                  onCheckedChange={value => column.toggleVisibility(!!value)}
                 >
                   {column.id}
                 </DropdownMenuCheckboxItem>
@@ -119,7 +119,7 @@ export function DataTable<TData>({
           <Input
             placeholder="Найти"
             value={String(searchableColumn.getFilterValue() ?? '')}
-            onChange={(e) => searchableColumn.setFilterValue(e.target.value)}
+            onChange={e => searchableColumn.setFilterValue(e.target.value)}
             className="max-w-sm"
           />
         )}
@@ -138,9 +138,9 @@ export function DataTable<TData>({
       <div className="rounded-md border min-w-0">
         <Table className="min-w-max">
           <TableHeader className="bg-muted">
-            {table.getHeaderGroups().map((headerGroup) => (
+            {table.getHeaderGroups().map(headerGroup => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
+                {headerGroup.headers.map(header => (
                   <TableHead key={header.id}>
                     {header.isPlaceholder
                       ? null
@@ -155,9 +155,9 @@ export function DataTable<TData>({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
+              table.getRowModel().rows.map(row => (
                 <TableRow key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
+                  {row.getVisibleCells().map(cell => (
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
@@ -193,14 +193,14 @@ export function DataTable<TData>({
               </Label>
               <Select
                 value={String(table.getState().pagination.pageSize)}
-                onValueChange={(value) => table.setPageSize(Number(value))}
+                onValueChange={value => table.setPageSize(Number(value))}
               >
                 <SelectTrigger id="rows-per-page" className="h-8 w-18 sm:w-20">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent side="top" align="center">
                   <SelectGroup>
-                    {[10, 20, 30, 40, 50].map((size) => (
+                    {[10, 20, 30, 40, 50].map(size => (
                       <SelectItem key={size} value={String(size)}>
                         {size}
                       </SelectItem>

@@ -386,6 +386,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/yoomoney/notification": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["YoomoneyController_notification"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/yoomoney": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["YoomoneyController_getMeth"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/color/{shopId}": {
         parameters: {
             query?: never;
@@ -665,6 +697,130 @@ export interface paths {
          * @description Удаляет указанный товар из избранного текущего пользователя
          */
         delete: operations["FavoritesController_removeFromFavorites"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/orders": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Получить мои заказы
+         * @description Возвращает список заказов текущего пользователя. Поддерживает фильтрацию по статусу и сортировку по дате создания.
+         */
+        get: operations["OrdersController_getMyOrders"];
+        put?: never;
+        /**
+         * Создание заказа из выбранных товаров корзины
+         * @description Создаёт заказ текущего пользователя на основе выбранных товаров в корзине. Рассчитывает итоговую сумму заказа, переносит товары из корзины в order_items и удаляет оформленные позиции из корзины.
+         */
+        post: operations["OrdersController_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/orders/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Получить заказ по ID
+         * @description Возвращает один заказ текущего пользователя по его идентификатору. Если заказ не существует или принадлежит другому пользователю, будет возвращена ошибка 404.
+         */
+        get: operations["OrdersController_getById"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/orders/{id}/pay": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Создать оплату заказа через YooKassa
+         * @description Создаёт платёж в YooKassa для заказа текущего пользователя и возвращает ссылку, на которую нужно перенаправить пользователя для оплаты.
+         */
+        post: operations["OrdersController_payOrder"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/reviews": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Создать отзыв на товар
+         * @description Создаёт отзыв текущего пользователя на товар. Отзыв можно оставить только на оплаченный купленный товар и только один раз на товар в рамках текущей логики.
+         */
+        post: operations["ReviewsController_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/reviews/product/{productId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Получить все отзывы по товару
+         * @description Возвращает список всех отзывов для указанного товара.
+         */
+        get: operations["ReviewsController_getByProductId"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/reviews/shop/{shopId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Получить все отзывы магазина
+         * @description Возвращает список всех отзывов для указанного магазина.
+         */
+        get: operations["ReviewsController_getByShopId"];
+        put?: never;
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -1203,6 +1359,250 @@ export interface components {
             /** Format: date-time */
             updatedAt: string;
         };
+        OrderColorResponseDto: {
+            /**
+             * @description ID цвета
+             * @example 3f7df2e0-4c37-4a19-b6bb-5bb1b7f0c321
+             */
+            id: string;
+            /**
+             * @description Название цвета
+             * @example Красный
+             */
+            title: string;
+            /**
+             * @description Значение цвета в HEX
+             * @example #FF0000
+             */
+            value: string;
+            /**
+             * @description ID магазина, которому принадлежит цвет
+             * @example f3a7dc57-8191-49d2-9f3e-baf53a6980c7
+             */
+            shopId: string;
+            /**
+             * Format: date-time
+             * @description Дата создания цвета
+             * @example 2026-04-06T10:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * Format: date-time
+             * @description Дата обновления цвета
+             * @example 2026-04-06T10:00:00.000Z
+             */
+            updatedAt: string;
+        };
+        OrderProductResponseDto: {
+            /**
+             * @description ID товара
+             * @example 44f9ec10-2f2d-4fe3-a5aa-c4f6f67f1111
+             */
+            id: string;
+            /**
+             * @description Название товара
+             * @example Футболка Oversize
+             */
+            title: string;
+            /**
+             * @description Описание товара
+             * @example Хлопковая футболка свободного кроя
+             */
+            description: string;
+            /**
+             * @description Цена товара
+             * @example 2500
+             */
+            price: number;
+            /**
+             * @description Массив изображений товара
+             * @example [
+             *       "https://example.com/images/product-1.jpg",
+             *       "https://example.com/images/product-2.jpg"
+             *     ]
+             */
+            images: string[];
+            /**
+             * @description ID магазина
+             * @example d8494a2f-06e9-486c-9c14-c1ed3d7a1111
+             */
+            shopId: string;
+            /**
+             * @description ID категории товара
+             * @example c3f24fb4-9677-4f08-a6c7-9e18d5d21111
+             */
+            categoryId: string;
+            /**
+             * @description ID цвета товара
+             * @example 3f7df2e0-4c37-4a19-b6bb-5bb1b7f0c321
+             */
+            colorId: Record<string, never> | null;
+            /**
+             * Format: date-time
+             * @description Дата создания товара
+             * @example 2026-04-06T10:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * Format: date-time
+             * @description Дата обновления товара
+             * @example 2026-04-06T10:00:00.000Z
+             */
+            updatedAt: string;
+            /** @description Цвет товара */
+            color: components["schemas"]["OrderColorResponseDto"] | null;
+        };
+        OrderItemResponseDto: {
+            /**
+             * @description Количество товара в заказе
+             * @example 2
+             */
+            quantity: number;
+            /** @description Товар в заказе */
+            product: components["schemas"]["OrderProductResponseDto"] | null;
+        };
+        OrderResponseDto: {
+            /**
+             * @description ID заказа
+             * @example e6de9db5-29bc-4708-8cc5-c6d7d7d31111
+             */
+            id: string;
+            /**
+             * @description Статус заказа
+             * @example PENDING
+             * @enum {string}
+             */
+            orderStatus: "PENDING" | "PAYMENT_PENDING" | "PAYED" | "CANCELED";
+            /**
+             * @description Общая сумма заказа
+             * @example 5000
+             */
+            total: number;
+            /**
+             * Format: date-time
+             * @description Дата создания заказа
+             * @example 2026-04-06T10:00:00.000Z
+             */
+            createdAt: string;
+            /** @description Список товаров в заказе */
+            products: components["schemas"]["OrderItemResponseDto"][];
+        };
+        PayOrderResponseDto: {
+            /**
+             * @description ID платежа в YooKassa
+             * @example 2419a771-000f-5000-9000-1edaf29243f2
+             */
+            paymentId: string;
+            /**
+             * @description Статус платежа в YooKassa
+             * @example pending
+             */
+            status: string;
+            /**
+             * @description Ссылка для перехода на страницу оплаты
+             * @example https://yoomoney.ru/checkout/payments/v2/contract?...
+             */
+            confirmationUrl: string;
+        };
+        CreateReviewDto: {
+            /**
+             * @description Текст отзыва
+             * @example Очень хороший товар, качество понравилось.
+             */
+            text: string;
+            /**
+             * @description Оценка от 1 до 5
+             * @example 5
+             */
+            rating: number;
+            /**
+             * @description ID товара
+             * @example 5fdf4fd7-9970-4d89-a26a-0e998c0c1111
+             */
+            productId: string;
+            /**
+             * @description ID магазина
+             * @example 1f8d1d7c-7d85-4ff8-93c3-f5fd872b1111
+             */
+            shopId: string;
+        };
+        ReviewAuthorResponseDto: {
+            /**
+             * @description ID пользователя
+             * @example a2f5d2d3-2d1f-49aa-bf5c-2cb0c2d51111
+             */
+            id: string;
+            /**
+             * @description Имя автора отзыва
+             * @example Егор
+             */
+            name: string;
+            /**
+             * @description Аватар пользователя
+             * @example https://example.com/avatar.jpg
+             */
+            picture: Record<string, never> | null;
+        };
+        ReviewProductResponseDto: {
+            /**
+             * @description ID товара
+             * @example 5fdf4fd7-9970-4d89-a26a-0e998c0c1111
+             */
+            id: string;
+            /**
+             * @description Название товара
+             * @example Настольная лампа LED
+             */
+            title: string;
+        };
+        ReviewResponseDto: {
+            /**
+             * @description ID отзыва
+             * @example 3f86b8d9-d7a1-438a-a4d2-8b0b3d8d1111
+             */
+            id: string;
+            /**
+             * @description Текст отзыва
+             * @example Очень понравился товар
+             */
+            text: string;
+            /**
+             * @description Оценка
+             * @example 5
+             */
+            rating: number;
+            /**
+             * @description ID пользователя
+             * @example a2f5d2d3-2d1f-49aa-bf5c-2cb0c2d51111
+             */
+            userId: string;
+            /**
+             * @description ID магазина
+             * @example 1f8d1d7c-7d85-4ff8-93c3-f5fd872b1111
+             */
+            shopId: string;
+            /**
+             * @description ID товара
+             * @example 5fdf4fd7-9970-4d89-a26a-0e998c0c1111
+             */
+            productId: string;
+            /**
+             * Format: date-time
+             * @description Дата создания
+             * @example 2026-04-08T12:00:00.000Z
+             */
+            createdAt: string;
+            /**
+             * Format: date-time
+             * @description Дата обновления
+             * @example 2026-04-08T12:00:00.000Z
+             */
+            updatedAt: string;
+            /** @description Автор отзыва */
+            author: components["schemas"]["ReviewAuthorResponseDto"];
+            /** @description Товар */
+            product: components["schemas"]["ReviewProductResponseDto"];
+        };
     };
     responses: never;
     parameters: never;
@@ -1257,6 +1657,15 @@ export type SchemaFavoriteItemColorDto = components['schemas']['FavoriteItemColo
 export type SchemaFavoriteItemProductDto = components['schemas']['FavoriteItemProductDto'];
 export type SchemaFavoriteItemDto = components['schemas']['FavoriteItemDto'];
 export type SchemaUserFavoritesResponseDto = components['schemas']['UserFavoritesResponseDto'];
+export type SchemaOrderColorResponseDto = components['schemas']['OrderColorResponseDto'];
+export type SchemaOrderProductResponseDto = components['schemas']['OrderProductResponseDto'];
+export type SchemaOrderItemResponseDto = components['schemas']['OrderItemResponseDto'];
+export type SchemaOrderResponseDto = components['schemas']['OrderResponseDto'];
+export type SchemaPayOrderResponseDto = components['schemas']['PayOrderResponseDto'];
+export type SchemaCreateReviewDto = components['schemas']['CreateReviewDto'];
+export type SchemaReviewAuthorResponseDto = components['schemas']['ReviewAuthorResponseDto'];
+export type SchemaReviewProductResponseDto = components['schemas']['ReviewProductResponseDto'];
+export type SchemaReviewResponseDto = components['schemas']['ReviewResponseDto'];
 export type $defs = Record<string, never>;
 export interface operations {
     ShopController_findAll: {
@@ -3242,6 +3651,40 @@ export interface operations {
             };
         };
     };
+    YoomoneyController_notification: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    YoomoneyController_getMeth: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     ColorController_create: {
         parameters: {
             query?: never;
@@ -3677,16 +4120,16 @@ export interface operations {
             query?: {
                 /** @description Список id категорий */
                 categoryIds?: string[];
+                /** @description Список id цветов */
+                colorIds?: string[];
+                /** @description Фильтр по бренду */
+                brandIds?: string[];
                 /** @description Минимальная цена */
                 minPrice?: number;
                 /** @description Максимальная цена */
                 maxPrice?: number;
-                /** @description Список id цветов */
-                colorIds?: string[];
                 /** @description Поиск по названию товара */
                 search?: string;
-                /** @description Фильтр по бренду */
-                brandIds?: string[];
                 /** @description Сортировка */
                 sort?: "price_desc" | "price_asc" | "newest";
             };
@@ -4624,6 +5067,503 @@ export interface operations {
                 };
                 content: {
                     "application/json": boolean;
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    OrdersController_getMyOrders: {
+        parameters: {
+            query?: {
+                /** @description Фильтр по статусу заказа */
+                status?: "PENDING" | "PAYMENT_PENDING" | "PAYED" | "CANCELED";
+                /** @description Сортировка по дате создания заказа */
+                sortByCreatedAt?: "asc" | "desc";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Список заказов успешно получен */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderResponseDto"][];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    OrdersController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Заказ успешно создан */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    OrdersController_getById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID заказа */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Заказ успешно получен */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    OrdersController_payOrder: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID заказа */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Платёж успешно создан */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayOrderResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ReviewsController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateReviewDto"];
+            };
+        };
+        responses: {
+            /** @description Отзыв успешно создан */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReviewResponseDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ReviewsController_getByProductId: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID товара */
+                productId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Список отзывов по товару */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReviewResponseDto"][];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ReviewsController_getByShopId: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID магазина */
+                shopId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Список отзывов магазина */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReviewResponseDto"][];
                 };
             };
             400: {

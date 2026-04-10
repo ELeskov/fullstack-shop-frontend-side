@@ -1,17 +1,33 @@
-import { CheckCircle2, Pencil } from 'lucide-react'
-
-import { CustomButton } from '@/shared/ui/customButton'
+import { useNavigate } from 'react-router'
 
 import NumberFlow from '@number-flow/react'
-import s from './BasketSummary.module.scss'
-import { useGetBasket } from '@/shared/api/basket'
-import { calculateBasketStats } from '@/shared/helpers'
-import { LoadingData } from '@/shared/ui/loadingData'
-import { EmptyData } from '@/shared/ui/emptyData'
+import { CheckCircle2, Pencil } from 'lucide-react'
 import { motion } from 'motion/react'
+import { toast } from 'sonner'
+
+import { useGetBasket } from '@/shared/api/basket'
+import { useCreateOrderFromBasketMutation } from '@/shared/api/order'
+import { ROUTES } from '@/shared/config'
+import { calculateBasketStats } from '@/shared/helpers'
+import { CustomButton } from '@/shared/ui/customButton'
+import { EmptyData } from '@/shared/ui/emptyData'
+import { LoadingData } from '@/shared/ui/loadingData'
+
+import s from './BasketSummary.module.scss'
+
 export function BasketSummary() {
+  const navigate = useNavigate()
   const { data: basket, isLoading } = useGetBasket()
+  const { mutateAsync: createOrderFromBasket, isPending: isCreatingOrder } =
+    useCreateOrderFromBasketMutation()
+
   const { totalQuantity, totalPrice } = calculateBasketStats(basket)
+
+  const handleCreateOrder = async () => {
+    await createOrderFromBasket()
+    toast.success('Заказ создан')
+    navigate(ROUTES.profile.orders)
+  }
 
   if (isLoading) {
     return <LoadingData />
@@ -73,7 +89,9 @@ export function BasketSummary() {
         <CustomButton
           variant={'default'}
           className={s['basket-summary__submit-btn']}
-          disabled={totalPrice === 0}
+          disabled={totalPrice === 0 || isCreatingOrder}
+          isLoading={isCreatingOrder}
+          onClick={handleCreateOrder}
         >
           Заказать
         </CustomButton>
