@@ -41,6 +41,7 @@ export const QUERY_KEY = {
   CREATE_PRODUCT: 'create_product',
   UPDATE_PRODUCT: 'update_product',
   GET_ALL_PRODUCTS: 'all_products',
+  GET_HITS_PRODUCTS: 'hits_products',
   GET_ALL_PRODUCT_WITH_FILTERS: 'all_product_with_filters',
   GET_PRODUCT_BY_ID: 'product',
   DELETE_PRODUCT: 'delete_product',
@@ -64,6 +65,8 @@ export const QUERY_KEY = {
   PAY_ORDER: 'pay_order',
 
   CREATE_REVIEW: 'create_review',
-  GET_PRODUCT_REVIEWS: 'GET_PRODUCT_REVIEWS',
-  GET_SHOP_REVIEWS: 'GET_SHOP_REVIEWS',
+  GET_PRODUCT_REVIEWS: 'get_product_reviews',
+  GET_SHOP_REVIEWS: 'get_shop_reviews',
+
+  GET_PROFILE_STATISTICS: 'get_profile_statistics',
 } as const

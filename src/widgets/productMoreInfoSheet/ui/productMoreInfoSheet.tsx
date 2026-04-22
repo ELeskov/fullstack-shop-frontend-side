@@ -1,11 +1,15 @@
 import { AddToCartButton } from '@/features/addToCartButton'
 
-import type { SchemaGroupOptionResponseDto } from '@/shared/api/api-endpoints'
+import type {
+  SchemaGroupOptionResponseDto,
+  SchemaProductResponseDto,
+} from '@/shared/api/api-endpoints'
 import { Badge } from '@/shared/ui/components/ui/badge'
 import { ScrollArea } from '@/shared/ui/components/ui/scroll-area'
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
@@ -17,12 +21,12 @@ import s from './productMoreInfoSheet.module.scss'
 
 type ProductMoreInfoSheetProps = {
   optionsGroup: SchemaGroupOptionResponseDto[]
-  productId: string
+  product: SchemaProductResponseDto
 }
 
 export function ProductMoreInfoSheet({
   optionsGroup,
-  productId,
+  product,
 }: ProductMoreInfoSheetProps) {
   const normalizedOptionsGroup = Array.isArray(optionsGroup) ? optionsGroup : []
 
@@ -72,9 +76,12 @@ export function ProductMoreInfoSheet({
               </p>
             )}
           </ScrollArea>
+          <SheetDescription className="whitespace-pre-wrap">
+            {product.description}
+          </SheetDescription>
 
           <SheetFooter className={s['product-more-info-sheet__footer']}>
-            <AddToCartButton productId={productId} />
+            <AddToCartButton productId={product.id} />
           </SheetFooter>
         </SheetContent>
       </Sheet>

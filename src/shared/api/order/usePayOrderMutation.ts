@@ -14,14 +14,11 @@ export const usePayOrderMutation = () => {
   return useMutation({
     mutationKey: ['orders', QUERY_KEY.PAY_ORDER],
     mutationFn: async (orderId: string) => {
-      const { data, error } = await apiClient.POST(
-        '/api/orders/{orderId}/pay',
-        {
-          params: {
-            path: { orderId },
-          },
+      const { data, error } = await apiClient.POST('/api/orders/{id}/pay', {
+        params: {
+          path: { id: orderId },
         },
-      )
+      })
 
       if (error) {
         throw new Error(error.message ?? 'Ошибка создания платежа')

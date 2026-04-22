@@ -108,7 +108,7 @@ export function UserSettingsPage() {
             <div className={s['account-settings-page__profile-info']}>
               <p className={s['account-settings-page__row-title']}>Аватарка</p>
               <p className={s['account-settings-page__row-description']}>
-                Форматы: JPEG, PNG, WEBP. Макс. размер: 10 МБ.
+                Форматы: JPG, JPEG, PNG, WEBP. Макс. размер: 10 МБ.
               </p>
             </div>
           </div>

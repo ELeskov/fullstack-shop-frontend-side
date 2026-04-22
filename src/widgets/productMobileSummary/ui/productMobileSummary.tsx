@@ -6,13 +6,11 @@ import type { SchemaProductResponseDto } from '@/shared/api/api-endpoints'
 
 import s from './productMobileSummary.module.scss'
 
-type ProductMobileSummaryProps = {
-  product: SchemaProductResponseDto
-}
-
 export const ProductMobileSummary = ({
   product,
-}: ProductMobileSummaryProps) => {
+}: {
+  product: SchemaProductResponseDto
+}) => {
   const formattedPrice = new Intl.NumberFormat('ru-RU').format(
     product.price ?? 0,
   )

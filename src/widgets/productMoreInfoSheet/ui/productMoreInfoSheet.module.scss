@@ -17,6 +17,7 @@
     gap: rem(10);
     border-left: rem(1) solid rgb(255 255 255 / 10%);
     background: rgb(5 5 5);
+    overflow-y: auto;
 
     @include tablet {
       width: 100vw;

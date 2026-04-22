@@ -24,6 +24,11 @@
     justify-content: space-between;
     column-gap: rem(20);
     height: rem(80);
+
+    @include tablet {
+      justify-content: center;
+      height: rem(72);
+    }
   }
 
   &-logo {
@@ -59,9 +64,108 @@
 
       @include hover {
         color: #fff;
-        filter: drop-shadow(0 0 7px oklch(100% 0.00011 271.152deg));
+        filter: drop-shadow(0 0 7px oklch(100% 0.0001 271.152deg));
       }
     }
+  }
+
+  &__search {
+    position: relative;
+    flex: 1 1 rem(400);
+    min-width: rem(240);
+    max-width: rem(460);
+
+    @include tablet {
+      flex: 1 1 auto;
+      min-width: 0;
+      max-width: none;
+    }
+  }
+
+  &__search-icon {
+    position: absolute;
+    top: 50%;
+    left: rem(12);
+    z-index: 1;
+    transform: translateY(-50%);
+    color: rgb(161 161 170);
+    pointer-events: none;
+  }
+
+  &__search-input {
+    height: rem(44);
+    border-radius: rem(10);
+    border: rem(1) solid rgb(255 255 255 / 16%);
+    color: rgb(244 244 245);
+    padding-inline: rem(40) rem(12);
+
+    &::placeholder {
+      color: rgb(161 161 170);
+    }
+  }
+
+  &__search-dropdown {
+    position: absolute;
+    top: calc(100% + rem(8));
+    left: 0;
+    z-index: 80;
+    width: 100%;
+    max-height: rem(304);
+    overflow-y: auto;
+    border: rem(1) solid rgb(255 255 255 / 14%);
+    border-radius: rem(12);
+    backdrop-filter: blur(rem(8));
+    box-shadow: 0 rem(20) rem(40) rgb(2 6 23 / 35%);
+  }
+
+  &__search-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__search-item {
+    display: flex;
+    align-items: center;
+    gap: rem(10);
+    padding: rem(8) rem(10);
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+
+    @include hover {
+      background-color: rgb(255 255 255 / 8%);
+    }
+  }
+
+  &__search-thumb,
+  &__search-thumb-placeholder {
+    flex: 0 0 auto;
+    width: rem(46);
+    border-radius: rem(8);
+  }
+
+  &__search-thumb {
+    object-fit: cover;
+    aspect-ratio: 3/ 4;
+    border: rem(1) solid rgb(255 255 255 / 14%);
+  }
+
+  &__search-thumb-placeholder {
+    border: rem(1) solid rgb(255 255 255 / 12%);
+    background: linear-gradient(
+      155deg,
+      rgb(148 163 184 / 35%),
+      rgb(71 85 105 / 45%)
+    );
+  }
+
+  &__search-name {
+    @include fluid-text(14, 13);
+
+    color: rgb(244 244 245);
+    line-height: 1.35;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__catalog-menu {
@@ -100,6 +204,7 @@
 
   &__catalog-overline {
     @include fluid-text(12, 11);
+
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: rgb(161 161 170);
@@ -107,6 +212,7 @@
 
   &__catalog-title {
     @include fluid-text(24, 20);
+
     font-weight: 700;
     color: rgb(250 250 250);
     line-height: 1.1;
@@ -114,6 +220,7 @@
 
   &__catalog-description {
     @include fluid-text(14, 12);
+
     color: rgb(212 212 216);
     line-height: 1.45;
   }
@@ -127,6 +234,7 @@
 
   &__catalog-chip {
     @include fluid-text(12, 11);
+
     border-radius: rem(999);
     border: rem(1) solid rgb(255 255 255 / 14%);
     padding: rem(3) rem(10);

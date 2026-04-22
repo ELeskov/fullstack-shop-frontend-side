@@ -41,7 +41,7 @@ export function ProductPage() {
       </div>
 
       <ProductMobileSummary product={product} />
-      <ProductReviews product={product} />
+      <ProductReviews productId={product.id} />
     </section>
   )
 }

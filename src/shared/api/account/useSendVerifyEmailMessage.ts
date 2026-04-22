@@ -14,7 +14,7 @@ export const useSendVerifyEmailMessage = () => {
     onSuccess: async () => {
       toast.info('Сообщение с подтверждением было отправлено на вашу почту.')
     },
-    onError: (err) => {
+    onError: err => {
       toast.error(err.message)
     },
   })

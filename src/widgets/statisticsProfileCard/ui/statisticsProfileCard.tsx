@@ -1,6 +1,7 @@
 import { BadgeRussianRuble, LayoutGrid, Package, Star } from 'lucide-react'
 import { motion } from 'motion/react'
 
+import { useGetProfileStatistics } from '@/shared/api/statistics'
 import SpotlightCard from '@/shared/ui/components/SpotlightCard'
 import {
   Card,
@@ -10,10 +11,34 @@ import {
   CardHeader,
   CardTitle,
 } from '@/shared/ui/components/ui/card'
+import { EmptyData } from '@/shared/ui/emptyData'
+import { LoadingData } from '@/shared/ui/loadingData'
 
 import s from './statisticsProfileCard.module.scss'
 
+const formatCurrency = (value: number) =>
+  new Intl.NumberFormat('ru-RU', {
+    style: 'currency',
+    currency: 'RUB',
+    maximumFractionDigits: 0,
+  }).format(value)
+
 export function StatisticsProfileCard() {
+  const { data, isLoading, isError } = useGetProfileStatistics('90d')
+
+  if (isLoading) {
+    return <LoadingData />
+  }
+
+  if (isError || !data) {
+    return (
+      <EmptyData
+        title="Не удалось загрузить сводную статистику"
+        description="Попробуйте обновить страницу."
+      />
+    )
+  }
+
   return (
     <div className={s['statistics-profile-card']}>
       <motion.div
@@ -31,23 +56,23 @@ export function StatisticsProfileCard() {
             <CardHeader>
               <CardDescription>Общая выручка</CardDescription>
               <CardTitle className="text-4xl font-semibold tabular-nums @[250px]/card:text-3xl">
-                $1, 224.1
+                {formatCurrency(data.summary.totalRevenue)}
               </CardTitle>
               <CardAction>
                 <BadgeRussianRuble />
               </CardAction>
             </CardHeader>
+
             <CardFooter className="flex-col items-start gap-1.5 text-sm">
               <div className="line-clamp-1 flex gap-2 font-medium">
-                Положительная динамика
+                Доход магазина
               </div>
-              <div className="text-muted-foreground">
-                За текущий отчетный период
-              </div>
+              <div className="text-muted-foreground">За последние 3 месяца</div>
             </CardFooter>
           </Card>
         </SpotlightCard>
       </motion.div>
+
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -63,21 +88,25 @@ export function StatisticsProfileCard() {
             <CardHeader>
               <CardDescription>Товары</CardDescription>
               <CardTitle className="text-4xl font-semibold tabular-nums @[250px]/card:text-3xl">
-                142
+                {data.summary.productsCount}
               </CardTitle>
               <CardAction>
                 <Package />
               </CardAction>
             </CardHeader>
+
             <CardFooter className="flex-col items-start gap-1.5 text-sm">
               <div className="line-clamp-1 flex gap-2 font-medium">
-                Стабильное количество
+                Товары в продаже
               </div>
-              <div className="text-muted-foreground">Постоянное обновление</div>
+              <div className="text-muted-foreground">
+                Актуальный ассортимент
+              </div>
             </CardFooter>
           </Card>
         </SpotlightCard>
       </motion.div>
+
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -93,21 +122,23 @@ export function StatisticsProfileCard() {
             <CardHeader>
               <CardDescription>Категории</CardDescription>
               <CardTitle className="text-4xl font-semibold tabular-nums @[250px]/card:text-3xl">
-                14
+                {data.summary.categoriesCount}
               </CardTitle>
               <CardAction>
                 <LayoutGrid />
               </CardAction>
             </CardHeader>
+
             <CardFooter className="flex-col items-start gap-1.5 text-sm">
               <div className="line-clamp-1 flex gap-2 font-medium">
-                Оптимальная структура
+                Структура каталога
               </div>
-              <div className="text-muted-foreground">Удобная навигация</div>
+              <div className="text-muted-foreground">Навигация по товарам</div>
             </CardFooter>
           </Card>
         </SpotlightCard>
       </motion.div>
+
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -123,17 +154,20 @@ export function StatisticsProfileCard() {
             <CardHeader>
               <CardDescription>Рейтинг</CardDescription>
               <CardTitle className="text-4xl font-semibold tabular-nums @[250px]/card:text-3xl">
-                4.8
+                {data.summary.averageRating.toFixed(1)}
               </CardTitle>
               <CardAction>
                 <Star />
               </CardAction>
             </CardHeader>
+
             <CardFooter className="flex-col items-start gap-1.5 text-sm">
               <div className="line-clamp-1 flex gap-2 font-medium">
-                Высокие оценки
+                Оценка покупателей
               </div>
-              <div className="text-muted-foreground">Довольные клиенты</div>
+              <div className="text-muted-foreground">
+                Средний рейтинг магазина
+              </div>
             </CardFooter>
           </Card>
         </SpotlightCard>

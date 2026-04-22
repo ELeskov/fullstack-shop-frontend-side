@@ -1,30 +1,13 @@
-import type { SchemaProductResponseDto } from '@/shared/api/api-endpoints'
+import { useGetProductReviews } from '@/shared/api'
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@/shared/ui/components/ui/avatar'
+import { Rating, RatingButton } from '@/shared/ui/components/ui/rating'
+import { LoadingData } from '@/shared/ui/loadingData'
 
 import s from './productReviews.module.scss'
-
-type ProductReview = {
-  id: string
-  text?: string | null
-  rating?: number | null
-  createdAt?: string | null
-  user?: {
-    name?: string | null
-    picture?: string | null
-  } | null
-}
-
-type ProductWithReviews = SchemaProductResponseDto & {
-  reviews?: ProductReview[] | null
-}
-
-type ProductReviewsProps = {
-  product: SchemaProductResponseDto
-}
 
 const formatReviewDate = (createdAt?: string | null) => {
   if (!createdAt) {
@@ -44,32 +27,32 @@ const formatReviewDate = (createdAt?: string | null) => {
   }).format(parsedDate)
 }
 
-export const ProductReviews = ({ product }: ProductReviewsProps) => {
-  const reviews = (product as ProductWithReviews).reviews ?? []
+export const ProductReviews = ({ productId }: { productId: string }) => {
+  const { data: reviews, isLoading } = useGetProductReviews(productId)
+
+  if (!reviews || isLoading) {
+    return <LoadingData />
+  }
 
   return (
     <section className={s['product-reviews']}>
       <h4 className={s['product-reviews__title']}>Отзывы</h4>
 
-      {reviews.length > 0 ? (
+      {reviews?.length > 0 ? (
         <ul className={s['product-reviews__list']}>
           {reviews.map(review => {
-            const authorName = review.user?.name?.trim() || 'Пользователь'
-            const reviewText =
-              review.text?.trim() || 'Пользователь оставил только оценку'
+            const authorName = review.author?.name?.trim() || 'Пользователь'
+            const reviewText = review.text?.trim() || ''
             const reviewDate = formatReviewDate(review.createdAt)
-            const ratingValue = Math.max(
-              0,
-              Math.min(5, Number(review.rating ?? 0)),
-            )
-              .toFixed(1)
-              .replace('.', ',')
+            const ratingValue = review.rating
 
             return (
               <li key={review.id} className={s['product-reviews__card']}>
                 <Avatar className={s['product-reviews__avatar']}>
-                  <AvatarImage src={review.user?.picture ?? ''} />
-                  <AvatarFallback className={s['product-reviews__avatar-fallback']}>
+                  <AvatarImage src={review.author?.picture ?? ''} />
+                  <AvatarFallback
+                    className={s['product-reviews__avatar-fallback']}
+                  >
                     {authorName.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
@@ -80,9 +63,19 @@ export const ProductReviews = ({ product }: ProductReviewsProps) => {
                       <span className={s['product-reviews__author']}>
                         {authorName}
                       </span>
-                      <span className={s['product-reviews__date']}>{reviewDate}</span>
+                      <span className={s['product-reviews__date']}>
+                        {reviewDate}
+                      </span>
                     </div>
-                    <span className={s['product-reviews__rating']}>{ratingValue}</span>
+                    <Rating
+                      readOnly
+                      value={+ratingValue}
+                      className="text-yellow-300"
+                    >
+                      {Array.from({ length: 5 }).map((_, index) => (
+                        <RatingButton key={index} />
+                      ))}
+                    </Rating>
                   </div>
 
                   <p className={s['product-reviews__message']}>{reviewText}</p>

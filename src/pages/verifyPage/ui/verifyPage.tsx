@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { type ReactNode, useEffect, useRef, useState } from 'react'
 
 import { CheckCircle, XCircle } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
@@ -8,144 +8,160 @@ import { useGetTokenFromQueryParam } from '@/shared/utils'
 
 type VerifyState = 'loading' | 'success' | 'error'
 
+type VerifyViewConfig = {
+  title: string
+  description: string
+  hint?: ReactNode
+  containerClassName: string
+  titleClassName: string
+  icon: ReactNode
+}
+
+const MISSING_TOKEN_MESSAGE = 'Токен не найден в ссылке'
+const DEFAULT_ERROR_MESSAGE = 'Ссылка недействительна или уже устарела'
+
+function getErrorMessage(error: unknown) {
+  if (error instanceof Error && error.message.trim()) {
+    return error.message
+  }
+
+  if (
+    typeof error === 'object' &&
+    error !== null &&
+    'message' in error &&
+    typeof error.message === 'string' &&
+    error.message.trim()
+  ) {
+    return error.message
+  }
+
+  return DEFAULT_ERROR_MESSAGE
+}
+
 export function VerifyPage() {
   const [state, setState] = useState<VerifyState>('loading')
   const [errorMsg, setErrorMsg] = useState('')
+  const verifiedTokenRef = useRef<string | null>(null)
 
-  const { mutateAsync, error } = useVerifyEmail()
+  const { mutateAsync } = useVerifyEmail()
   const { token, hasToken } = useGetTokenFromQueryParam()
 
   useEffect(() => {
+    const requestKey = hasToken && token ? token : '__missing_token__'
+
+    // Prevent duplicate verification requests (e.g. React Strict Mode in dev).
+    if (verifiedTokenRef.current === requestKey) {
+      return
+    }
+
+    verifiedTokenRef.current = requestKey
+
     const verifyEmail = async () => {
-      if (!hasToken) {
+      if (!hasToken || !token) {
         setState('error')
-        setErrorMsg('Токен не найден в ссылке')
+        setErrorMsg(MISSING_TOKEN_MESSAGE)
         return
       }
 
       try {
         await mutateAsync(token)
         setState('success')
-      } catch {
+      } catch (error) {
         setState('error')
-        setErrorMsg(error?.message || 'Ссылка недействительна')
+        setErrorMsg(getErrorMessage(error))
       }
     }
 
-    verifyEmail()
-  }, [token, mutateAsync])
+    void verifyEmail()
+  }, [hasToken, mutateAsync, token])
+
+  const viewByState: Record<VerifyState, VerifyViewConfig> = {
+    loading: {
+      title: 'Проверяем email',
+      description: 'Подтверждаем адрес почты по ссылке из письма.',
+      containerClassName: 'border-slate-200/80 dark:border-slate-700/70',
+      titleClassName: 'text-slate-900 dark:text-white',
+      icon: (
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+          className="mx-auto h-16 w-16 shrink-0 rounded-full border-4 border-emerald-200 border-t-emerald-500 sm:h-20 sm:w-20"
+        />
+      ),
+    },
+    success: {
+      title: 'Email подтверждён',
+      description:
+        'Адрес почты успешно подтвержден. Теперь можно войти в аккаунт.',
+      hint: (
+        <span className="text-xs font-medium text-emerald-700 dark:text-emerald-400">
+          Подтверждение завершено безопасно
+        </span>
+      ),
+      containerClassName: 'border-emerald-200/90 dark:border-emerald-500/40',
+      titleClassName:
+        'bg-linear-to-r from-emerald-600 to-green-700 bg-clip-text text-transparent',
+      icon: (
+        <div className="mx-auto flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-linear-to-r from-emerald-500 to-green-600 shadow-lg sm:h-20 sm:w-20">
+          <CheckCircle className="h-9 w-9 text-white sm:h-11 sm:w-11" />
+        </div>
+      ),
+    },
+    error: {
+      title: 'Ошибка подтверждения',
+      description: errorMsg || DEFAULT_ERROR_MESSAGE,
+      hint: (
+        <span className="text-xs text-slate-500 dark:text-slate-400">
+          Проверьте, что открыли последнюю ссылку из письма.
+        </span>
+      ),
+      containerClassName: 'border-red-200/90 dark:border-red-500/40',
+      titleClassName: 'text-slate-900 dark:text-white',
+      icon: (
+        <div className="mx-auto flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-linear-to-r from-red-500 to-rose-600 shadow-lg sm:h-20 sm:w-20">
+          <XCircle className="h-9 w-9 text-white sm:h-11 sm:w-11" />
+        </div>
+      ),
+    },
+  }
+
+  const { title, description, hint, containerClassName, titleClassName, icon } =
+    viewByState[state]
 
   return (
-    <div className="bg-linear-to-br  flex items-center justify-center p-4 sm:p-6 lg:p-8">
+    <div className="flex items-center justify-center bg-linear-to-br  px-4 py-8    sm:px-6 sm:py-10">
       <AnimatePresence mode="wait">
-        {state === 'loading' && (
-          <motion.div
-            key="loading"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            className="max-w-sm w-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/50 p-8 sm:p-10 text-center space-y-6 min-h-80 flex flex-col justify-center"
-          >
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-              className="w-20 h-20 sm:w-24 sm:h-24 border-4 border-emerald-200 border-t-emerald-500 rounded-full mx-auto mb-6 shrink-0"
-            />
+        <motion.article
+          key={state}
+          initial={{ opacity: 0, scale: 0.96, y: 20 }}
+          animate={{
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            transition: { type: 'spring', stiffness: 280, damping: 26 },
+          }}
+          exit={{ opacity: 0, scale: 0.97, y: 12 }}
+          className={`w-full max-w-md space-y-5 rounded-3xl border bg-white/85 p-6 text-center shadow-[0_25px_70px_-35px_rgba(15,23,42,0.65)] backdrop-blur-xl dark:bg-slate-900/80 sm:space-y-6 sm:p-8 ${containerClassName}`}
+        >
+          {icon}
 
-            <div className="space-y-3 flex-1 flex flex-col justify-center">
-              <h1 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white leading-tight">
-                Проверяем email
-              </h1>
-              <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed px-2">
-                Подтверждаем ваш адрес почты по ссылке из письма...
-              </p>
-            </div>
-          </motion.div>
-        )}
-
-        {state === 'success' && (
-          <motion.div
-            key="success"
-            initial={{ opacity: 0, scale: 0.8, y: 30 }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-              y: 0,
-              transition: { type: 'spring', stiffness: 300, damping: 30 },
-            }}
-            className="max-w-sm w-full bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-2xl border border-emerald-200 p-8 sm:p-10 text-center space-y-6"
-          >
-            <motion.div
-              initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{
-                type: 'spring',
-                stiffness: 400,
-                damping: 20,
-                delay: 0.2,
-              }}
-              className="w-24 h-24 sm:w-28 sm:h-28 bg-linear-to-r from-emerald-500 to-green-600 rounded-2xl flex items-center justify-center shadow-2xl mx-auto mb-6 shrink-0"
+          <div className="space-y-2 sm:space-y-3">
+            <h1
+              className={`text-xl font-bold leading-tight sm:text-2xl ${titleClassName}`}
             >
-              <CheckCircle className="w-12 h-12 sm:w-16 sm:h-16 text-white drop-shadow-lg" />
-            </motion.div>
+              {title}
+            </h1>
+            <p className="break-words text-sm leading-relaxed text-slate-600 [overflow-wrap:anywhere] dark:text-slate-300 sm:text-base">
+              {description}
+            </p>
+          </div>
 
-            <div className="space-y-3">
-              <h1 className="text-2xl sm:text-3xl font-bold bg-linear-to-r from-emerald-600 to-green-700 bg-clip-text text-transparent leading-tight">
-                Email подтверждён!
-              </h1>
-              <p className="text-slate-600 dark:text-slate-400 text-base sm:text-lg leading-relaxed">
-                Ваш адрес почты успешно подтверждён
-              </p>
-              <p className="text-sm text-slate-500 dark:text-slate-500 font-medium leading-relaxed">
-                Теперь вы можете закрыть эту страницу и{' '}
-                <span className="font-bold text-emerald-600 dark:text-emerald-400">
-                  войти в аккаунт
-                </span>
-              </p>
+          {hint && (
+            <div className="break-words border-t border-slate-200/70 px-1 pt-3 [overflow-wrap:anywhere] dark:border-slate-700/70">
+              {hint}
             </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
-              className="text-xs text-slate-500 dark:text-slate-500 pt-4 border-t border-slate-200 dark:border-slate-700 px-2"
-            >
-              ✅ Подтверждение завершено безопасно
-            </motion.div>
-          </motion.div>
-        )}
-
-        {state === 'error' && (
-          <motion.div
-            key="error"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="px-4 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-red-200/50 p-8 sm:p-10 text-center space-y-6 flex flex-col justify-center"
-          >
-            <div className="w-20 h-20 sm:w-24 sm:h-24 bg-linear-to-r from-red-500/90 to-pink-600/90 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl shrink-0">
-              <XCircle className="w-10 h-10 sm:w-12 sm:h-12 text-white drop-shadow-lg" />
-            </div>
-
-            <div className="space-y-4 flex-1 flex flex-col justify-center px-4">
-              <h1 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white leading-tight">
-                Ошибка подтверждения
-              </h1>
-              <p
-                className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed wrap-break-word max-w-full hyphens-auto"
-                style={{
-                  wordBreak: 'break-word',
-                  overflowWrap: 'break-word',
-                  hyphens: 'auto',
-                }}
-              >
-                {errorMsg}
-              </p>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
-                Ссылка может быть недействительной или устаревшей
-              </p>
-            </div>
-          </motion.div>
-        )}
+          )}
+        </motion.article>
       </AnimatePresence>
     </div>
   )

@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { apiClient } from '@/shared/config'
 import { QUERY_KEY } from '@/shared/config/query-key'
 
-export const useGetProductReviews = (productId?: string) => {
+export const useGetProductReviews = (productId: string) => {
   return useQuery({
     queryKey: [QUERY_KEY.GET_PRODUCT_REVIEWS, productId],
     enabled: Boolean(productId),

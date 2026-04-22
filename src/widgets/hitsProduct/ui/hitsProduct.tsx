@@ -1,6 +1,6 @@
 import { ProductCard } from '@/entities/productCard'
 
-import { useGetAllProduct } from '@/shared/api/product'
+import { useGetHitsProduct } from '@/shared/api/product/useGetHitsProducts'
 import {
   Carousel,
   CarouselContent,
@@ -12,7 +12,7 @@ import { LoadingData } from '@/shared/ui/loadingData'
 import s from './hitsProduct.module.scss'
 
 export function HitsProduct() {
-  const { data: products, isLoading } = useGetAllProduct()
+  const { data: products, isLoading } = useGetHitsProduct()
 
   if (isLoading) {
     return <LoadingData />

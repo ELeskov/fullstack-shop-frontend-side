@@ -1,1 +1,1 @@
-export { CATEGORIES } from './constants'
+export * from './constants'

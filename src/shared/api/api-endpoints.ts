@@ -386,38 +386,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/yoomoney/notification": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["YoomoneyController_notification"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/yoomoney": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["YoomoneyController_getMeth"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/api/color/{shopId}": {
         parameters: {
             query?: never;
@@ -486,6 +454,26 @@ export interface paths {
         put?: never;
         /** Создать продукт с опциями и изображениями */
         post: operations["ProductController_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/product/hits": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Получить топ-15 популярных товаров
+         * @description Возвращает список из 15 наиболее популярных товаров, отсортированных по количеству покупок в порядке убывания.
+         */
+        get: operations["ProductController_hitsProduct"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -726,6 +714,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/orders/notification": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["OrdersController_notification"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/orders/{id}": {
         parameters: {
             query?: never;
@@ -818,6 +822,26 @@ export interface paths {
          * @description Возвращает список всех отзывов для указанного магазина.
          */
         get: operations["ReviewsController_getByShopId"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/statistics/profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Получить статистику текущего продавца
+         * @description Возвращает сводные показатели и данные для графика статистики магазина текущего пользователя за выбранный период.
+         */
+        get: operations["StatisticsController_getProfileStatistics"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1218,6 +1242,8 @@ export interface components {
             description: string;
             /** @example 89990 */
             price: number;
+            /** @example 12 */
+            purchasesCount: number;
             /**
              * @example [
              *       "https://s3.../img1.jpg"
@@ -1541,7 +1567,7 @@ export interface components {
              * @description Аватар пользователя
              * @example https://example.com/avatar.jpg
              */
-            picture: Record<string, never> | null;
+            picture: string | null;
         };
         ReviewProductResponseDto: {
             /**
@@ -1602,6 +1628,51 @@ export interface components {
             author: components["schemas"]["ReviewAuthorResponseDto"];
             /** @description Товар */
             product: components["schemas"]["ReviewProductResponseDto"];
+        };
+        StatisticsSummaryResponseDto: {
+            /**
+             * @description Общая выручка продавца за выбранный период
+             * @example 1224.1
+             */
+            totalRevenue: number;
+            /**
+             * @description Количество товаров продавца
+             * @example 142
+             */
+            productsCount: number;
+            /**
+             * @description Количество категорий продавца
+             * @example 14
+             */
+            categoriesCount: number;
+            /**
+             * @description Средний рейтинг продавца
+             * @example 4.8
+             */
+            averageRating: number;
+        };
+        StatisticsChartPointResponseDto: {
+            /**
+             * @description Дата точки графика в формате YYYY-MM-DD
+             * @example 2026-06-30
+             */
+            date: string;
+            /**
+             * @description Выручка за дату
+             * @example 320.5
+             */
+            revenue: number;
+            /**
+             * @description Количество заказов за дату
+             * @example 3
+             */
+            ordersCount: number;
+        };
+        StatisticsResponseDto: {
+            /** @description Сводные показатели статистики */
+            summary: components["schemas"]["StatisticsSummaryResponseDto"];
+            /** @description Данные для графика */
+            chart: components["schemas"]["StatisticsChartPointResponseDto"][];
         };
     };
     responses: never;
@@ -1666,6 +1737,9 @@ export type SchemaCreateReviewDto = components['schemas']['CreateReviewDto'];
 export type SchemaReviewAuthorResponseDto = components['schemas']['ReviewAuthorResponseDto'];
 export type SchemaReviewProductResponseDto = components['schemas']['ReviewProductResponseDto'];
 export type SchemaReviewResponseDto = components['schemas']['ReviewResponseDto'];
+export type SchemaStatisticsSummaryResponseDto = components['schemas']['StatisticsSummaryResponseDto'];
+export type SchemaStatisticsChartPointResponseDto = components['schemas']['StatisticsChartPointResponseDto'];
+export type SchemaStatisticsResponseDto = components['schemas']['StatisticsResponseDto'];
 export type $defs = Record<string, never>;
 export interface operations {
     ShopController_findAll: {
@@ -3651,40 +3725,6 @@ export interface operations {
             };
         };
     };
-    YoomoneyController_notification: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    YoomoneyController_getMeth: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
     ColorController_create: {
         parameters: {
             query?: never;
@@ -3925,6 +3965,74 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ProductController_hitsProduct: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Список популярных товаров успешно получен */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductResponseDto"][];
+                };
             };
             400: {
                 headers: {
@@ -5260,6 +5368,23 @@ export interface operations {
             };
         };
     };
+    OrdersController_notification: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     OrdersController_getById: {
         parameters: {
             query?: never;
@@ -5564,6 +5689,77 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ReviewResponseDto"][];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiErrorResponseDto"];
+                };
+            };
+        };
+    };
+    StatisticsController_getProfileStatistics: {
+        parameters: {
+            query?: {
+                /** @description Период статистики */
+                period?: "7d" | "30d" | "90d";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Статистика успешно получена */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StatisticsResponseDto"];
                 };
             };
             400: {

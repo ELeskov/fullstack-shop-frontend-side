@@ -7,9 +7,17 @@ import { QUERY_KEY } from '@/shared/config/query-key'
 export type GetAllProductsQuery =
   paths['/api/product/filters']['get']['parameters']['query']
 
-export const useGetAllProductWithFilters = (query: GetAllProductsQuery) => {
+interface UseGetAllProductWithFiltersOptions {
+  enabled?: boolean
+}
+
+export const useGetAllProductWithFilters = (
+  query: GetAllProductsQuery,
+  options?: UseGetAllProductWithFiltersOptions,
+) => {
   return useQuery({
     queryKey: [QUERY_KEY.GET_ALL_PRODUCT_WITH_FILTERS, query],
+    enabled: options?.enabled ?? true,
     queryFn: async ({ signal }) => {
       const { data: shops, error } = await apiClient.GET(
         '/api/product/filters',
