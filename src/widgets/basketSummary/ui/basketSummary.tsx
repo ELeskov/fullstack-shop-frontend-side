@@ -13,7 +13,7 @@ import { CustomButton } from '@/shared/ui/customButton'
 import { EmptyData } from '@/shared/ui/emptyData'
 import { LoadingData } from '@/shared/ui/loadingData'
 
-import s from './BasketSummary.module.scss'
+import s from './basketSummary.module.scss'
 
 export function BasketSummary() {
   const navigate = useNavigate()

@@ -7,7 +7,7 @@ interface CaptchaProps extends Omit<TurnstileProps, 'sitekey'> {
 export function Captcha({ onVerify, ...props }: CaptchaProps) {
   return (
     <Turnstile
-      sitekey={import.meta.env.VITE_CAPTCHA_CITE_KEY}
+      sitekey={import.meta.env.VITE_CAPTCHA_SITE_KEY}
       onVerify={onVerify}
       theme={'dark'}
       size="flexible"
