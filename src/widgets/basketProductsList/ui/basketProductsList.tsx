@@ -10,7 +10,7 @@ import { Checkbox } from '@/shared/ui/components/ui/checkbox'
 import { EmptyData } from '@/shared/ui/emptyData'
 import { LoadingData } from '@/shared/ui/loadingData'
 
-import s from './BasketProductsList.module.scss'
+import s from './basketProductsList.module.scss'
 
 export function BasketProductsList() {
   const { data: basket, isLoading } = useGetBasket()
