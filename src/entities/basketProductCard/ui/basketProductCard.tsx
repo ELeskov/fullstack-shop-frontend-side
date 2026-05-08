@@ -14,7 +14,7 @@ import { useDeleteProductFromBasket } from '@/shared/api/basket'
 import { ROUTES } from '@/shared/config'
 import { Checkbox } from '@/shared/ui/components/ui/checkbox'
 
-import s from './BasketProductCard.module.scss'
+import s from './basketProductCard.module.scss'
 
 type BasketProductCardProps = SchemaBasketItemDto
 
